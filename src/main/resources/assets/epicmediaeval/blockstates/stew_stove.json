@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "epicmediaeval:block/stew_stove"
+    },
+    "facing=south": {
+      "model": "epicmediaeval:block/stew_stove",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "epicmediaeval:block/stew_stove",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "epicmediaeval:block/stew_stove",
+      "y": 90
+    }
+  }
+}
