@@ -1,0 +1,24 @@
+{
+  "type": "epicmediaeval:stew_stove",
+  "group": "stews",
+  "inputs": [
+    {
+      "item": "minecraft:red_mushroom"
+    },
+    {
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "tag": "minecraft:flowers"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "epicmediaeval:wooden_bowl"
+  },
+  "container": {
+    "id": "epicmediaeval:large_wooden_bowl"
+  },
+  "experience": 0.35,
+  "cooking_time": 200
+}

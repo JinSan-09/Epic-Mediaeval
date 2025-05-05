@@ -63,16 +63,18 @@ public class StewStoveRecipe implements Recipe<RecipeWrapper> {
 
     @Override
     public boolean matches(@NotNull RecipeWrapper recipeWrapper, @NotNull Level level) {
-        List<ItemStack> inputs = new ArrayList<>();
-        int i = 0;
-        for (int j = 0; j < INPUT_SLOT; j++) {
-            ItemStack itemstack = recipeWrapper.getItem(j);
-            if (!itemstack.isEmpty()) {
-                i++;
-                inputs.add(itemstack);
+        for (int i = 0; i < inputs.size(); i++) {
+            Ingredient ingredient = inputs.get(i);
+            ItemStack inSlot = recipeWrapper.getItem(i);
+            if (!ingredient.test(inSlot)) {
+                return false;
             }
         }
-        return i == this.inputs.size() && RecipeMatcher.findMatches(inputs, this.inputs) != null;
+        // 检查后续槽是否全是air（防止配方有3个材料你塞了第4个导致错误）
+        for(int j = inputs.size(); j < StewStoveRecipe.INPUT_SLOT; j++) {
+            if (!recipeWrapper.getItem(j).isEmpty()) return false;
+        }
+        return true;
     }
 
     @Override

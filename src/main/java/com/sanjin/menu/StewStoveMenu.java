@@ -3,12 +3,10 @@ package com.sanjin.menu;
 import com.sanjin.register.ModBlocks;
 import com.sanjin.register.ModItems;
 import com.sanjin.register.ModMenus;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -19,14 +17,22 @@ import org.jetbrains.annotations.NotNull;
 public class StewStoveMenu extends AbstractContainerMenu {
 
     private final ContainerLevelAccess access;
+    private final ContainerData data;
 
     public StewStoveMenu(int id, Inventory playerInventory) {
-        this(id, playerInventory, new ItemStackHandler(8),ContainerLevelAccess.NULL);
+        this(id, playerInventory, new ItemStackHandler(8),ContainerLevelAccess.NULL, new SimpleContainerData(3));
     }
 
     public StewStoveMenu(int id, Inventory playerInv, IItemHandler dataInv, ContainerLevelAccess access) {
+        this(id, playerInv, dataInv, access, new SimpleContainerData(3));
+    }
+
+    public StewStoveMenu(int id, Inventory playerInv, IItemHandler dataInv, ContainerLevelAccess access, ContainerData data) {
         super(ModMenus.STEW_STOVE_MENU.get(), id);
         this.access = access;
+        this.data = data;
+
+        this.addDataSlots(data);
 
         for (int i = 0; i < 4; i++) {
             int row   = i / 2;
@@ -64,6 +70,17 @@ public class StewStoveMenu extends AbstractContainerMenu {
             this.addSlot(new net.minecraft.world.inventory.Slot(
                     playerInv, col, 8 + col * 18, hotbarY));
         }
+    }
+
+    public int getWaterLevel() {
+        return this.data.get(0);
+    }
+    public int getBurnTime() {
+        return this.data.get(1);
+    }
+
+    public int getCookTime() {
+        return this.data.get(2);
     }
 
     @Override
