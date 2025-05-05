@@ -1,14 +1,9 @@
 package com.sanjin.recipe;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.sanjin.register.ModRecipeSerializers;
 import com.sanjin.register.ModRecipes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -82,7 +77,7 @@ public class StewStoveRecipe implements Recipe<RecipeWrapper> {
 
     @Override
     public @NotNull ItemStack assemble(@NotNull RecipeWrapper recipeWrapper, HolderLookup.@NotNull Provider provider) {
-        return this.container.copy();
+        return this.output.copy();
     }
 
     @Override
@@ -128,62 +123,5 @@ public class StewStoveRecipe implements Recipe<RecipeWrapper> {
         result = 31 * result + (getExperience() != 0.0f ? Float.floatToIntBits(getExperience()) : 0);
         result = 31 * result + getCookingTime();
         return result;
-    }
-
-    public static class Serializer implements RecipeSerializer<StewStoveRecipe> {
-
-        public static final MapCodec<StewStoveRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
-                instance.group(
-                        Codec.STRING.optionalFieldOf("group", "").forGetter(StewStoveRecipe::getGroup),
-                        Codec.list(Ingredient.CODEC).fieldOf("inputs").xmap(list -> {
-                            NonNullList<Ingredient> nnl = NonNullList.create();
-                            nnl.addAll(list);
-                            return nnl;
-                        },nnl -> nnl).forGetter(StewStoveRecipe::getInputs),
-                        ItemStack.CODEC.fieldOf("output").forGetter(StewStoveRecipe::getOutput),
-                        ItemStack.CODEC.fieldOf("container").forGetter(StewStoveRecipe::getContainer),
-                        Codec.FLOAT.fieldOf("experience").forGetter(StewStoveRecipe::getExperience),
-                        Codec.INT.fieldOf("cooking_time").forGetter(StewStoveRecipe::getCookingTime))
-                        .apply(instance, StewStoveRecipe::new));
-
-        public static final StreamCodec<RegistryFriendlyByteBuf, StewStoveRecipe> STREAM_CODEC = StreamCodec.of(StewStoveRecipe.Serializer::toNetwork, StewStoveRecipe.Serializer::fromNetwork);
-
-        public Serializer() {}
-
-        private static StewStoveRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-            String groupIn = buffer.readUtf();
-            int count = buffer.readVarInt();
-            NonNullList<Ingredient> inputItemsIn = NonNullList.withSize(count, Ingredient.of());
-            inputItemsIn.replaceAll(ignored -> Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
-            ItemStack outputIn = ItemStack.STREAM_CODEC.decode(buffer);
-            ItemStack container = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
-            float experienceIn = buffer.readFloat();
-            int cookTimeIn = buffer.readVarInt();
-            return new StewStoveRecipe(groupIn, inputItemsIn, outputIn, container, experienceIn, cookTimeIn);
-        }
-
-        private static void toNetwork(RegistryFriendlyByteBuf buffer, StewStoveRecipe recipe) {
-            buffer.writeUtf(recipe.group);
-            buffer.writeVarInt(recipe.inputs.size());
-
-            for (Ingredient ingredient : recipe.inputs) {
-                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
-            }
-
-            ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
-            ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, recipe.container);
-            buffer.writeFloat(recipe.experience);
-            buffer.writeVarInt(recipe.cookingTime);
-        }
-
-        @Override
-        public @NotNull MapCodec<StewStoveRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public @NotNull StreamCodec<RegistryFriendlyByteBuf, StewStoveRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
     }
 }
