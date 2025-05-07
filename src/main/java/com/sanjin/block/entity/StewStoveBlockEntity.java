@@ -2,10 +2,12 @@ package com.sanjin.block.entity;
 
 import com.sanjin.menu.StewStoveMenu;
 import com.sanjin.recipe.StewStoveRecipe;
+import com.sanjin.recipe.StewStoveRecipeInput;
 import com.sanjin.register.ModBlockEntities;
 import com.sanjin.register.ModRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -20,14 +22,13 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,6 +36,7 @@ import java.util.Optional;
 
 public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, EntityBlock {
 
+    // The number of all slots
     private static final int WATER_SLOT = 4;
     private static final int FUEL_SLOT = 5;
     private static final int CONTAINER_SLOT = 6;
@@ -44,6 +46,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
 
     private final ContainerData data = new SimpleContainerData(3);
     private StewStoveRecipe currentRecipe;
+    private StewStoveRecipeInput recipeInput;
     private int waterLevel;
     private int burnTime;
     private int cookTime;
@@ -54,8 +57,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-            if (slot >= MATERIAL_SLOTS_START && slot < MATERIAL_SLOTS_START + MATERIAL_SLOTS_COUNT
-                    || slot == CONTAINER_SLOT) {
+            if (slot >= MATERIAL_SLOTS_START && slot < MATERIAL_SLOTS_START + MATERIAL_SLOTS_COUNT || slot == CONTAINER_SLOT) {
                 tryStartCooking();
             }
         }
@@ -66,7 +68,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         this.burnTime = 0;
         this.waterLevel = 0;
         this.cookTime = 0;
-        this.cookTimeTotal = 300; // 默认烹饪时间
+        this.cookTimeTotal = 300;
         this.isCooking = false;
     }
 
@@ -77,16 +79,16 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     }
     public  void tick( BlockPos pos, BlockState state) {
         addWater(level);
-        // 如果正在烹饪
+
         if (isCooking) {
             if (level != null) {
                 level.playSound(null, worldPosition, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0f, 1.0f);
             }
-            // 检查是否有足够的燃料和水
+            // Check for sufficient fuel and water
             if (burnTime <= 0) {
-                // 如果燃料用完，尝试添加新燃料
+                // If the fuel runs out, try adding new fuel
                 if (!addFuel()) {
-                    // 如果无法添加新燃料，停止烹饪
+                    // If you cannot add new fuel, stop cooking
                     isCooking = false;
                     cookTime = 0;
                     setChanged();
@@ -95,28 +97,24 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             } else {
                 burnTime--;
             }
-            // 检查水是否足够
+            // Check if there is enough water
             if (waterLevel <= 0) {
                 isCooking = false;
                 cookTime = 0;
                 setChanged();
                 return;
             }
-            // 增加烹饪时间
             cookTime++;
-            // 检查是否完成烹饪
             if (cookTime >= cookTimeTotal) {
                 finishCooking();
             }
             setChanged();
         } else {
-            // 如果不在烹饪，尝试开始烹饪
             tryStartCooking();
         }
     }
     private void tryStartCooking() {
         if (level == null || isCooking) return;
-        // 检查是否有有效配方、足够的燃料和水
         Optional<StewStoveRecipe> recipe = getValidRecipe();
         if (recipe.isPresent() && waterLevel > 0 && (burnTime > 0 || canAddFuel())) {
             this.currentRecipe = recipe.get();
@@ -140,7 +138,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     }
     private void finishCooking() {
         if (currentRecipe == null || level == null) return;
-        ItemStack outputItem = currentRecipe.getOutput().copy();
+        ItemStack outputItem = currentRecipe.getResult().copy();
 
         // 检查输出槽是否可以放入物品
         if (canAddOutput(outputItem)) {
@@ -158,22 +156,24 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         }
     }
     private void consumeIngredients() {
-        RecipeWrapper inventoryWrapper = new RecipeWrapper(inventory);
-
         // 从材料槽中查找并消耗所需材料
-        for (int i = MATERIAL_SLOTS_START; i < MATERIAL_SLOTS_START + MATERIAL_SLOTS_COUNT; i++) {
+        for (int i = MATERIAL_SLOTS_START; i < MATERIAL_SLOTS_COUNT; i++) {
             ItemStack stack = inventory.getStackInSlot(i);
-            if (!stack.isEmpty()) {
+            if (!stack.isEmpty() && stack.getCount() > 1) {
                 stack.shrink(1);
                 inventory.setStackInSlot(i, stack);
+            }else {
+                inventory.setStackInSlot(i, ItemStack.EMPTY);
             }
         }
     }
     private void consumeContainer() {
         ItemStack containerStack = inventory.getStackInSlot(CONTAINER_SLOT);
-        if (!containerStack.isEmpty()) {
+        if (!containerStack.isEmpty() && containerStack.getCount() > 1) {
             containerStack.shrink(1);
             inventory.setStackInSlot(CONTAINER_SLOT, containerStack);
+        }else {
+            inventory.setStackInSlot(CONTAINER_SLOT, ItemStack.EMPTY);
         }
     }
     private boolean canAddOutput(ItemStack outputItem) {
@@ -243,29 +243,24 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
                 stack.is(Items.LAVA_BUCKET) || stack.is(Items.BLAZE_ROD) ||
                 stack.is(Items.STICK) || stack.is(Items.DRIED_KELP_BLOCK);
     }
-    private boolean isContainerValid(StewStoveRecipe recipe) {
-        // 检查容器槽是否有配方所需的容器
-        ItemStack containerStack = inventory.getStackInSlot(CONTAINER_SLOT);
-        ItemStack requiredContainer = recipe.getContainer();
-
-        return requiredContainer.isEmpty() ||
-                (ItemStack.isSameItem(containerStack, requiredContainer) && containerStack.getCount() >= 1);
-    }
     private Optional<StewStoveRecipe> getValidRecipe() {
+
         if (level == null) return Optional.empty();
-        // 创建一个包装器来匹配配方
-        RecipeWrapper inventoryWrapper = new RecipeWrapper(inventory);
+
+        NonNullList<ItemStack> inputs = NonNullList.withSize(4, ItemStack.EMPTY);
+        for (int i = 0; i < 4; i++) {
+            inputs.set(i, inventory.getStackInSlot(i));
+        }
+
+        StewStoveRecipeInput recipeInput = new StewStoveRecipeInput(inputs,inventory.getStackInSlot(CONTAINER_SLOT));
+
         if (level instanceof ServerLevel) {
             RecipeManager recipeManager = level.getServer().getRecipeManager();
-            // 查找所有StewStoveRecipe类型的配方
-                    return recipeManager.getRecipeFor(ModRecipes.STEW_STOVE_RECIPE_TYPE.get(), inventoryWrapper, level)
-                            .flatMap(recipeHolder -> {Recipe<?> recipe = recipeHolder.value();
-                if (recipe instanceof StewStoveRecipe stewStoveRecipe) {
-                    return isContainerValid(stewStoveRecipe) ? Optional.of(stewStoveRecipe) : Optional.empty();
-                }
-                return Optional.<StewStoveRecipe>empty();
-                            });
+            return recipeManager.getRecipeFor(ModRecipes.STEW_STOVE_RECIPE_TYPE.get(), recipeInput, level)
+                    .map(RecipeHolder::value);
+
         }
+
         return Optional.empty();
     }
     private void updateData() {

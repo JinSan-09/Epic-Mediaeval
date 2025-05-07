@@ -1,0 +1,27 @@
+{
+  "type": "epicmediaeval:stew_stove",
+  "group": "stews",
+  "ingredients": [
+    {
+      "item": "minecraft:kelp"
+    },
+    {
+      "item": "minecraft:raw_cod"
+    },
+    {
+      "item": "minecraft:raw_salmon"
+    },
+    {
+      "item": "minecraft:carrot"
+    }
+  ],
+  "result": {
+    "item": "epicmediaeval:seafood_stew",
+    "count": 1
+  },
+  "container": {
+    "item": "epicmediaeval:large_wooden_bowl"
+  },
+  "experience": 0.35,
+  "cooking_time": 200
+}

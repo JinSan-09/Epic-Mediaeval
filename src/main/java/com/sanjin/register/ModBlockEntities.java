@@ -13,7 +13,7 @@ public class ModBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, EpicMediaeval.MODID);
 
-    public static final Supplier<BlockEntityType<StewStoveBlockEntity>> STEW_STOVE_BLOCK_ENTITY = TILES.register("stew_stove_block_entity", () ->
+    public static final Supplier<BlockEntityType<StewStoveBlockEntity>> STEW_STOVE_BLOCK_ENTITY = TILES.register("stew_stove", () ->
             new BlockEntityType<>(StewStoveBlockEntity::new, ModBlocks.STEW_STOVE_BLOCK.get()));
 
     public static void register(IEventBus eventBus) {

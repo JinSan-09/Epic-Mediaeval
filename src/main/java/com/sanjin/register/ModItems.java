@@ -1,6 +1,7 @@
 package com.sanjin.register;
 
 import com.sanjin.EpicMediaeval;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -14,6 +15,8 @@ public class ModItems {
             new Item.Properties());
     public static final DeferredItem<Item> WOODEN_BOWL = ITEMS.registerSimpleItem("wooden_bowl",
             new Item.Properties());
+    public static final DeferredItem<Item> SEAFOOD_STEW = ITEMS.registerSimpleItem("seafood_stew",
+            new Item.Properties().food(new FoodProperties(5,0.3f, true)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

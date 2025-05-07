@@ -16,42 +16,63 @@ public class StewStoveRecipeSerializer implements RecipeSerializer<StewStoveReci
 
     public static final MapCodec<StewStoveRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
-                            Codec.STRING.optionalFieldOf("group", "").forGetter(StewStoveRecipe::getGroup),
-                            Codec.list(Ingredient.CODEC).fieldOf("inputs").xmap(list -> {
+                            Codec.list(Ingredient.CODEC).fieldOf("ingredients").xmap(list -> {
                                 NonNullList<Ingredient> nnl = NonNullList.create();
                                 nnl.addAll(list);
                                 return nnl;
-                            },nnl -> nnl).forGetter(StewStoveRecipe::getInputs),
-                            ItemStack.CODEC.fieldOf("output").forGetter(StewStoveRecipe::getOutput),
+                            },NonNullList::copyOf
+                            ).forGetter(StewStoveRecipe::getInputs),
+                            ItemStack.CODEC.fieldOf("result").forGetter(StewStoveRecipe::getResult),
                             ItemStack.CODEC.fieldOf("container").forGetter(StewStoveRecipe::getContainer),
-                            Codec.FLOAT.fieldOf("experience").forGetter(StewStoveRecipe::getExperience),
-                            Codec.INT.fieldOf("cooking_time").forGetter(StewStoveRecipe::getCookingTime))
-                    .apply(instance, StewStoveRecipe::new));
+                            Codec.FLOAT.optionalFieldOf("experience",0.0f).forGetter(StewStoveRecipe::getExperience),
+                            Codec.INT.optionalFieldOf("cooking_time",300).forGetter(StewStoveRecipe::getCookingTime))
+                    .apply(instance, StewStoveRecipe::new)
+
+    );
 
     public static final StreamCodec<RegistryFriendlyByteBuf, StewStoveRecipe> STREAM_CODEC = StreamCodec.of(StewStoveRecipeSerializer::toNetwork, StewStoveRecipeSerializer::fromNetwork);
 
     private static StewStoveRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-        String groupIn = buffer.readUtf();
-        int count = buffer.readVarInt();
-        NonNullList<Ingredient> inputItemsIn = NonNullList.withSize(count, Ingredient.of());
-        inputItemsIn.replaceAll(ignored -> Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
-        ItemStack outputIn = ItemStack.STREAM_CODEC.decode(buffer);
-        ItemStack container = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
-        float experienceIn = buffer.readFloat();
-        int cookTimeIn = buffer.readVarInt();
-        return new StewStoveRecipe(groupIn, inputItemsIn, outputIn, container, experienceIn, cookTimeIn);
+
+        try {
+
+            // 读取材料数量和材料列表
+            int count = buffer.readVarInt();
+            NonNullList<Ingredient> inputItemsIn = NonNullList.withSize(count, Ingredient.of());
+            for (int i = 0; i < count; i++) {
+                inputItemsIn.set(i, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
+            }
+
+            // 读取输出物品和容器
+            ItemStack outputIn = ItemStack.STREAM_CODEC.decode(buffer);
+            ItemStack container = ItemStack.STREAM_CODEC.decode(buffer);
+
+            // 读取经验和烹饪时间
+            float experienceIn = buffer.readFloat();
+            int cookTimeIn = buffer.readVarInt();
+
+            // 创建并返回配方实例
+            return new StewStoveRecipe(inputItemsIn, outputIn, container, experienceIn, cookTimeIn);
+        } catch (Exception e) {
+            // Data log
+            System.err.println("Error decoding StewStoveRecipe from network: " + e.getMessage());
+            return new StewStoveRecipe( NonNullList.create(), ItemStack.EMPTY, ItemStack.EMPTY, 0.0f, 0);
+        }
     }
 
     private static void toNetwork(RegistryFriendlyByteBuf buffer, StewStoveRecipe recipe) {
-        buffer.writeUtf(recipe.getGroup());
-        buffer.writeVarInt(recipe.getInputs().size());
 
+        // 写入材料数量和材料列表
+        buffer.writeVarInt(recipe.getInputs().size());
         for (Ingredient ingredient : recipe.getInputs()) {
             Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
         }
 
-        ItemStack.STREAM_CODEC.encode(buffer, recipe.getOutput());
-        ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, recipe.getContainer());
+        // 写入输出物品和容器
+        ItemStack.STREAM_CODEC.encode(buffer, recipe.getResult());
+        ItemStack.STREAM_CODEC.encode(buffer, recipe.getContainer()); // 使用一致的编解码器
+
+        // 写入经验和烹饪时间
         buffer.writeFloat(recipe.getExperience());
         buffer.writeVarInt(recipe.getCookingTime());
     }

@@ -7,18 +7,15 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.util.RecipeMatcher;
-import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class StewStoveRecipe implements Recipe<RecipeWrapper> {
 
-    public static final int INPUT_SLOT = 4;
+public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
 
-    private final String group;
     private final NonNullList<Ingredient> inputs ;
     private final ItemStack output;
     private final ItemStack container;
@@ -26,26 +23,21 @@ public class StewStoveRecipe implements Recipe<RecipeWrapper> {
     private final float experience;
     private final int cookingTime;
 
-    public StewStoveRecipe(String group, NonNullList<Ingredient> inputs, ItemStack output, @NotNull ItemStack container, float experience, int cookingTime){
-        this.group = group;
+
+    public StewStoveRecipe(NonNullList<Ingredient> inputs, ItemStack output, @NotNull ItemStack container, float experience, int cookingTime){
         this.inputs = inputs;
         this.output = output;
-
-        if (!container.isEmpty()) {
-            this.container = container;
-        } else {
-            this.container = ItemStack.EMPTY;
-        }
-        this.containerOverride = container;
+        this.container = container;
         this.experience = experience;
         this.cookingTime = cookingTime;
+        this.containerOverride = ItemStack.EMPTY;
     }
 
-    public String getGroup(){return this.group;}
+    // Create get-methods
     public NonNullList<Ingredient> getInputs(){
         return this.inputs;
     }
-    public ItemStack getOutput(){
+    public ItemStack getResult(){
         return this.output;
     }
     public ItemStack getContainer(){
@@ -62,33 +54,51 @@ public class StewStoveRecipe implements Recipe<RecipeWrapper> {
     }
 
     @Override
-    public boolean matches(@NotNull RecipeWrapper recipeWrapper, @NotNull Level level) {
-        for (int i = 0; i < inputs.size(); i++) {
-            Ingredient ingredient = inputs.get(i);
-            ItemStack inSlot = recipeWrapper.getItem(i);
-            if (!ingredient.test(inSlot)) {
+    public boolean matches(@NotNull StewStoveRecipeInput recipeInput, @NotNull Level level) {
+        if (level.isClientSide()) return false;
+        if (recipeInput.getNonEmptyIngredientCount() != this.inputs.size()) return false;
+        if (!ItemStack.isSameItem(recipeInput.getContainer(), this.container)) return false;
+
+        // Check every ingredient in the list upon if it can match one of the ingredient in one of the recipe read from JSON file
+        List<ItemStack> remainingIngredients = new ArrayList<>();
+        for (ItemStack stack : recipeInput.getIngredients()) {
+            if (!stack.isEmpty()) {
+                remainingIngredients.add(stack);
+            }
+        }
+
+        for (Ingredient ingredient : this.inputs) {
+            boolean matched = false;
+            Iterator<ItemStack> it = remainingIngredients.iterator();
+            while (it.hasNext()) {
+                ItemStack stack = it.next();
+                if (ingredient.test(stack)) {
+                    matched = true;
+                    it.remove();
+                    break;
+                }
+            }
+            if (!matched) {
                 return false;
             }
         }
-        // 检查后续槽是否全是air（防止配方有3个材料你塞了第4个导致错误）
-        for(int j = inputs.size(); j < StewStoveRecipe.INPUT_SLOT; j++) {
-            if (!recipeWrapper.getItem(j).isEmpty()) return false;
-        }
+
+        // successfully match
         return true;
-    }
+     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull RecipeWrapper recipeWrapper, HolderLookup.@NotNull Provider provider) {
+    public @NotNull ItemStack assemble(@NotNull StewStoveRecipeInput recipeInput, HolderLookup.@NotNull Provider provider) {
         return this.output.copy();
     }
 
     @Override
-    public @NotNull RecipeSerializer<? extends Recipe<RecipeWrapper>> getSerializer() {
+    public @NotNull RecipeSerializer<? extends Recipe<StewStoveRecipeInput>> getSerializer() {
         return ModRecipeSerializers.STEW_STOVE_RECIPE_SERIALIZERS.get();
     }
 
     @Override
-    public @NotNull RecipeType<? extends Recipe<RecipeWrapper>> getType() {
+    public @NotNull RecipeType<? extends Recipe<StewStoveRecipeInput>> getType() {
         return ModRecipes.STEW_STOVE_RECIPE_TYPE.get();
     }
 
@@ -118,12 +128,20 @@ public class StewStoveRecipe implements Recipe<RecipeWrapper> {
 
     @Override
     public int hashCode() {
-        int result = getGroup().hashCode();
+        int result = getInputs().hashCode();
         result = 31 * result + output.hashCode();
-        result = 31 * result + inputs.hashCode();
         result = 31 * result + container.hashCode();
         result = 31 * result + (getExperience() != 0.0f ? Float.floatToIntBits(getExperience()) : 0);
         result = 31 * result + getCookingTime();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "StewStoveRecipe{" +
+                "output=" + output +
+                ", inputs=" + inputs +
+                ", container=" + container +
+                '}';
     }
 }

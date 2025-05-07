@@ -52,6 +52,8 @@ public class EpicMediaeval
         LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
 
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+
+
     }
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {

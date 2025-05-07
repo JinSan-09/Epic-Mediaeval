@@ -23,10 +23,6 @@ public class StewStoveMenu extends AbstractContainerMenu {
         this(id, playerInventory, new ItemStackHandler(8),ContainerLevelAccess.NULL, new SimpleContainerData(3));
     }
 
-    public StewStoveMenu(int id, Inventory playerInv, IItemHandler dataInv, ContainerLevelAccess access) {
-        this(id, playerInv, dataInv, access, new SimpleContainerData(3));
-    }
-
     public StewStoveMenu(int id, Inventory playerInv, IItemHandler dataInv, ContainerLevelAccess access, ContainerData data) {
         super(ModMenus.STEW_STOVE_MENU.get(), id);
         this.access = access;
@@ -78,7 +74,6 @@ public class StewStoveMenu extends AbstractContainerMenu {
     public int getBurnTime() {
         return this.data.get(1);
     }
-
     public int getCookTime() {
         return this.data.get(2);
     }

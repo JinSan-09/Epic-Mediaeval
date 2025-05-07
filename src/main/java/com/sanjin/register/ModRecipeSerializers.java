@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 public class ModRecipeSerializers {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, EpicMediaeval.MODID);
 
-    public static final Supplier<RecipeSerializer<StewStoveRecipe>> STEW_STOVE_RECIPE_SERIALIZERS = RECIPE_SERIALIZERS.register("cooking", StewStoveRecipeSerializer::new);
+    public static final Supplier<RecipeSerializer<StewStoveRecipe>> STEW_STOVE_RECIPE_SERIALIZERS = RECIPE_SERIALIZERS.register("stew_stove", StewStoveRecipeSerializer::new);
 
     public static void register(IEventBus eventBus) {
         RECIPE_SERIALIZERS.register(eventBus);
