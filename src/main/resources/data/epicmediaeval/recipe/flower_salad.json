@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "#minecraft:flowers",
+    "#minecraft:flowers",
+    "#minecraft:flowers",
+    "epicmediaeval:wooden_bowl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "epicmediaeval:flower_salad"
+  }
+}

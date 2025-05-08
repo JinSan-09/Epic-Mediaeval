@@ -1,0 +1,18 @@
+{
+  "type": "epicmediaeval:stew_stove",
+  "group": "soup",
+  "ingredients": [
+    "epicmediaeval:oxtail",
+    "minecraft:red_mushroom",
+    "minecraft:brown_mushroom"
+  ],
+  "result": {
+    "id": "epicmediaeval:oxtail_soup",
+    "count": 1
+  },
+  "container": {
+    "id": "epicmediaeval:wooden_bowl"
+  },
+  "experience": 0.35,
+  "cooking_time": 200
+}

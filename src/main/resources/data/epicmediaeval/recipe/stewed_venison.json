@@ -2,17 +2,16 @@
   "type": "epicmediaeval:stew_stove",
   "group": "stews",
   "ingredients": [
-     "minecraft:kelp",
-     "minecraft:cod",
-     "minecraft:salmon",
-     "minecraft:carrot"
+    "epicmediaeval:raw_venison",
+    "minecraft:carrot",
+    "minecraft:carrot"
   ],
   "result": {
-    "id": "epicmediaeval:seafood_stew",
+    "id": "epicmediaeval:stewed_venison",
     "count": 1
   },
   "container": {
-    "id": "epicmediaeval:large_wooden_bowl"
+    "id": "epicmediaeval:wooden_bowl"
   },
   "experience": 0.35,
   "cooking_time": 200

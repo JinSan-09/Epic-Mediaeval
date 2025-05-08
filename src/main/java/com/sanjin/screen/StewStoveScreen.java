@@ -50,10 +50,10 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
 
         int waterLevel = this.menu.getWaterLevel();
         if (waterLevel > 0) {
-            // 计算水量高度 (满水位为5，满高度为WATER_METER_HEIGHT)
-            int waterHeight = (waterLevel * WATER_METER_HEIGHT) / 5;
+            // calculate the waterLevel, max is 10
+            int waterHeight = (waterLevel * WATER_METER_HEIGHT) / 10;
 
-            // 绘制水量指示器
+            // print waterLevel
             guiGraphics.blit(
                     RenderType::guiTextured,
                     TEXTURE,

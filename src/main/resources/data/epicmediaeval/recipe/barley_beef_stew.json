@@ -2,17 +2,16 @@
   "type": "epicmediaeval:stew_stove",
   "group": "stews",
   "ingredients": [
-     "minecraft:kelp",
-     "minecraft:cod",
-     "minecraft:salmon",
-     "minecraft:carrot"
+    "minecraft:beef",
+    "epicmediaeval:barley",
+    "epicmediaeval:barley"
   ],
   "result": {
-    "id": "epicmediaeval:seafood_stew",
+    "id": "epicmediaeval:barley_beef_stew",
     "count": 1
   },
   "container": {
-    "id": "epicmediaeval:large_wooden_bowl"
+    "id": "epicmediaeval:wooden_bowl"
   },
   "experience": 0.35,
   "cooking_time": 200

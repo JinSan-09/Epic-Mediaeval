@@ -2,18 +2,17 @@
   "type": "epicmediaeval:stew_stove",
   "group": "stews",
   "ingredients": [
-     "minecraft:kelp",
-     "minecraft:cod",
-     "minecraft:salmon",
-     "minecraft:carrot"
+    "minecraft:porkchop",
+    "epicmediaeval:white_beans",
+    "epicmediaeval:white_beans"
   ],
   "result": {
-    "id": "epicmediaeval:seafood_stew",
+    "id": "epicmediaeval:bacon_white_beans",
     "count": 1
   },
   "container": {
-    "id": "epicmediaeval:large_wooden_bowl"
+    "id": "epicmediaeval:wooden_bowl"
   },
   "experience": 0.35,
   "cooking_time": 200
-}
+}w

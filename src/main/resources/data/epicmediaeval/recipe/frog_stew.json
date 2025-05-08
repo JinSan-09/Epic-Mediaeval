@@ -2,13 +2,13 @@
   "type": "epicmediaeval:stew_stove",
   "group": "stews",
   "ingredients": [
-     "minecraft:kelp",
-     "minecraft:cod",
-     "minecraft:salmon",
-     "minecraft:carrot"
+    "epicmediaeval:frog_leg",
+    "epicmediaeval:frog_leg",
+    "epicmediaeval:leek_leaves",
+    "minecraft:brown_mushroom"
   ],
   "result": {
-    "id": "epicmediaeval:seafood_stew",
+    "id": "epicmediaeval:frog_stew",
     "count": 1
   },
   "container": {

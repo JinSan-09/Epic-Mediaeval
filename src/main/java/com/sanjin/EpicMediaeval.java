@@ -40,6 +40,7 @@ public class EpicMediaeval
         ModRecipes.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModRecipeSerializers.register(modEventBus);
+        ModCreativeTabs.register(modEventBus);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

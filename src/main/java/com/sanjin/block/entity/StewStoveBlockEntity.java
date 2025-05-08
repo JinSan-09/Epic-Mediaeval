@@ -46,7 +46,6 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
 
     private final ContainerData data = new SimpleContainerData(3);
     private StewStoveRecipe currentRecipe;
-    private StewStoveRecipeInput recipeInput;
     private int waterLevel;
     private int burnTime;
     private int cookTime;
@@ -200,8 +199,8 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         }
     }
     private void addWater(Level level) {
-        if (this.waterLevel < 5 && this.inventory.getStackInSlot(WATER_SLOT).getItem() == Items.WATER_BUCKET) {
-            this.waterLevel = 5;
+        if (this.waterLevel == 0 && this.inventory.getStackInSlot(WATER_SLOT).getItem() == Items.WATER_BUCKET) {
+            this.waterLevel = 10;
             this.inventory.setStackInSlot(WATER_SLOT, new ItemStack(Items.BUCKET));
             level.playSound(null, worldPosition, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
             setChanged();
