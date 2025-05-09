@@ -1,19 +1,13 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "epicmediaeval:block/stew_stove"
-    },
-    "facing=south": {
-      "model": "epicmediaeval:block/stew_stove",
-      "y": 180
-    },
-    "facing=west": {
-      "model": "epicmediaeval:block/stew_stove",
-      "y": 270
-    },
-    "facing=east": {
-      "model": "epicmediaeval:block/stew_stove",
-      "y": 90
-    }
+    "facing=north,lit=false": {"model": "epicmediaeval:block/stew_stove"},
+    "facing=south,lit=false": {"model": "epicmediaeval:block/stew_stove", "y": 180},
+    "facing=west,lit=false": {"model": "epicmediaeval:block/stew_stove", "y": 270},
+    "facing=east,lit=false": {"model": "epicmediaeval:block/stew_stove", "y": 90},
+
+    "facing=north,lit=true": {"model": "epicmediaeval:block/stew_stove_lit"},
+    "facing=south,lit=true": {"model": "epicmediaeval:block/stew_stove_lit", "y": 180},
+    "facing=west,lit=true": {"model": "epicmediaeval:block/stew_stove_lit", "y": 270},
+    "facing=east,lit=true": {"model": "epicmediaeval:block/stew_stove_lit", "y": 90}
   }
 }

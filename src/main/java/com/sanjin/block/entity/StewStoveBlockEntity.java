@@ -1,5 +1,6 @@
 package com.sanjin.block.entity;
 
+import com.sanjin.block.StewStoveBlock;
 import com.sanjin.menu.StewStoveMenu;
 import com.sanjin.recipe.StewStoveRecipe;
 import com.sanjin.recipe.StewStoveRecipeInput;
@@ -44,7 +45,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     private static final int MATERIAL_SLOTS_START = 0;
     private static final int MATERIAL_SLOTS_COUNT = 4;
 
-    private final ContainerData data = new SimpleContainerData(3);
+    private final ContainerData data = new SimpleContainerData(4);
     private StewStoveRecipe currentRecipe;
     private int waterLevel;
     private int burnTime;
@@ -78,7 +79,16 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     }
     public  void tick( BlockPos pos, BlockState state) {
         addWater(level);
-
+        if (burnTime > 0) {
+            burnTime--;
+            if (level != null) {
+                level.setBlock(pos, state.setValue(StewStoveBlock.LIT, true), 3);
+            }
+        }else {
+            if (level != null) {
+                level.setBlock(pos, state.setValue(StewStoveBlock.LIT, false), 3);
+            }
+        }
         if (isCooking) {
             if (level != null) {
                 level.playSound(null, worldPosition, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -88,19 +98,17 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
                 // If the fuel runs out, try adding new fuel
                 if (!addFuel()) {
                     // If you cannot add new fuel, stop cooking
-                    isCooking = false;
-                    cookTime = 0;
-                    setChanged();
+                    stopCooking(pos,state);
                     return;
+                }else {
+                    addFuel();
                 }
             } else {
                 burnTime--;
             }
             // Check if there is enough water
             if (waterLevel <= 0) {
-                isCooking = false;
-                cookTime = 0;
-                setChanged();
+                stopCooking(pos,state);
                 return;
             }
             cookTime++;
@@ -111,6 +119,11 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         } else {
             tryStartCooking();
         }
+    }
+    private void stopCooking(BlockPos pos, BlockState state) {
+        isCooking = false;
+        cookTime = 0;
+        setChanged();
     }
     private void tryStartCooking() {
         if (level == null || isCooking) return;
@@ -128,25 +141,24 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         this.cookTime = 0;
         this.cookTimeTotal = this.currentRecipe.getCookingTime();
 
-        // 如果当前没有燃烧中的燃料，添加新燃料
+        // Add fuel if fuel is not enough
         if (burnTime <= 0) {
             addFuel();
         }
-
         setChanged();
     }
     private void finishCooking() {
         if (currentRecipe == null || level == null) return;
         ItemStack outputItem = currentRecipe.getResult().copy();
 
-        // 检查输出槽是否可以放入物品
+        // Check if the output sort can put result
         if (canAddOutput(outputItem)) {
             consumeIngredients();
             consumeContainer();
             addOutput(outputItem);
             waterLevel = Math.max(0, waterLevel - 1);
 
-            // 重置烹饪状态
+            // reset cooking status
             cookTime = 0;
             isCooking = false;
             currentRecipe = null;
@@ -213,21 +225,21 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         ItemStack fuelStack = inventory.getStackInSlot(FUEL_SLOT);
 
         if (!fuelStack.isEmpty() && isFuel(fuelStack)) {
-            // 根据不同燃料设定燃烧时间
+            // set different burning time for different fuel
             if (fuelStack.is(Items.COAL) || fuelStack.is(Items.CHARCOAL)) {
-                burnTime += 1600; // 煤炭/木炭燃烧时间
+                burnTime += 1600;
             } else if (fuelStack.is(Items.COAL_BLOCK)) {
-                burnTime += 16000; // 煤炭块燃烧时间
+                burnTime += 16000;
             } else if (fuelStack.is(Items.LAVA_BUCKET)) {
-                burnTime += 20000; // 熔岩桶燃烧时间
-                inventory.setStackInSlot(FUEL_SLOT, new ItemStack(Items.BUCKET)); // 返回空桶
+                burnTime += 20000;
+                inventory.setStackInSlot(FUEL_SLOT, new ItemStack(Items.BUCKET));
                 setChanged();
                 return true;
             } else {
-                burnTime += 200; // 其他可燃物默认燃烧时间
+                burnTime += 200;
             }
 
-            // 消耗燃料物品
+            // consume fuel
             fuelStack.shrink(1);
             inventory.setStackInSlot(FUEL_SLOT, fuelStack);
             setChanged();
@@ -237,7 +249,6 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         return false;
     }
     private boolean isFuel(ItemStack stack) {
-        // 简单判断常用的燃料物品
         return stack.is(Items.COAL) || stack.is(Items.CHARCOAL) || stack.is(Items.COAL_BLOCK) ||
                 stack.is(Items.LAVA_BUCKET) || stack.is(Items.BLAZE_ROD) ||
                 stack.is(Items.STICK) || stack.is(Items.DRIED_KELP_BLOCK);
@@ -262,10 +273,12 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
 
         return Optional.empty();
     }
+
     private void updateData() {
         data.set(0, waterLevel);
         data.set(1, burnTime);
         data.set(2, cookTime);
+        data.set(3,cookTimeTotal);
     }
 
     public void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
@@ -278,6 +291,10 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
 
         CompoundTag inventoryTag = tag.getCompound("Inventory");
         this.inventory.deserializeNBT(provider, inventoryTag);
+
+        if (level != null && isCooking) {
+            level.setBlock(worldPosition, getBlockState().setValue(StewStoveBlock.LIT, true), 3);
+        }
     }
     public void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
         super.saveAdditional(tag, provider);

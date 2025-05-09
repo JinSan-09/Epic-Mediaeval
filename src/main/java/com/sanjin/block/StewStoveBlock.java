@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -32,10 +33,14 @@ public class StewStoveBlock extends BaseEntityBlock {
     public static final MapCodec<StewStoveBlock> CODEC = simpleCodec(StewStoveBlock::new);
     public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 11, 16);
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     public StewStoveBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.defaultBlockState()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(LIT, Boolean.FALSE)
+        );
     }
 
     @Override
@@ -67,23 +72,9 @@ public class StewStoveBlock extends BaseEntityBlock {
 
     // ========= Set the Stew stove block always faces to player when it put =========
     @Override
-    protected void createBlockStateDefinition(final StateDefinition.@NotNull Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(FACING);
-    }
-
-    @Override
     public @NotNull BlockState rotate(BlockState pState, Rotation pRot) {
         return pState.setValue(FACING, pRot.rotate(pState.getValue(FACING)));
     }
-
-    @Override
-    public @NotNull BlockState getStateForPlacement(BlockPlaceContext context) {
-        Direction playerFacing = context.getHorizontalDirection();
-        return this.defaultBlockState()
-                .setValue(FACING, playerFacing.getOpposite());
-    }
-
 
     // ========= Open GUI when player clink the block =========
     @Override
@@ -100,9 +91,27 @@ public class StewStoveBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
+    // ========= Block Lit settings =========
+    @Override
+    public int getLightEmission(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+        return state.getValue(LIT) ? 15 : 0;
+    }
+
     // ========= Update block state =========
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type){
         return level.isClientSide ? null : createTickerHelper(type, ModBlockEntities.STEW_STOVE_BLOCK_ENTITY.get(), StewStoveBlockEntity::serverTick);
+    }
+    @Override
+    public @NotNull BlockState getStateForPlacement(BlockPlaceContext context) {
+        Direction playerFacing = context.getHorizontalDirection();
+        return this.defaultBlockState()
+                .setValue(FACING, playerFacing.getOpposite())
+                .setValue(LIT, Boolean.FALSE);
+    }
+    @Override
+    protected void createBlockStateDefinition(final StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(FACING, LIT);
     }
 }

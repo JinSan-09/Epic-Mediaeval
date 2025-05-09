@@ -20,7 +20,7 @@ public class StewStoveMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public StewStoveMenu(int id, Inventory playerInventory) {
-        this(id, playerInventory, new ItemStackHandler(8),ContainerLevelAccess.NULL, new SimpleContainerData(3));
+        this(id, playerInventory, new ItemStackHandler(8),ContainerLevelAccess.NULL, new SimpleContainerData(4));
     }
 
     public StewStoveMenu(int id, Inventory playerInv, IItemHandler dataInv, ContainerLevelAccess access, ContainerData data) {
@@ -77,6 +77,7 @@ public class StewStoveMenu extends AbstractContainerMenu {
     public int getCookTime() {
         return this.data.get(2);
     }
+    public int getCookTimeTotal(){return this.data.get(3);}
 
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int quickMovedSlotIndex) {

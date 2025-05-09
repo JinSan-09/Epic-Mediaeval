@@ -30,9 +30,9 @@ public class ModItems {
             new Item.Properties().food(new FoodProperties(8,0.5f, false)));
     public static final DeferredItem<Item> BROWN_OAT_CAKE = ITEMS.registerSimpleItem("brown_oat_cake",
             new Item.Properties().food(new FoodProperties(8,0.5f, false)));
-    public static final DeferredItem<Item> CHESS_GREEN_PEPPER = ITEMS.registerSimpleItem("chess_green_pepper",
+    public static final DeferredItem<Item> CHESS_GREEN_PEPPER = ITEMS.registerSimpleItem("cheese_green_pepper",
             new Item.Properties().food(new FoodProperties(8,0.5f, false)));
-    public static final DeferredItem<Item> CLAY_BAKED_TROUT = ITEMS.registerSimpleItem("clay_backed_trout",
+    public static final DeferredItem<Item> CLAY_BAKED_TROUT = ITEMS.registerSimpleItem("clay_baked_trout",
             new Item.Properties().food(new FoodProperties(8,0.5f, false)));
     public static final DeferredItem<Item> COD_CAKE = ITEMS.registerSimpleItem("cod_cake",
             new Item.Properties().food(new FoodProperties(8,0.5f, false)));

@@ -18,9 +18,23 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
     private static final int WATER_METER_Y = 14;
     private static final int WATER_METER_WIDTH = 10;
     private static final int WATER_METER_HEIGHT = 42;
-
     private static final int WATER_LEVEL_U = 176;
     private static final int WATER_LEVEL_V = 0;
+
+    private static final int FIRE_X = 77;
+    private static final int FIRE_Y = 50;
+    private static final int FIRE_HEIGHT = 10;
+    private static final int FIRE_WIDTH = 22;
+    private static final int FIRE_U = 0;
+    private static final int FIRE_V = 166;
+    private static int MAX_FIRE_HEIGHT = 0;
+
+    private static final int COOK_X = 115;
+    private static final int COOK_Y = 24;
+    private static final int COOK_HEIGHT = 17;
+    private static final int COOK_WIDTH = 22;
+    private static final int COOK_U = 22;
+    private static final int COOK_V = 166;
 
     public StewStoveScreen(StewStoveMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -61,6 +75,41 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
                     this.topPos + WATER_METER_Y + (WATER_METER_HEIGHT - waterHeight),
                     WATER_LEVEL_U, WATER_LEVEL_V,
                     WATER_METER_WIDTH, waterHeight,
+                    256, 256
+            );
+        }
+
+        int burnTime = this.menu.getBurnTime();
+        if (burnTime > 0) {
+            if (MAX_FIRE_HEIGHT < burnTime) {
+                MAX_FIRE_HEIGHT = burnTime;
+            }
+            double burnRatio = (double) burnTime / (double) MAX_FIRE_HEIGHT;
+            int fireHeight = Math.toIntExact(Math.round(FIRE_HEIGHT * burnRatio));
+            guiGraphics.blit(
+                    RenderType::guiTextured,
+                    TEXTURE,
+                    this.leftPos + FIRE_X,
+                    this.topPos + FIRE_Y + (FIRE_HEIGHT - fireHeight),
+                    FIRE_U, FIRE_V + (FIRE_HEIGHT - fireHeight),
+                    FIRE_WIDTH, fireHeight,
+                    256, 256
+            );
+        }else {
+            MAX_FIRE_HEIGHT = 0;
+        }
+
+        int cookTime = this.menu.getCookTime();
+        int cookTimeTotal = this.menu.getCookTimeTotal();
+        if (cookTime > 0) {
+            int cookWidth = COOK_WIDTH * cookTime/cookTimeTotal;
+            guiGraphics.blit(
+                    RenderType::guiTextured,
+                    TEXTURE,
+                    this.leftPos + COOK_X,
+                    this.topPos + COOK_Y,
+                    COOK_U,COOK_V,
+                    cookWidth,COOK_HEIGHT,
                     256, 256
             );
         }
