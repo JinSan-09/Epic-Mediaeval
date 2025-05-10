@@ -1,19 +1,19 @@
 {
-  "type": "epicmediaeval:stew_stove",
-  "group": "stews",
-  "ingredients": [
+  "type":"epicmediaeval:stew_stove",
+  "group":"stews",
+  "ingredients":[
     "epicmediaeval:frog_leg",
     "epicmediaeval:frog_leg",
     "epicmediaeval:leek_leaves",
     "minecraft:brown_mushroom"
   ],
-  "result": {
-    "id": "epicmediaeval:frog_stew",
-    "count": 1
+  "result":{
+    "id":"epicmediaeval:frog_stew",
+    "count":1
   },
-  "container": {
-    "id": "epicmediaeval:large_wooden_bowl"
+  "container":{
+    "id":"epicmediaeval:large_wooden_bowl"
   },
-  "experience": 0.35,
-  "cooking_time": 200
+  "experience":0.35,
+  "cooking_time":200
 }

@@ -3,7 +3,6 @@ package com.sanjin.menu;
 import com.sanjin.register.ModBlocks;
 import com.sanjin.register.ModItems;
 import com.sanjin.register.ModMenus;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;

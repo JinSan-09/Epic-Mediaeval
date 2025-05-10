@@ -4,6 +4,7 @@
   "ingredients": [
     "minecraft:porkchop",
     "epicmediaeval:white_beans",
+    "epicmediaeval:white_beans",
     "epicmediaeval:white_beans"
   ],
   "result": {
@@ -15,4 +16,4 @@
   },
   "experience": 0.35,
   "cooking_time": 200
-}w
+}

@@ -93,18 +93,12 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             if (level != null) {
                 level.playSound(null, worldPosition, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0f, 1.0f);
             }
-            // Check for sufficient fuel and water
-            if (burnTime <= 0) {
-                // If the fuel runs out, try adding new fuel
-                if (!addFuel()) {
-                    // If you cannot add new fuel, stop cooking
-                    stopCooking(pos,state);
-                    return;
-                }else {
-                    addFuel();
-                }
-            } else {
-                burnTime--;
+            // Add fuel if it can, else stop cooking
+            if (burnTime <= 0 && canAddFuel()) {
+                addFuel();
+            } else if (burnTime <= 0 && !canAddFuel()) {
+                stopCooking(pos,state);
+                return;
             }
             // Check if there is enough water
             if (waterLevel <= 0) {
@@ -221,10 +215,9 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     private boolean canAddFuel() {
         return !inventory.getStackInSlot(FUEL_SLOT).isEmpty() && isFuel(inventory.getStackInSlot(FUEL_SLOT));
     }
-    private boolean addFuel() {
+    private void addFuel() {
         ItemStack fuelStack = inventory.getStackInSlot(FUEL_SLOT);
-
-        if (!fuelStack.isEmpty() && isFuel(fuelStack)) {
+        if (canAddFuel()) {
             // set different burning time for different fuel
             if (fuelStack.is(Items.COAL) || fuelStack.is(Items.CHARCOAL)) {
                 burnTime += 1600;
@@ -234,7 +227,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
                 burnTime += 20000;
                 inventory.setStackInSlot(FUEL_SLOT, new ItemStack(Items.BUCKET));
                 setChanged();
-                return true;
+                return;
             } else {
                 burnTime += 200;
             }
@@ -243,10 +236,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             fuelStack.shrink(1);
             inventory.setStackInSlot(FUEL_SLOT, fuelStack);
             setChanged();
-            return true;
         }
-
-        return false;
     }
     private boolean isFuel(ItemStack stack) {
         return stack.is(Items.COAL) || stack.is(Items.CHARCOAL) || stack.is(Items.COAL_BLOCK) ||

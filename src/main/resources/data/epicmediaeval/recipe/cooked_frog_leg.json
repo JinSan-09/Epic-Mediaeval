@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": "epicmediaeval:frog_leg",
+  "result": {
+    "id": "epicmediaeval:cooked_frog_leg"
+  }
+}

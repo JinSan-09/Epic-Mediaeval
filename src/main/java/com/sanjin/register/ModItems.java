@@ -18,7 +18,7 @@ public class ModItems {
             new Item.Properties());
     public static final DeferredItem<Item> WHITE_PORCELAIN_DISH = ITEMS.registerSimpleItem("white_porcelain_dish",
             new Item.Properties());
-    public static final DeferredItem<Item> WHINE_BOTTLE = ITEMS.registerSimpleItem("wine_bottle",
+    public static final DeferredItem<Item> WINE_BOTTLE = ITEMS.registerSimpleItem("wine_bottle",
             new Item.Properties());
 
     // Food items
@@ -41,6 +41,8 @@ public class ModItems {
     public static final DeferredItem<Item> COOKED_ELK_MEAT = ITEMS.registerSimpleItem("cooked_elk_meat",
             new Item.Properties().food(new FoodProperties(5,0.3f, false)));
     public static final DeferredItem<Item> COOKED_VENISON = ITEMS.registerSimpleItem("cooked_venison",
+            new Item.Properties().food(new FoodProperties(5,0.3f, false)));
+    public static final DeferredItem<Item> COOKED_FROG_LEG = ITEMS.registerSimpleItem("cooked_frog_leg",
             new Item.Properties().food(new FoodProperties(5,0.3f, false)));
     public static final DeferredItem<Item> DORNISH_CAKE = ITEMS.registerSimpleItem("dornish_cake",
             new Item.Properties().food(new FoodProperties(8,0.5f, false)));
@@ -108,7 +110,7 @@ public class ModItems {
             new Item.Properties().food(new FoodProperties(1,0.3f, true)));
     public static final DeferredItem<Item> LEEK_LEAVES = ITEMS.registerSimpleItem("leek_leaves",
             new Item.Properties());
-    public static final DeferredItem<Item> NETTLE = ITEMS.registerSimpleItem("nettle",
+    public static final DeferredItem<Item> NETTLE_LEAVES = ITEMS.registerSimpleItem("nettle_leaves",
             new Item.Properties());
     public static final DeferredItem<Item> OATS = ITEMS.registerSimpleItem("oats",
             new Item.Properties());

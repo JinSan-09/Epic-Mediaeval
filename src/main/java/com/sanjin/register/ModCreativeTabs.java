@@ -4,10 +4,8 @@ import com.sanjin.EpicMediaeval;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -21,6 +19,7 @@ public class ModCreativeTabs {
                     .title(Component.translatable("itemGroup.epic_mediaeval_food_item_tab"))
                     .icon(() -> new ItemStack(ModItems.HONEY_CHICKEN.get()))
                     .displayItems((parameters, output) -> {
+                        // Food items
                         output.accept(ModItems.BARLEY_BEEF_STEW.get());
                         output.accept(ModItems.STEWED_VENISON.get());
                         output.accept(ModItems.BACON_WHITE_BEANS.get());
@@ -35,7 +34,6 @@ public class ModCreativeTabs {
                         output.accept(ModItems.CHESS_GREEN_PEPPER.get());
                         output.accept(ModItems.CLAY_BAKED_TROUT.get());
                         output.accept(ModItems.COD_CAKE.get());
-                        output.accept(ModItems.COOKED_TROUT.get());
                         output.accept(ModItems.DORNISH_CAKE.get());
                         output.accept(ModItems.DORNISH_MEAT_RICE.get());
                         output.accept(ModItems.ELK_MEATBALL.get());
@@ -51,21 +49,37 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SWEET_COOKIE.get());
                         output.accept(ModItems.VEGETABLE_SALAD.get());
                         output.accept(ModItems.VENISON_PIE.get());
+                        output.accept(ModItems.COOKED_FROG_LEG.get());
+                        output.accept(ModItems.COOKED_TROUT.get());
                         output.accept(ModItems.COOKED_ELK_MEAT.get());
                         output.accept(ModItems.COOKED_VENISON.get());
                         output.accept(ModItems.SWEET_PLUM_WINE.get());
+                        // Primitives items
+                        output.accept(ModItems.BARLEY.get());
+                        output.accept(ModItems.OATS.get());
+                        output.accept(ModItems.NETTLE_LEAVES.get());
+                        output.accept(ModItems.LEEK_LEAVES.get());
+                        output.accept(ModItems.CHICKPEA.get());
+                        output.accept(ModItems.WHITE_BEANS.get());
+                        output.accept(ModItems.HORSERADISH.get());
+                        output.accept(ModItems.GREEN_PEPPER.get());
+                        output.accept(ModItems.LEMON.get());
+                        output.accept(ModItems.PLUM.get());
+                        output.accept(ModItems.BEEF_KIDNEY.get());
+                        output.accept(ModItems.FROG_LEG.get());
+                        output.accept(ModItems.OXTAIL.get());
+                        output.accept(ModItems.RAW_TROUT.get());
+                        output.accept(ModItems.RAW_ELK_MEAT.get());
+                        output.accept(ModItems.RAW_VENISON.get());
+                        output.accept(ModItems.DOUGH.get());
+                        // Tableware items
                         output.accept(ModItems.LARGE_WOODEN_BOWL.get());
                         output.accept(ModItems.WOODEN_BOWL.get());
+                        output.accept(ModItems.WINE_BOTTLE.get());
+                        output.accept(ModItems.WHITE_PORCELAIN_DISH.get());
                     }).build());
 
     public static void register(IEventBus eventBus) {
         CREATIVE_TABS.register(eventBus);
-        eventBus.addListener(ModCreativeTabs::addItemsToVanillaTabs);
-    }
-
-    private static void addItemsToVanillaTabs(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.accept(ModItems.WHINE_BOTTLE);
-        }
     }
 }
