@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "key": {
+    "H": "minecraft:honey_bottle",
+    "D": "epicmediaeval:dough",
+    "W": "epicmediaeval:white_porcelain_dish"
+  },
+  "pattern": [
+    "DHD",
+    " W "
+  ],
+  "result": {
+    "count": 1,
+    "id": "epicmediaeval:golden_honey_cake"
+  }
+}

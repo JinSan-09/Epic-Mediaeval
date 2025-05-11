@@ -1,23 +1,23 @@
 {
 	"textures": {
+		"0": "epicmediaeval:block/stew_stove_base_lit",
 		"1": "epicmediaeval:block/stew_stove_pot_base",
 		"2": "epicmediaeval:block/stew_stove_pot_edge_one",
 		"3": "epicmediaeval:block/stew_stove_pot_edge_two",
 		"4": "epicmediaeval:block/stew_stove_soup",
-		"6": "epicmediaeval:block/stew_stove_base_lit",
-		"particle": "epicmediaeval:block/stew_stove_base_lit"
+		"particle": "epicmediaeval:block/stew_stove_base"
 	},
 	"elements": [
 		{
 			"from": [0, 0, 0],
 			"to": [16, 8, 16],
 			"faces": {
-				"north": {"uv": [8, 0, 16, 4], "texture": "#6"},
-				"east": {"uv": [8, 4, 16, 8], "texture": "#6"},
-				"south": {"uv": [8, 8, 16, 12], "texture": "#6"},
-				"west": {"uv": [8, 12, 16, 16], "texture": "#6"},
-				"up": {"uv": [8, 8, 0, 0], "texture": "#6"},
-				"down": {"uv": [8, 8, 0, 16], "texture": "#6"}
+				"north": {"uv": [8, 0, 16, 4], "texture": "#0"},
+				"east": {"uv": [8, 4, 16, 8], "texture": "#0"},
+				"south": {"uv": [8, 8, 16, 12], "texture": "#0"},
+				"west": {"uv": [8, 12, 16, 16], "texture": "#0"},
+				"up": {"uv": [8, 8, 0, 0], "texture": "#0"},
+				"down": {"uv": [8, 8, 0, 16], "texture": "#0"}
 			}
 		},
 		{

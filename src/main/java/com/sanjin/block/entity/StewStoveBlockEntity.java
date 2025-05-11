@@ -37,7 +37,7 @@ import java.util.Optional;
 
 public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, EntityBlock {
 
-    // The number of all slots
+    // ========= The number of all slots =========
     private static final int WATER_SLOT = 4;
     private static final int FUEL_SLOT = 5;
     private static final int CONTAINER_SLOT = 6;
@@ -60,6 +60,9 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             if (slot >= MATERIAL_SLOTS_START && slot < MATERIAL_SLOTS_START + MATERIAL_SLOTS_COUNT || slot == CONTAINER_SLOT) {
                 tryStartCooking();
             }
+            if (slot == OUTPUT_SLOT) {
+                updateHasSoupState();
+            }
         }
     };
 
@@ -72,6 +75,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         this.isCooking = false;
     }
 
+    // ========== Tick logic =========
     public static void serverTick(Level level, BlockPos pos, BlockState state, StewStoveBlockEntity blockEntity) {
         blockEntity.tick(pos,state);
         blockEntity.updateData();
@@ -79,6 +83,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     }
     public  void tick( BlockPos pos, BlockState state) {
         addWater(level);
+        // Check if the Stew stove should be lit
         if (burnTime > 0) {
             burnTime--;
             if (level != null) {
@@ -112,6 +117,23 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             setChanged();
         } else {
             tryStartCooking();
+        }
+    }
+    public void updateHasSoupState() {
+        if (this.level != null && !this.level.isClientSide()) {
+            // 检查输出槽是否有物品
+            boolean hasSoup = !inventory.getStackInSlot(OUTPUT_SLOT).isEmpty();
+
+            // 获取当前方块状态
+            BlockState currentState = this.level.getBlockState(this.worldPosition);
+
+            // 如果状态不同，更新方块状态
+            if (currentState.getValue(StewStoveBlock.HAS_SOUP) != hasSoup) {
+                this.level.setBlock(
+                        this.worldPosition,
+                        currentState.setValue(StewStoveBlock.HAS_SOUP, hasSoup), 3 // 发送到客户端的标志
+                );
+            }
         }
     }
     private void stopCooking(BlockPos pos, BlockState state) {
@@ -152,11 +174,13 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             addOutput(outputItem);
             waterLevel = Math.max(0, waterLevel - 1);
 
-            // reset cooking status
+            // Reset cooking status
             cookTime = 0;
             isCooking = false;
             currentRecipe = null;
             level.playSound(null, worldPosition, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
+
+            updateHasSoupState();
             setChanged();
         }
     }
@@ -264,6 +288,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         return Optional.empty();
     }
 
+    // ========= Transfer data to StewStoveMenu class =========
     private void updateData() {
         data.set(0, waterLevel);
         data.set(1, burnTime);
@@ -271,6 +296,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         data.set(3,cookTimeTotal);
     }
 
+    // ========= Transfer data between Server and Client ==========
     public void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
         super.loadAdditional(tag, provider);
         this.waterLevel = tag.getInt("WaterLevel");
@@ -282,8 +308,21 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         CompoundTag inventoryTag = tag.getCompound("Inventory");
         this.inventory.deserializeNBT(provider, inventoryTag);
 
-        if (level != null && isCooking) {
-            level.setBlock(worldPosition, getBlockState().setValue(StewStoveBlock.LIT, true), 3);
+        if (level != null) {
+            // 更新点燃状态
+            BlockState newState = getBlockState();
+            if (burnTime > 0) {
+                newState = newState.setValue(StewStoveBlock.LIT, true);
+            } else {
+                newState = newState.setValue(StewStoveBlock.LIT, false);
+            }
+
+            // 更新输出状态
+            boolean hasSoup = !inventory.getStackInSlot(OUTPUT_SLOT).isEmpty();
+            newState = newState.setValue(StewStoveBlock.HAS_SOUP, hasSoup);
+
+            // 应用状态更新
+            level.setBlock(worldPosition, newState, 3);
         }
     }
     public void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
@@ -298,10 +337,21 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         tag.put("Inventory", inventoryTag);
     }
 
+    // ========= Some Get-method =========
+    public boolean getCookingState(){
+        return this.isCooking;
+    }
+    public int getBurnTime() {
+        return this.burnTime;
+    }
+    public int getWaterLevel() {
+        return this.waterLevel;
+    }
     public ContainerData getData() {
         return this.data;
     }
 
+    // ========= Other needed settings =========
     @Override
     public @NotNull Component getDisplayName() {
         return Component.translatable("container.stew_stove.text");
@@ -316,4 +366,4 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state){
         return new StewStoveBlockEntity(pos, state);
     }
-    }
+}

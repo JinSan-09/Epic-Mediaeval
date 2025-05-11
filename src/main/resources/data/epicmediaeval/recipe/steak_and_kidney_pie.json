@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "key": {
+    "A": "minecraft:cooked_beef",
+    "B": "epicmediaeval:beef_kidney",
+    "C": "epicmediaeval:dough",
+    "W": "epicmediaeval:white_porcelain_dish"
+  },
+  "pattern": [
+    "ABC",
+    " W "
+  ],
+  "result": {
+    "count": 1,
+    "id": "epicmediaeval:steak_and_kidney_pie"
+  }
+}

@@ -7,4 +7,5 @@ public class CustomFoodItem extends Item {
     public CustomFoodItem(Properties properties) {
         super(properties);
     }
+
 }

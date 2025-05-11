@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "key": {
+    "T": "epicmediaeval:raw_trout",
+    "C": "minecraft:clay_ball",
+    "W": "epicmediaeval:white_porcelain_dish"
+  },
+  "pattern": [
+    "CCC",
+    "CTC",
+    " W "
+  ],
+  "result": {
+    "count": 1,
+    "id": "epicmediaeval:clay_baked_trout"
+  }
+}

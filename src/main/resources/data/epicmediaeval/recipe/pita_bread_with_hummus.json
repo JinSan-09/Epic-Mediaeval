@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "key": {
+    "G": "epicmediaeval:dough",
+    "C": "epicmediaeval:chickpea",
+    "W": "epicmediaeval:white_porcelain_dish"
+  },
+  "pattern": [
+    "CCC",
+    "DCD",
+    " W "
+  ],
+  "result": {
+    "count": 1,
+    "id": "epicmediaeval:pita_bread_with_hummus"
+  }
+}

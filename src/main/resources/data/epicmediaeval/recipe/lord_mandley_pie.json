@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "key": {
+    "M": "minecraft:milk_bucket",
+    "V": "epicmediaeval:cooked_venison",
+    "D": "epicmediaeval:dough",
+    "W": "epicmediaeval:white_porcelain_dish"
+  },
+  "pattern": [
+    "MVM",
+    "DDD",
+    " W "
+  ],
+  "result": {
+    "count": 1,
+    "id": "epicmediaeval:lord_mandley_pie"
+  }
+}

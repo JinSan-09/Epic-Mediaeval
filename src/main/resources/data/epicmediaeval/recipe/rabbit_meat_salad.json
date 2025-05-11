@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "key": {
+    "H": "epicmediaeval:horseradish",
+    "C": "minecraft:cooked_rabbit",
+    "W": "epicmediaeval:white_porcelain_dish"
+  },
+  "pattern": [
+    "HRH",
+    " W "
+  ],
+  "result": {
+    "count": 1,
+    "id": "epicmediaeval:rabbit_meat_salad"
+  }
+}

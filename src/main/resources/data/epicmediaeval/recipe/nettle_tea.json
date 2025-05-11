@@ -1,0 +1,19 @@
+{
+  "type": "epicmediaeval:stew_stove",
+  "group": "soup",
+  "ingredients": [
+    "epicmediaeval:nettle_leaves",
+    "epicmediaeval:nettle_leaves",
+    "epicmediaeval:nettle_leaves",
+    "epicmediaeval:nettle_leaves"
+  ],
+  "result": {
+    "id": "epicmediaeval:nettle_tea",
+    "count": 1
+  },
+  "container": {
+    "id": "epicmediaeval:wooden_bowl"
+  },
+  "experience": 0.35,
+  "cooking_time": 200
+}

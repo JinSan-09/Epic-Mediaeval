@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "key": {
+    "E": "epicmediaeval:raw_elk_meat",
+    "N": "epicmediaeval:nettle_leaves",
+    "W": "epicmediaeval:white_porcelain_dish"
+  },
+  "pattern": [
+    "ENE",
+    " W "
+  ],
+  "result": {
+    "count": 1,
+    "id": "epicmediaeval:elk_meatball"
+  }
+}

@@ -59,10 +59,12 @@ public class ModCreativeTabs {
                         output.accept(ModItems.OATS.get());
                         output.accept(ModItems.NETTLE_LEAVES.get());
                         output.accept(ModItems.LEEK_LEAVES.get());
+                        output.accept(ModItems.CHEESE.get());
                         output.accept(ModItems.CHICKPEA.get());
                         output.accept(ModItems.WHITE_BEANS.get());
                         output.accept(ModItems.HORSERADISH.get());
                         output.accept(ModItems.GREEN_PEPPER.get());
+                        output.accept(ModItems.ONION.get());
                         output.accept(ModItems.LEMON.get());
                         output.accept(ModItems.PLUM.get());
                         output.accept(ModItems.BEEF_KIDNEY.get());

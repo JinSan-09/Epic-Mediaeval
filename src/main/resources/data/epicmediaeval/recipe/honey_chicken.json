@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "key": {
+    "H": "minecraft:honey_bottle",
+    "C": "minecraft:cooked_chicken",
+    "W": "epicmediaeval:white_porcelain_dish"
+  },
+  "pattern": [
+    "HCH",
+    " W "
+  ],
+  "result": {
+    "count": 1,
+    "id": "epicmediaeval:honey_chicken"
+  }
+}

@@ -29,7 +29,7 @@
   "item.epicmediaeval.golden_honey_cake":"金蜜饼",
   "item.epicmediaeval.roast_suckling_pig":"烤乳猪",
   "item.epicmediaeval.nettle_tea":"荨麻茶",
-  "item.epicmediaeval.dough": "生面团",
+  "item.epicmediaeval.cooked_frog_leg": "熟青蛙腿",
 
   "item.epicmediaeval.white_porcelain_dish":"白色瓷盘",
   "item.epicmediaeval.large_wooden_bowl":"大木碗",
@@ -55,7 +55,9 @@
   "item.epicmediaeval.horseradish": "辣根",
   "item.epicmediaeval.nettle_leaves": "荨麻叶",
   "item.epicmediaeval.frog_leg": "青蛙腿",
-  "item.epicmediaeval.cooked_frog_leg": "熟青蛙腿",
+  "item.epicmediaeval.dough": "面团",
+  "item.epicmediaeval.cheese": "芝士",
+  "item.epicmediaeval.onion": "洋葱",
 
   "block.epicmediaeval.stew_stove": "煲汤炉",
 
