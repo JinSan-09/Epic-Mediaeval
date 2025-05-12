@@ -29,9 +29,15 @@ public class OnionItem extends Item {
 
         if (!level.isClientSide) {
             OnionProjectile onion = new OnionProjectile(level, player);
+
+            double x = player.getX();
+            double y = player.getEyeY();
+            double z = player.getZ();
+            onion.setPos(x, y, z);
+
             // Shoot from the player's front
-            onion.setItem(itemstack);
-            onion.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.2F, 1.0F);level.addFreshEntity(onion);
+            onion.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.2F, 1.0F);
+            level.addFreshEntity(onion);
         }
         // Count
         player.awardStat(Stats.ITEM_USED.get(this));

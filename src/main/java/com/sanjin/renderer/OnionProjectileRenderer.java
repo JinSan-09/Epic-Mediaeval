@@ -69,10 +69,6 @@ public class OnionProjectileRenderer extends ThrownItemRenderer<OnionProjectile>
         poseStack.popPose();
     }
 
-    public ResourceLocation getTextureLocation(OnionProjectile entity) {
-        return BuiltInRegistries.ITEM.getKey(entity.getDefaultItem());
-    }
-
     @Override
     public @NotNull ThrownItemRenderState createRenderState() {
         return new ThrownItemRenderState();

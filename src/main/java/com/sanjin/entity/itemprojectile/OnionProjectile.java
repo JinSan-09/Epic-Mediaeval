@@ -5,6 +5,9 @@ import com.sanjin.register.ModItems;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -16,27 +19,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class OnionProjectile extends ThrowableItemProjectile {
 
-    public OnionProjectile(EntityType<OnionProjectile> entityEntityType, Level level) {
-        super(entityEntityType, level);
+    public OnionProjectile(EntityType<OnionProjectile> entityType, Level level) {
+        super(entityType, level);
     }
 
     public OnionProjectile(Level level, LivingEntity shooter) {
         super(ModItemEntities.ONION_ENTITY.get(),level);
+        this.setOwner(shooter);
     }
 
     private void makeOnionParticles() {
         ItemStack itemStack = this.getItemRaw();
         if (!itemStack.isEmpty()) {
-            // 创建4个物品粒子效果，模拟洋葱碎片
             for(int i = 0; i < 4; ++i) {
                 this.level().addParticle(
                         new ItemParticleOption(ParticleTypes.ITEM, itemStack),
                         this.getX(), this.getY(), this.getZ(),
-                        // 随机方向散射
                         (this.random.nextFloat() - 0.5) * 0.3,
                         (this.random.nextFloat() - 0.5) * 0.3 + 0.1,
                         (this.random.nextFloat() - 0.5) * 0.3
@@ -54,18 +57,30 @@ public class OnionProjectile extends ThrowableItemProjectile {
         super.onHitEntity(hitResult);
 
         Entity target = hitResult.getEntity();
+        Entity owner = this.getOwner();
 
-        // 检查被击中的是否是生物实体
         if (target instanceof LivingEntity livingTarget) {
-            // 不造成伤害，但添加药水效果
-            livingTarget.addEffect(new MobEffectInstance(
-                    MobEffects.CONFUSION, // 眩晕效果，可替换为自定义效果
-                    10,                  // 持续0.5秒
-                    6,                    // 效果等级
-                    false,                // 是否环境效果
-                    true,                 // 是否显示粒子
-                    true                  // 是否显示图标
-            ));
+
+            DamageSource damageSource;
+            if (owner instanceof LivingEntity livingOwner) {
+                damageSource = this.damageSources().thrown(this, livingOwner);
+            } else {
+                damageSource = this.damageSources().thrown(this, null);
+            }
+
+            DamageSource knockbackOnlySource = damageSource;
+            if (!livingTarget.level().isClientSide()) {
+                Vec3 knockbackDir = livingTarget.position().subtract(this.position()).normalize();
+                double knockbackStrength = 0.8;
+                livingTarget.push(
+                        knockbackDir.x * knockbackStrength,
+                        0.2,
+                        knockbackDir.z * knockbackStrength
+                );
+                livingTarget.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 20, 6, false, true, true));
+                livingTarget.playSound(SoundEvents.PLAYER_HURT, 0.5F, 1.2F);
+                livingTarget.invulnerableTime = 10;
+            }
         }
         makeOnionParticles();
     }
@@ -75,33 +90,23 @@ public class OnionProjectile extends ThrowableItemProjectile {
         super.onHit(hitResult);
 
         if (!this.level().isClientSide) {
-            // 服务器端处理
-            // 创建粒子效果
             if (this.level() instanceof ServerLevel serverLevel) {
                 ItemStack itemStack = this.getItemRaw();
                 if (!itemStack.isEmpty()) {
                     serverLevel.sendParticles(
                             new ItemParticleOption(ParticleTypes.ITEM, itemStack),
                             this.getX(), this.getY(), this.getZ(),
-                            8, // 粒子数量
-                            0.0D, 0.0D, 0.0D, // 定向速度
-                            0.15D // 随机速度
+                            8, 0.0D, 0.0D, 0.0D, 0.15D
                     );
                 }
             }
 
-            // 播放撞击音效
             this.level().playSound(
                     null, this.getX(), this.getY(), this.getZ(),
-                    net.minecraft.sounds.SoundEvents.ITEM_PICKUP, // 可替换为更合适的音效
-                    net.minecraft.sounds.SoundSource.PLAYERS,
-                    0.5F,
-                    0.8F + this.random.nextFloat() * 0.4F // 稍微随机化音调
+                    SoundEvents.SLIME_SQUISH_SMALL,
+                    SoundSource.PLAYERS,
+                    0.5F, 0.8F + this.random.nextFloat() * 0.4F
             );
-
-            // 如果你想添加某些特殊逻辑，可以在这里添加
-
-            // 删除实体
             this.discard();
         }
     }
