@@ -1,7 +1,7 @@
 package com.sanjin.register;
 
 import com.sanjin.EpicMediaeval;
-import com.sanjin.block.entity.StewStoveBlockEntity;
+import com.sanjin.entity.blockentity.StewStoveBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;

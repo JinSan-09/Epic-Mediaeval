@@ -1,5 +1,6 @@
 package com.sanjin.recipe;
 
+import com.sanjin.recipe.recipeinput.StewStoveRecipeInput;
 import com.sanjin.register.ModRecipeSerializers;
 import com.sanjin.register.ModRecipes;
 import net.minecraft.core.HolderLookup;

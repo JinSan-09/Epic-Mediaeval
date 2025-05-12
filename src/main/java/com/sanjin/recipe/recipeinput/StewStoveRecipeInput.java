@@ -1,4 +1,4 @@
-package com.sanjin.recipe;
+package com.sanjin.recipe.recipeinput;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.StackedItemContents;

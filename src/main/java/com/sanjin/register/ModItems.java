@@ -1,6 +1,7 @@
 package com.sanjin.register;
 
 import com.sanjin.EpicMediaeval;
+import com.sanjin.item.OnionItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
@@ -119,8 +120,8 @@ public class ModItems {
             new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> OATS = ITEMS.registerSimpleItem("oats",
             new Item.Properties());
-    public static final DeferredItem<Item> ONION = ITEMS.registerSimpleItem("onion",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> ONION = ITEMS.register("onion",
+            () -> new OnionItem(new Item.Properties()));
     public static final DeferredItem<Item> OXTAIL = ITEMS.registerSimpleItem("oxtail",
             new Item.Properties());
     public static final DeferredItem<Item> PLUM = ITEMS.registerSimpleItem("plum",
@@ -134,6 +135,8 @@ public class ModItems {
     public static final DeferredItem<Item> WHITE_BEANS = ITEMS.registerSimpleItem("white_beans",
             new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
 
+    // Block items
+    public static final DeferredItem<Item>
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

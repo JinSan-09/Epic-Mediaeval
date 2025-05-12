@@ -14,12 +14,12 @@ public class ModBlocks {
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(EpicMediaeval.MODID);
 
-    //Workstations
+    // Workstations
     public static final DeferredBlock<Block> STEW_STOVE_BLOCK = BLOCKS.registerBlock("stew_stove",
             StewStoveBlock::new,BlockBehaviour.Properties.of());
 
 
-    //BlockItems
+    // Block items
     public static void registerBlockItems(IEventBus bus) {
         ModItems.ITEMS.registerSimpleBlockItem("stew_stove", STEW_STOVE_BLOCK, new Item.Properties());
         ModItems.ITEMS.register(bus);

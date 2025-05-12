@@ -24,6 +24,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.STEWED_VENISON.get());
                         output.accept(ModItems.BACON_WHITE_BEANS.get());
                         output.accept(ModItems.LEEK_SOUP.get());
+                        output.accept(ModItems.NETTLE_TEA.get());
                         output.accept(ModItems.OXTAIL_SOUP.get());
                         output.accept(ModItems.FLOWER_SALAD.get());
                         output.accept(ModItems.RABBIT_MEAT_SALAD.get());
@@ -42,7 +43,6 @@ public class ModCreativeTabs {
                         output.accept(ModItems.HORSERADISH_BEEF_STEW.get());
                         output.accept(ModItems.LEMON_CAKE.get());
                         output.accept(ModItems.LORD_MANDLEY_PIE.get());
-                        output.accept(ModItems.NETTLE_TEA.get());
                         output.accept(ModItems.PITA_BREAD_WITH_HUMMUS.get());
                         output.accept(ModItems.ROAST_SUCKLING_PIG.get());
                         output.accept(ModItems.STEAK_AND_KIDNEY_PIE.get());
@@ -59,12 +59,12 @@ public class ModCreativeTabs {
                         output.accept(ModItems.OATS.get());
                         output.accept(ModItems.NETTLE_LEAVES.get());
                         output.accept(ModItems.LEEK_LEAVES.get());
-                        output.accept(ModItems.CHEESE.get());
-                        output.accept(ModItems.CHICKPEA.get());
-                        output.accept(ModItems.WHITE_BEANS.get());
                         output.accept(ModItems.HORSERADISH.get());
                         output.accept(ModItems.GREEN_PEPPER.get());
                         output.accept(ModItems.ONION.get());
+                        output.accept(ModItems.CHEESE.get());
+                        output.accept(ModItems.CHICKPEA.get());
+                        output.accept(ModItems.WHITE_BEANS.get());
                         output.accept(ModItems.LEMON.get());
                         output.accept(ModItems.PLUM.get());
                         output.accept(ModItems.BEEF_KIDNEY.get());

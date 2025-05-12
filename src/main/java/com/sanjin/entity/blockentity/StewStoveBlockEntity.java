@@ -1,9 +1,9 @@
-package com.sanjin.block.entity;
+package com.sanjin.entity.blockentity;
 
 import com.sanjin.block.StewStoveBlock;
 import com.sanjin.menu.StewStoveMenu;
 import com.sanjin.recipe.StewStoveRecipe;
-import com.sanjin.recipe.StewStoveRecipeInput;
+import com.sanjin.recipe.recipeinput.StewStoveRecipeInput;
 import com.sanjin.register.ModBlockEntities;
 import com.sanjin.register.ModRecipes;
 import net.minecraft.core.BlockPos;

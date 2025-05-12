@@ -1,7 +1,7 @@
 package com.sanjin.block;
 
 import com.mojang.serialization.MapCodec;
-import com.sanjin.block.entity.StewStoveBlockEntity;
+import com.sanjin.entity.blockentity.StewStoveBlockEntity;
 import com.sanjin.register.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -199,4 +199,5 @@ public class StewStoveBlock extends BaseEntityBlock {
         super.createBlockStateDefinition(builder);
         builder.add(FACING, LIT, HAS_SOUP);
     }
+
 }

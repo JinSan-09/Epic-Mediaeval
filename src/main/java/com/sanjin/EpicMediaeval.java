@@ -1,6 +1,8 @@
 package com.sanjin;
 
 import com.sanjin.register.*;
+import com.sanjin.renderer.OnionProjectileRenderer;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.slf4j.Logger;
 
@@ -30,16 +32,19 @@ public class EpicMediaeval
     public EpicMediaeval(IEventBus modEventBus, ModContainer modContainer)
     {
         modEventBus.addListener(this::commonSetup);
-
         NeoForge.EVENT_BUS.register(this);
-
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
-        ModMenus.register(modEventBus);
+        ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-        ModRecipes.register(modEventBus);
+
+        ModItemEntities.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+
+        ModMenus.register(modEventBus);
+        ModRecipes.register(modEventBus);
         ModRecipeSerializers.register(modEventBus);
+
         ModCreativeTabs.register(modEventBus);
     }
 
@@ -70,6 +75,11 @@ public class EpicMediaeval
         @SubscribeEvent
         private static void onRegisterScreens(RegisterMenuScreensEvent event) {
             ModScreens.register(event);
+        }
+
+        @SubscribeEvent
+        public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerEntityRenderer(ModItemEntities.ONION_ENTITY.get(), OnionProjectileRenderer::new);
         }
     }
 }
