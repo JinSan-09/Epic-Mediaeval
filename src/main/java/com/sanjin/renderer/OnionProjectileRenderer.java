@@ -4,10 +4,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.sanjin.entity.itemprojectile.OnionProjectile;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.entity.state.ItemEntityRenderState;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.entity.state.ThrownItemRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class OnionProjectileRenderer extends EntityRenderer<OnionProjectile, ItemEntityRenderState> {
+public class OnionProjectileRenderer extends ThrownItemRenderer<OnionProjectile> {
 
     private final ItemRenderer itemRenderer;
     private static final float MIN_SCALE = 0.8F;
@@ -74,7 +74,7 @@ public class OnionProjectileRenderer extends EntityRenderer<OnionProjectile, Ite
     }
 
     @Override
-    public @NotNull ItemEntityRenderState createRenderState() {
-        return new ItemEntityRenderState();
+    public @NotNull ThrownItemRenderState createRenderState() {
+        return new ThrownItemRenderState();
     }
 }

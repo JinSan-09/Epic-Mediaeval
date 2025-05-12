@@ -18,15 +18,13 @@ public class ModBlocks {
     public static final DeferredBlock<Block> STEW_STOVE_BLOCK = BLOCKS.registerBlock("stew_stove",
             StewStoveBlock::new,BlockBehaviour.Properties.of());
 
-
-    // Block items
-    public static void registerBlockItems(IEventBus bus) {
+    //BlockItems
+    public static void registerBlockItems() {
         ModItems.ITEMS.registerSimpleBlockItem("stew_stove", STEW_STOVE_BLOCK, new Item.Properties());
-        ModItems.ITEMS.register(bus);
     }
 
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
-        registerBlockItems(eventBus);
+        registerBlockItems();
     }
 }

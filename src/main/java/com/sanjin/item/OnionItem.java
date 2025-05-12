@@ -25,7 +25,7 @@ public class OnionItem extends Item {
         // Play sound
         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
         // Add cooldown
-        player.getCooldowns().addCooldown(itemstack,20);
+        player.getCooldowns().addCooldown(itemstack,10);
 
         if (!level.isClientSide) {
             OnionProjectile onion = new OnionProjectile(level, player);
