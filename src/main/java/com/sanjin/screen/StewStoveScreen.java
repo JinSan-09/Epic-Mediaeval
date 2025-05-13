@@ -3,6 +3,9 @@ package com.sanjin.screen;
 import com.sanjin.EpicMediaeval;
 import com.sanjin.menu.StewStoveMenu;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
@@ -12,7 +15,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/container/stew_stove_gui.png");
+    private static final ResourceLocation MAIN_TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/container/stew_stove_gui.png");
+    private static final ResourceLocation BUTTON_TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/button/stew_stove_recipe_book_button.png");
+    private static final ResourceLocation BUTTON_TEXTURE_LIT = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/button/stew_stove_recipe_book_button_lit.png");
 
     private static final int WATER_METER_X = 47;
     private static final int WATER_METER_Y = 14;
@@ -25,16 +30,18 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
     private static final int FIRE_Y = 50;
     private static final int FIRE_HEIGHT = 10;
     private static final int FIRE_WIDTH = 22;
-    private static final int FIRE_U = 0;
-    private static final int FIRE_V = 166;
+    private static final int FIRE_U = 176;
+    private static final int FIRE_V = 42;
     private static int MAX_FIRE_HEIGHT = 0;
 
     private static final int COOK_X = 115;
     private static final int COOK_Y = 24;
     private static final int COOK_HEIGHT = 17;
     private static final int COOK_WIDTH = 22;
-    private static final int COOK_U = 22;
-    private static final int COOK_V = 166;
+    private static final int COOK_U = 176;
+    private static final int COOK_V = 52;
+
+    private ImageButton recipeBookButton;
 
     public StewStoveScreen(StewStoveMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -42,6 +49,18 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
         this.imageHeight = 166;
     }
 
+    protected void init() {
+        super.init();
+        WidgetSprites ws = new WidgetSprites(BUTTON_TEXTURE, BUTTON_TEXTURE_LIT);
+        this.recipeBookButton = new ImageButton(this.leftPos + 12, this.topPos + 32, 20, 18, ws, this::onRecipeButtonPress, Component.translatable("recipe_book.stew_stove.tooltip"));
+        this.addRenderableWidget(recipeBookButton);
+    }
+
+    private void onRecipeButtonPress(Button button) {
+        if (minecraft != null) {
+            minecraft.setScreen(new StewStoveRecipeBookScreen(this, this.menu.getPlayer()));
+        }
+    }
 
     @Override
     public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
@@ -55,7 +74,7 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
     protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         guiGraphics.blit(
                 RenderType::guiTextured,
-                TEXTURE,
+                MAIN_TEXTURE,
                 this.leftPos, this.topPos,
                 0, 0,
                 this.imageWidth, this.imageHeight,
@@ -70,7 +89,7 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
             // print waterLevel
             guiGraphics.blit(
                     RenderType::guiTextured,
-                    TEXTURE,
+                    MAIN_TEXTURE,
                     this.leftPos + WATER_METER_X,
                     this.topPos + WATER_METER_Y + (WATER_METER_HEIGHT - waterHeight),
                     WATER_LEVEL_U, WATER_LEVEL_V,
@@ -88,7 +107,7 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
             int fireHeight = Math.toIntExact(Math.round(FIRE_HEIGHT * burnRatio));
             guiGraphics.blit(
                     RenderType::guiTextured,
-                    TEXTURE,
+                    MAIN_TEXTURE,
                     this.leftPos + FIRE_X,
                     this.topPos + FIRE_Y + (FIRE_HEIGHT - fireHeight),
                     FIRE_U, FIRE_V + (FIRE_HEIGHT - fireHeight),
@@ -105,7 +124,7 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
             int cookWidth = COOK_WIDTH * cookTime/cookTimeTotal;
             guiGraphics.blit(
                     RenderType::guiTextured,
-                    TEXTURE,
+                    MAIN_TEXTURE,
                     this.leftPos + COOK_X,
                     this.topPos + COOK_Y,
                     COOK_U,COOK_V,
@@ -123,5 +142,11 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
     @Override
     public void removed(){
         super.removed();
+    }
+
+    public void returnFromRecipeScreen() {
+        if (this.minecraft != null) {
+            this.minecraft.setScreen(this);
+        }
     }
 }

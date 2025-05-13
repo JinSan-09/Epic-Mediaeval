@@ -48,17 +48,7 @@ public class StewStoveBlock extends BaseEntityBlock {
         );
     }
 
-    @Override
-    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
-    public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-        return ModBlockEntities.STEW_STOVE_BLOCK_ENTITY.get().create(pos, state);
-    }
-
-    // ========= Set particle Effects to Stew stove in correct time =========
+    // ========= Set particle effects to Stew stove in correct time =========
     @Override
     public void animateTick(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (state.getValue(LIT)) {
@@ -200,4 +190,14 @@ public class StewStoveBlock extends BaseEntityBlock {
         builder.add(FACING, LIT, HAS_SOUP);
     }
 
+    // ========== Other needed settings ==========
+    @Override
+    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+        return ModBlockEntities.STEW_STOVE_BLOCK_ENTITY.get().create(pos, state);
+    }
 }

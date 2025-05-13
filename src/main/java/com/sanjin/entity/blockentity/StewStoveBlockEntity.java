@@ -67,7 +67,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     };
 
     public StewStoveBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.STEW_STOVE_BLOCK_ENTITY.get(),pos, state);
+        super(ModBlockEntities.STEW_STOVE_BLOCK_ENTITY.get(), pos, state);
         this.burnTime = 0;
         this.waterLevel = 0;
         this.cookTime = 0;
@@ -359,7 +359,10 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player) {
-        return new StewStoveMenu(id, inventory, this.inventory, ContainerLevelAccess.create(level, worldPosition), this.data);
+        if (level != null) {
+            return new StewStoveMenu(id, inventory, this.inventory, ContainerLevelAccess.create(level, worldPosition), this.data);
+        }
+        return null;
     }
 
     @Override

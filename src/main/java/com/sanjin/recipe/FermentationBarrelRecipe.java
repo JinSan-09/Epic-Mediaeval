@@ -1,6 +1,6 @@
 package com.sanjin.recipe;
 
-import com.sanjin.recipe.recipeinput.StewStoveRecipeInput;
+import com.sanjin.recipe.recipeinput.FermentationBarrelRecipeInput;
 import com.sanjin.register.ModRecipeSerializers;
 import com.sanjin.register.ModRecipes;
 import net.minecraft.core.HolderLookup;
@@ -14,17 +14,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipeInput> {
 
-public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
-
-    private final NonNullList<Ingredient> inputs ;
+    public final NonNullList<Ingredient> inputs;
     private final ItemStack output;
     private final ItemStack container;
     private final float experience;
     private final int cookingTime;
-
-
-    public StewStoveRecipe(NonNullList<Ingredient> inputs, ItemStack output, @NotNull ItemStack container, float experience, int cookingTime){
+    public FermentationBarrelRecipe(NonNullList<Ingredient> inputs, ItemStack output, ItemStack container, float experience, int cookingTime) {
         this.inputs = inputs;
         this.output = output;
         this.container = container;
@@ -32,7 +29,6 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
         this.cookingTime = cookingTime;
     }
 
-    // Create get-methods
     public NonNullList<Ingredient> getInputs(){
         return this.inputs;
     }
@@ -49,13 +45,12 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
         return this.cookingTime;
     }
 
+    // ========= Check whether there is a matched recipe =========
     @Override
-    public boolean matches(@NotNull StewStoveRecipeInput recipeInput, @NotNull Level level) {
+    public boolean matches(@NotNull FermentationBarrelRecipeInput recipeInput, @NotNull Level level) {
         if (level.isClientSide()) return false;
         if (recipeInput.getNonEmptyIngredientCount() != this.inputs.size()) return false;
-        if (!ItemStack.isSameItem(recipeInput.getContainer(), this.container)) return false;
 
-        // Check every ingredient in the list upon if it can match one of the ingredient in one of the recipe read from JSON file
         List<ItemStack> remainingIngredients = new ArrayList<>();
         for (ItemStack stack : recipeInput.getIngredients()) {
             if (!stack.isEmpty()) {
@@ -78,24 +73,36 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
                 return false;
             }
         }
-
-        // successfully match
         return true;
-     }
+    }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull StewStoveRecipeInput recipeInput, HolderLookup.@NotNull Provider provider) {
+    public @NotNull ItemStack assemble(@NotNull FermentationBarrelRecipeInput fermentationBarrelRecipeInput, HolderLookup.@NotNull Provider provider) {
         return this.output.copy();
     }
 
     @Override
-    public @NotNull RecipeSerializer<? extends Recipe<StewStoveRecipeInput>> getSerializer() {
-        return ModRecipeSerializers.STEW_STOVE_RECIPE_SERIALIZERS.get();
+    public @NotNull RecipeSerializer<? extends Recipe<FermentationBarrelRecipeInput>> getSerializer() {
+        return ModRecipeSerializers.FERMENTATION_BARREL_RECIPE_SERIALIZER.get();
     }
 
     @Override
-    public @NotNull RecipeType<? extends Recipe<StewStoveRecipeInput>> getType() {
-        return ModRecipes.STEW_STOVE_RECIPE_TYPE.get();
+    public @NotNull RecipeType<? extends Recipe<FermentationBarrelRecipeInput>> getType() {
+        return ModRecipes.FERMENTATION_BARREL_RECIPE.get();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FermentationBarrelRecipe that = (FermentationBarrelRecipe) o;
+
+        if (Float.compare(that.getExperience(), getExperience()) != 0) return false;
+        if (getCookingTime() != that.getCookingTime()) return false;
+        if (!inputs.equals(that.inputs)) return false;
+        if (!output.equals(that.output)) return false;
+        return container.equals(that.container);
     }
 
     @Override
@@ -106,20 +113,6 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
     @Override
     public @NotNull RecipeBookCategory recipeBookCategory() {
         return null;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        StewStoveRecipe that = (StewStoveRecipe) o;
-
-        if (Float.compare(that.getExperience(), getExperience()) != 0) return false;
-        if (getCookingTime() != that.getCookingTime()) return false;
-        if (!inputs.equals(that.inputs)) return false;
-        if (!output.equals(that.output)) return false;
-        return container.equals(that.container);
     }
 
     @Override

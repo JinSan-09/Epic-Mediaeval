@@ -1,6 +1,7 @@
 package com.sanjin.register;
 
 
+import com.sanjin.block.FermentationBarrelBlock;
 import com.sanjin.block.StewStoveBlock;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -17,10 +18,13 @@ public class ModBlocks {
     // Workstations
     public static final DeferredBlock<Block> STEW_STOVE_BLOCK = BLOCKS.registerBlock("stew_stove",
             StewStoveBlock::new,BlockBehaviour.Properties.of());
+    public static final DeferredBlock<Block> FERMENTATION_BARREL_BLOCK = BLOCKS.registerBlock("fermentation_barrel",
+            FermentationBarrelBlock::new,BlockBehaviour.Properties.of());
 
     //BlockItems
     public static void registerBlockItems() {
         ModItems.ITEMS.registerSimpleBlockItem("stew_stove", STEW_STOVE_BLOCK, new Item.Properties());
+        ModItems.ITEMS.registerSimpleBlockItem("fermentation_barrel", FERMENTATION_BARREL_BLOCK, new Item.Properties());
     }
 
     public static void register(IEventBus eventBus) {

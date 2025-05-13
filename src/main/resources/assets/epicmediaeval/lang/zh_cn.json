@@ -60,6 +60,11 @@
   "item.epicmediaeval.onion": "洋葱",
 
   "block.epicmediaeval.stew_stove": "煲汤炉",
+  "block.epicmediaeval.fermentation_barrel": "发酵桶",
+
+  "container.stew_stove.text": "煲汤炉",
+  "container.fermentation_barrel.text": "发酵桶",
+  "recipe_book.stew_stove.tooltip":"配方书",
 
   "itemGroup.epic_mediaeval_food_item_tab": "中世纪食物"
 }

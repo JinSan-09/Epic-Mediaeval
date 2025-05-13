@@ -60,8 +60,11 @@
   "item.epicmediaeval.onion": "Onion",
 
   "block.epicmediaeval.stew_stove": "Stew stove",
+  "block.epicmediaeval.fermentation_barrel": "Fermentation barrel",
 
   "container.stew_stove.text": "Stew Stove",
+  "container.fermentation_barrel.text": "Fermentation barrel",
+  "recipe_book.stew_stove.tooltip":"Recipe book",
 
   "itemGroup.epic_mediaeval_food_item_tab":"Epic Mediaeval Food"
 }

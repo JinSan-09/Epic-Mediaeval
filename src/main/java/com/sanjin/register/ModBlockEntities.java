@@ -1,6 +1,7 @@
 package com.sanjin.register;
 
 import com.sanjin.EpicMediaeval;
+import com.sanjin.entity.blockentity.FermentationBarrelBlockEntity;
 import com.sanjin.entity.blockentity.StewStoveBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -15,6 +16,8 @@ public class ModBlockEntities {
 
     public static final Supplier<BlockEntityType<StewStoveBlockEntity>> STEW_STOVE_BLOCK_ENTITY = TILES.register("stew_stove", () ->
             new BlockEntityType<>(StewStoveBlockEntity::new, ModBlocks.STEW_STOVE_BLOCK.get()));
+    public static final Supplier<BlockEntityType<FermentationBarrelBlockEntity>> FERMENTATION_BARREL_BLOCK_ENTITY = TILES.register("fermentation_barrel", () ->
+            new BlockEntityType<>(FermentationBarrelBlockEntity::new, ModBlocks.FERMENTATION_BARREL_BLOCK.get()));
 
     public static void register(IEventBus eventBus) {
         TILES.register(eventBus);

@@ -1,29 +1,27 @@
 package com.sanjin.menu;
 
 import com.sanjin.register.ModBlocks;
-import com.sanjin.register.ModItems;
 import com.sanjin.register.ModMenus;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class StewStoveMenu extends AbstractContainerMenu {
+public class FermentationBarrelMenu extends AbstractContainerMenu {
 
     private final ContainerLevelAccess access;
     private final ContainerData data;
 
-    public StewStoveMenu(int id, Inventory playerInventory) {
-        this(id, playerInventory, new ItemStackHandler(8),ContainerLevelAccess.NULL, new SimpleContainerData(4));
+    public FermentationBarrelMenu(int id, Inventory playerInventory) {
+        this(id, playerInventory, new ItemStackHandler(4),ContainerLevelAccess.NULL, new SimpleContainerData(1));
     }
 
-    public StewStoveMenu(int id, Inventory playerInv, IItemHandler dataInv, ContainerLevelAccess access, ContainerData data) {
-        super(ModMenus.STEW_STOVE_MENU.get(), id);
+    public FermentationBarrelMenu(int id, Inventory playerInv, IItemHandler dataInv, ContainerLevelAccess access, ContainerData data) {
+        super(ModMenus.FERMENTATION_BARREL_MENU.get(), id);
         this.access = access;
         this.data = data;
 
@@ -33,26 +31,10 @@ public class StewStoveMenu extends AbstractContainerMenu {
             int row   = i / 2;
             int col   = i % 2;
             int xPos  = 71 + col * 18;
-            int yPos  = 15 + row * 18;
+            int yPos  = 24 + row * 18;
             this.addSlot(new SlotItemHandler(dataInv, i, xPos, yPos));
         }
-        this.addSlot(new SlotItemHandler(dataInv, 4, 44, 61) {
-            @Override public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.getItem() == Items.WATER_BUCKET || stack.getItem() == net.minecraft.world.item.Items.BUCKET;
-            }
-        });
-        this.addSlot(new SlotItemHandler(dataInv, 5, 80, 61) );
-        this.addSlot(new SlotItemHandler(dataInv, 6, 145, 47) {
-            @Override public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.is(ModItems.LARGE_WOODEN_BOWL) || stack.is(ModItems.WOODEN_BOWL);
-            }
-        });
-        this.addSlot(new SlotItemHandler(dataInv, 7, 145, 24) {
-            @Override public boolean mayPlace(@NotNull ItemStack stack) {
-                return false;
-            }
-        });
-        //Payer Menu
+
         int invY = 84;
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
@@ -67,19 +49,8 @@ public class StewStoveMenu extends AbstractContainerMenu {
         }
     }
 
-    public int getWaterLevel() {
-        return this.data.get(0);
-    }
-    public int getBurnTime() {
-        return this.data.get(1);
-    }
-    public int getCookTime() {
-        return this.data.get(2);
-    }
-    public int getCookTimeTotal(){return this.data.get(3);}
-
-    public Player getPlayer() {
-        return null;
+    public ContainerData getData() {
+        return data;
     }
 
     @Override
@@ -124,7 +95,6 @@ public class StewStoveMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NotNull Player player) {
-        return AbstractContainerMenu.stillValid(this.access, player, ModBlocks.STEW_STOVE_BLOCK.get());
+        return AbstractContainerMenu.stillValid(this.access, player, ModBlocks.FERMENTATION_BARREL_BLOCK.get());
     }
-
 }
