@@ -66,5 +66,7 @@
   "container.fermentation_barrel.text": "发酵桶",
   "recipe_book.stew_stove.tooltip":"配方书",
 
-  "itemGroup.epic_mediaeval_food_item_tab": "中世纪食物"
+  "itemGroup.epic_mediaeval_food_item_tab": "中世纪食物",
+
+  "message.fermentation_barrel.wrong_container": "需要正确的容器!"
 }

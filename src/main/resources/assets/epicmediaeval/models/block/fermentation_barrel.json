@@ -1,41 +1,40 @@
 {
 	"textures": {
-		"0": "epicmediaeval:block/fermentation_barrel_base",
-		"1": "epicmediaeval:block/fermentation_barrel_top",
 		"2": "epicmediaeval:block/fermentation_barrel_handle",
-		"particle": "epicmediaeval:block/fermentation_barrel_base"
+		"3": "epicmediaeval:block/fermentation_barrel_base",
+		"5": "epicmediaeval:block/fermentation_barrel_top",
+		"particle": "epicmediaeval:block/fermentation_barrel_handle"
 	},
 	"elements": [
 		{
-			"name": "barrel_base",
+			"name": "base",
 			"from": [1, 0, 1],
 			"to": [15, 13, 15],
 			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 1]},
 			"faces": {
-				"north": {"uv": [3.5, 0, 7, 3.25], "texture": "#0"},
-				"east": {"uv": [3.5, 3.25, 7, 6.5], "texture": "#0"},
-				"south": {"uv": [3.5, 6.5, 7, 9.75], "texture": "#0"},
-				"west": {"uv": [0, 7, 3.5, 10.25], "texture": "#0"},
-				"up": {"uv": [3.5, 3.5, 0, 0], "texture": "#0"},
-				"down": {"uv": [3.5, 3.5, 0, 7], "texture": "#0"}
+				"north": {"uv": [3.5, 0, 7, 3.25], "texture": "#3"},
+				"east": {"uv": [3.5, 3.25, 7, 6.5], "texture": "#3"},
+				"south": {"uv": [3.5, 6.5, 7, 9.75], "texture": "#3"},
+				"west": {"uv": [0, 7, 3.5, 10.25], "texture": "#3"},
+				"up": {"uv": [3.5, 3.5, 0, 0], "texture": "#3"},
+				"down": {"uv": [3.5, 3.5, 0, 7], "texture": "#3"}
 			}
 		},
 		{
-			"name": "barrel_top",
+			"name": "top",
 			"from": [0, 13, 0],
 			"to": [16, 15, 16],
-			"rotation": {"angle": 0, "axis": "y", "origin": [0, -1, 0]},
 			"faces": {
-				"north": {"uv": [8, 0, 16, 1], "texture": "#1"},
-				"east": {"uv": [8, 1, 16, 2], "texture": "#1"},
-				"south": {"uv": [8, 2, 16, 3], "texture": "#1"},
-				"west": {"uv": [8, 3, 16, 4], "texture": "#1"},
-				"up": {"uv": [8, 8, 0, 0], "texture": "#1"},
-				"down": {"uv": [8, 8, 0, 16], "texture": "#1"}
+				"north": {"uv": [8, 0, 16, 1], "texture": "#5"},
+				"east": {"uv": [8, 1, 16, 2], "texture": "#5"},
+				"south": {"uv": [8, 2, 16, 3], "texture": "#5"},
+				"west": {"uv": [8, 3, 16, 4], "texture": "#5"},
+				"up": {"uv": [8, 8, 0, 0], "texture": "#5"},
+				"down": {"uv": [8, 8, 0, 16], "texture": "#5"}
 			}
 		},
 		{
-			"name": "barrel_handle",
+			"name": "handle",
 			"from": [2, 15, 2],
 			"to": [5, 16, 5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [2, 0, 2]},
@@ -51,28 +50,31 @@
 	],
 	"display": {
 		"thirdperson_righthand": {
-			"rotation": [45, -45, 0],
-			"scale": [0.3, 0.3, 0.3]
+			"rotation": [45, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
 		},
 		"thirdperson_lefthand": {
-			"rotation": [45, -45, 0],
-			"scale": [0.3, 0.3, 0.3]
+			"rotation": [45, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
 		},
 		"firstperson_righthand": {
-			"scale": [0.45, 0.45, 0.45]
+			"rotation": [45, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
 		},
 		"firstperson_lefthand": {
-			"scale": [0.45, 0.45, 0.45]
+			"rotation": [45, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
 		},
 		"ground": {
-			"scale": [0.3, 0.3, 0.3]
+			"rotation": [0, 1, 0],
+			"scale": [0.4, 0.4, 0.4]
 		},
 		"gui": {
-			"rotation": [25, -45, 0],
-			"scale": [0.55, 0.55, 0.55]
+			"rotation": [20, 135, 0],
+			"scale": [0.5, 0.5, 0.5]
 		},
 		"fixed": {
-			"scale": [0.6, 0.6, 0.6]
+			"scale": [0.65, 0.65, 0.65]
 		}
 	}
 }

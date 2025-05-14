@@ -1,8 +1,13 @@
 {
   "variants":{
-    "facing=north": {"model": "epicmediaeval:block/fermentation_barrel"},
-    "facing=south": {"model": "epicmediaeval:block/fermentation_barrel", "y": 180},
-    "facing=west": {"model": "epicmediaeval:block/fermentation_barrel", "y": 270},
-    "facing=east": {"model": "epicmediaeval:block/fermentation_barrel", "y": 90}
+    "facing=north,full=false": {"model": "epicmediaeval:block/fermentation_barrel"},
+    "facing=west,full=false": {"model": "epicmediaeval:block/fermentation_barrel", "y": 270},
+    "facing=south,full=false": {"model": "epicmediaeval:block/fermentation_barrel", "y": 180},
+    "facing=east,full=false": {"model": "epicmediaeval:block/fermentation_barrel", "y": 90},
+
+    "facing=north,full=true": {"model": "epicmediaeval:block/fermentation_barrel"},
+    "facing=west,full=true": {"model": "epicmediaeval:block/fermentation_barrel", "y": 270},
+    "facing=south,full=true": {"model": "epicmediaeval:block/fermentation_barrel", "y": 180},
+    "facing=east,full=true": {"model": "epicmediaeval:block/fermentation_barrel", "y": 90}
   }
 }

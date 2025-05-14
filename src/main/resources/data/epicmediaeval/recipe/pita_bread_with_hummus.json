@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "food",
   "key": {
-    "G": "epicmediaeval:dough",
+    "D": "epicmediaeval:dough",
     "C": "epicmediaeval:chickpea",
     "W": "epicmediaeval:white_porcelain_dish"
   },

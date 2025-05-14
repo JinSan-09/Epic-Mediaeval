@@ -6,20 +6,29 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class FermentationBarrelRecipeInput implements RecipeInput {
 
-    public static final FermentationBarrelRecipeInput EMPTY = new FermentationBarrelRecipeInput(NonNullList.withSize(4, ItemStack.EMPTY), ItemStack.EMPTY);
+    public static final FermentationBarrelRecipeInput EMPTY = new FermentationBarrelRecipeInput(NonNullList.withSize(4, ItemStack.EMPTY));
     private final NonNullList<ItemStack> ingredients;
     private final ItemStack container;
     private final StackedItemContents stackedItemContents = new StackedItemContents();
     private final int nonEmptyIngredientCount;
 
-    public FermentationBarrelRecipeInput(NonNullList<ItemStack> ingredients, ItemStack container) {
+    public FermentationBarrelRecipeInput(NonNullList<ItemStack> ingredients) {
         this.ingredients = ingredients;
-        this.container = container;
+        this.container = ItemStack.EMPTY;
         this.nonEmptyIngredientCount = ingredients.size();
     }
 
+    public static FermentationBarrelRecipeInput of(List<ItemStack> ingredients) {
+        NonNullList<ItemStack> list = NonNullList.withSize(4, ItemStack.EMPTY);
+        for (int i = 0; i < Math.min(4, ingredients.size()); i++) {
+            list.set(i, ingredients.get(i));
+        }
+        return new FermentationBarrelRecipeInput(list);
+    }
     public NonNullList<ItemStack> getIngredients(){
         return this.ingredients;
     }

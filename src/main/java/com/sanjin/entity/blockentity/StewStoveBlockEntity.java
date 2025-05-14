@@ -81,7 +81,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         blockEntity.updateData();
         blockEntity.setChanged();
     }
-    public  void tick( BlockPos pos, BlockState state) {
+    public void tick( BlockPos pos, BlockState state) {
         addWater(level);
         // Check if the Stew stove should be lit
         if (burnTime > 0) {
@@ -121,18 +121,11 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     }
     public void updateHasSoupState() {
         if (this.level != null && !this.level.isClientSide()) {
-            // 检查输出槽是否有物品
             boolean hasSoup = !inventory.getStackInSlot(OUTPUT_SLOT).isEmpty();
-
-            // 获取当前方块状态
             BlockState currentState = this.level.getBlockState(this.worldPosition);
-
-            // 如果状态不同，更新方块状态
             if (currentState.getValue(StewStoveBlock.HAS_SOUP) != hasSoup) {
                 this.level.setBlock(
-                        this.worldPosition,
-                        currentState.setValue(StewStoveBlock.HAS_SOUP, hasSoup), 3 // 发送到客户端的标志
-                );
+                        this.worldPosition, currentState.setValue(StewStoveBlock.HAS_SOUP, hasSoup), 3);
             }
         }
     }
@@ -185,7 +178,6 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         }
     }
     private void consumeIngredients() {
-        // 从材料槽中查找并消耗所需材料
         for (int i = MATERIAL_SLOTS_START; i < MATERIAL_SLOTS_COUNT; i++) {
             ItemStack stack = inventory.getStackInSlot(i);
             if (!stack.isEmpty() && stack.getCount() > 1) {
@@ -309,7 +301,6 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         this.inventory.deserializeNBT(provider, inventoryTag);
 
         if (level != null) {
-            // 更新点燃状态
             BlockState newState = getBlockState();
             if (burnTime > 0) {
                 newState = newState.setValue(StewStoveBlock.LIT, true);
@@ -317,11 +308,9 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
                 newState = newState.setValue(StewStoveBlock.LIT, false);
             }
 
-            // 更新输出状态
             boolean hasSoup = !inventory.getStackInSlot(OUTPUT_SLOT).isEmpty();
             newState = newState.setValue(StewStoveBlock.HAS_SOUP, hasSoup);
 
-            // 应用状态更新
             level.setBlock(worldPosition, newState, 3);
         }
     }

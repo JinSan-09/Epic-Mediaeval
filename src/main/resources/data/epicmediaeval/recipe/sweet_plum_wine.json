@@ -1,0 +1,19 @@
+{
+  "type": "epicmediaeval:fermentation_barrel",
+  "group": "wine",
+  "ingredients": [
+    "epicmediaeval:plum",
+    "epicmediaeval:plum",
+    "epicmediaeval:plum",
+    "epicmediaeval:plum"
+  ],
+  "result": {
+    "id": "epicmediaeval:sweet_plum_wine",
+    "count": 1
+  },
+  "container": {
+    "id": "epicmediaeval:wine_bottle"
+  },
+  "experience": 0.35,
+  "cooking_time": 100
+}

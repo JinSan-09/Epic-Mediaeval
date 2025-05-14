@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "food",
   "key": {
-    "P": "epicmediaeval:cooked_porkchop",
-    "C": "epicmediaeval:carrot",
+    "P": "minecraft:cooked_porkchop",
+    "C": "minecraft:carrot",
     "W": "epicmediaeval:white_porcelain_dish"
   },
   "pattern": [

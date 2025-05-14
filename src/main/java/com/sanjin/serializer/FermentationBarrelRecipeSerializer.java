@@ -25,7 +25,7 @@ public class FermentationBarrelRecipeSerializer implements RecipeSerializer<Ferm
                             ItemStack.CODEC.fieldOf("result").forGetter(FermentationBarrelRecipe::getResult),
                             ItemStack.CODEC.fieldOf("container").forGetter(FermentationBarrelRecipe::getContainer),
                             Codec.FLOAT.optionalFieldOf("experience",0.0f).forGetter(FermentationBarrelRecipe::getExperience),
-                            Codec.INT.optionalFieldOf("cooking_time",300).forGetter(FermentationBarrelRecipe::getCookingTime))
+                            Codec.INT.optionalFieldOf("cooking_time",300).forGetter(FermentationBarrelRecipe::getFermentationTime))
                     .apply(instance, FermentationBarrelRecipe::new)
 
     );
@@ -61,7 +61,7 @@ public class FermentationBarrelRecipeSerializer implements RecipeSerializer<Ferm
         ItemStack.STREAM_CODEC.encode(buffer, recipe.getResult());
         ItemStack.STREAM_CODEC.encode(buffer, recipe.getContainer());
         buffer.writeFloat(recipe.getExperience());
-        buffer.writeVarInt(recipe.getCookingTime());
+        buffer.writeVarInt(recipe.getFermentationTime());
     }
 
     @Override

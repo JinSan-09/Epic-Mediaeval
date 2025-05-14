@@ -20,13 +20,13 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
     private final ItemStack output;
     private final ItemStack container;
     private final float experience;
-    private final int cookingTime;
+    private final int fermentationTime;
     public FermentationBarrelRecipe(NonNullList<Ingredient> inputs, ItemStack output, ItemStack container, float experience, int cookingTime) {
         this.inputs = inputs;
         this.output = output;
         this.container = container;
         this.experience = experience;
-        this.cookingTime = cookingTime;
+        this.fermentationTime = cookingTime;
     }
 
     public NonNullList<Ingredient> getInputs(){
@@ -41,8 +41,8 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
     public float getExperience(){
         return this.experience;
     }
-    public int getCookingTime(){
-        return this.cookingTime;
+    public int getFermentationTime(){
+        return this.fermentationTime;
     }
 
     // ========= Check whether there is a matched recipe =========
@@ -99,7 +99,7 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
         FermentationBarrelRecipe that = (FermentationBarrelRecipe) o;
 
         if (Float.compare(that.getExperience(), getExperience()) != 0) return false;
-        if (getCookingTime() != that.getCookingTime()) return false;
+        if (getFermentationTime() != that.getFermentationTime()) return false;
         if (!inputs.equals(that.inputs)) return false;
         if (!output.equals(that.output)) return false;
         return container.equals(that.container);
@@ -121,7 +121,7 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
         result = 31 * result + output.hashCode();
         result = 31 * result + container.hashCode();
         result = 31 * result + (getExperience() != 0.0f ? Float.floatToIntBits(getExperience()) : 0);
-        result = 31 * result + getCookingTime();
+        result = 31 * result + getFermentationTime();
         return result;
     }
 

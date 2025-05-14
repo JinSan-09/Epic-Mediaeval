@@ -3,7 +3,7 @@
   "category": "food",
   "key": {
     "H": "epicmediaeval:horseradish",
-    "C": "minecraft:cooked_rabbit",
+    "R": "minecraft:cooked_rabbit",
     "W": "epicmediaeval:white_porcelain_dish"
   },
   "pattern": [

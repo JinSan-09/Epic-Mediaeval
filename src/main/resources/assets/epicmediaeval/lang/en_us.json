@@ -66,5 +66,7 @@
   "container.fermentation_barrel.text": "Fermentation barrel",
   "recipe_book.stew_stove.tooltip":"Recipe book",
 
-  "itemGroup.epic_mediaeval_food_item_tab":"Epic Mediaeval Food"
+  "itemGroup.epic_mediaeval_food_item_tab":"Epic Mediaeval Food",
+
+  "message.fermentation_barrel.wrong_container": "Need correct container!"
 }

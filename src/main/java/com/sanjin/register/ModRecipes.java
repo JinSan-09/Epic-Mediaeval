@@ -15,10 +15,10 @@ public class ModRecipes {
 
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, EpicMediaeval.MODID);
 
-    public static final Supplier<RecipeType<StewStoveRecipe>> STEW_STOVE_RECIPE_TYPE = RECIPE_TYPES.register("stew_stove_recipe",
-            () -> new RecipeType<>() {@Override public String toString() {return EpicMediaeval.MODID + ":stew_stove_recipe";}});
-    public static final Supplier<RecipeType<FermentationBarrelRecipe>> FERMENTATION_BARREL_RECIPE = RECIPE_TYPES.register("fermentation_barrel_recipe",
-            () -> new RecipeType<>() {@Override public String toString(){return EpicMediaeval.MODID + ":fermentation_barrel_recipe";}});
+    public static final Supplier<RecipeType<StewStoveRecipe>> STEW_STOVE_RECIPE_TYPE = RECIPE_TYPES.register("stew_stove",
+            () -> new RecipeType<>() {@Override public String toString() {return EpicMediaeval.MODID + ":stew_stove";}});
+    public static final Supplier<RecipeType<FermentationBarrelRecipe>> FERMENTATION_BARREL_RECIPE = RECIPE_TYPES.register("fermentation_barrel",
+            () -> new RecipeType<>() {@Override public String toString(){return EpicMediaeval.MODID + ":fermentation_barrel";}});
 
 
     public static void register(IEventBus eventBus) {

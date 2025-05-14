@@ -5,11 +5,11 @@
       "condition": "minecraft:killed_by_player"
     },
     {
-      "condition": "random_chance_with_looting",
+      "condition": "minecraft:random_chance_with_looting",
       "chance": 0.1,
       "looting_multiplier": 0.05
     }
   ],
   "target": "minecraft:entities/cow",
-  "table": "epicmediaeval:entities/cow"
+  "table": "epicmediaeval:entities/cow_with_oxtail"
 }

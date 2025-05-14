@@ -123,10 +123,7 @@ public class ModItems {
     public static final DeferredItem<Item> OATS = ITEMS.registerSimpleItem("oats",
             new Item.Properties());
     public static final DeferredItem<Item> ONION = ITEMS.register("onion",
-            registryName -> {
-                ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
-                return new OnionItem(new Item.Properties().setId(key));
-    });
+            registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);return new OnionItem(new Item.Properties().setId(key));});
     public static final DeferredItem<Item> OXTAIL = ITEMS.registerSimpleItem("oxtail",
             new Item.Properties());
     public static final DeferredItem<Item> PLUM = ITEMS.registerSimpleItem("plum",
