@@ -1,9 +1,12 @@
 package com.sanjin.register;
 
 import com.sanjin.EpicMediaeval;
+import com.sanjin.item.BarleyWineItem;
 import com.sanjin.item.OnionItem;
+import com.sanjin.item.SweetPlumWineItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
@@ -12,6 +15,8 @@ import net.minecraft.world.item.component.Consumable;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.List;
 
 public class ModItems {
 
@@ -27,7 +32,7 @@ public class ModItems {
     public static final DeferredItem<Item> WINE_BOTTLE = ITEMS.registerSimpleItem("wine_bottle",
             new Item.Properties().stacksTo(32));
 
-    // Food items
+    // Dishes items
     public static final DeferredItem<Item> BARLEY_BEEF_STEW = ITEMS.registerSimpleItem("barley_beef_stew",
             new Item.Properties().food(ModComponents.HIGH_GRADE_FOOD));
     public static final DeferredItem<Item> BACON_WHITE_BEANS = ITEMS.registerSimpleItem("bacon_white_beans",
@@ -90,12 +95,37 @@ public class ModItems {
             new Item.Properties().food(ModComponents.HIGH_GRADE_FOOD));
     public static final DeferredItem<Item> SWEET_COOKIE = ITEMS.registerSimpleItem("sweet_cookie",
             new Item.Properties().food(ModComponents.HIGH_GRADE_FOOD));
-    public static final DeferredItem<Item> SWEET_PLUM_WINE = ITEMS.registerSimpleItem("sweet_plum_wine",
-            new Item.Properties().component(DataComponents.CONSUMABLE,Consumable.builder().consumeSeconds(2.0f).animation(ItemUseAnimation.DRINK).sound(SoundEvents.GENERIC_DRINK).soundAfterConsume(SoundEvents.GENERIC_DRINK).hasConsumeParticles(false).build()));
     public static final DeferredItem<Item> VEGETABLE_SALAD = ITEMS.registerSimpleItem("vegetable_salad",
             new Item.Properties().food(ModComponents.HIGH_GRADE_FOOD));
     public static final DeferredItem<Item> VENISON_PIE = ITEMS.registerSimpleItem("venison_pie",
             new Item.Properties().food(ModComponents.HIGH_GRADE_FOOD));
+
+    // Wine items
+    public static final DeferredItem<Item> SWEET_PLUM_WINE = ITEMS.register("sweet_plum_wine",
+            registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
+                return new SweetPlumWineItem(new Item.Properties()
+                        .setId(key)
+                        .component(DataComponents.CONSUMABLE, Consumable.builder().consumeSeconds(2.0f).animation(ItemUseAnimation.DRINK).sound(SoundEvents.GENERIC_DRINK).soundAfterConsume(SoundEvents.GENERIC_DRINK).hasConsumeParticles(false).build())
+                        .stacksTo(1),
+                        false,
+                        List.of(
+                                Component.translatable("item.sweet_plum_wine.text1"),
+                                Component.translatable("item.sweet_plum_wine.text2")
+                        )
+                );}
+    );
+    public static final DeferredItem<Item> BARLEY_WINE = ITEMS.register("barley_wine",
+            registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
+                return new BarleyWineItem(new Item.Properties()
+                        .setId(key).component(DataComponents.CONSUMABLE, Consumable.builder().consumeSeconds(2.0f).animation(ItemUseAnimation.DRINK).sound(SoundEvents.GENERIC_DRINK).soundAfterConsume(SoundEvents.GENERIC_DRINK).hasConsumeParticles(false).build())
+                        .stacksTo(1),
+                        false,
+                        List.of(
+                                Component.translatable("item.barley_wine.text1"),
+                                Component.translatable("item.barley_wine.text2")
+                        )
+                );}
+    );
 
     // Primitives items
     public static final DeferredItem<Item> BARLEY = ITEMS.registerSimpleItem("barley",

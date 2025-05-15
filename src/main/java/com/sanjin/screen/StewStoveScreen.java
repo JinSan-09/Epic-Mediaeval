@@ -67,7 +67,6 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
         super.render(graphics, mouseX, mouseY, partialTicks);
         this.renderBackground(graphics,mouseX,mouseY,partialTicks);
         this.renderTooltip(graphics, mouseX, mouseY);
-
     }
 
     @Override
@@ -81,12 +80,10 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
                 256,256
         );
 
+        // Print water level
         int waterLevel = this.menu.getWaterLevel();
         if (waterLevel > 0) {
-            // calculate the waterLevel, max is 10
             int waterHeight = (waterLevel * WATER_METER_HEIGHT) / 10;
-
-            // print waterLevel
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
@@ -98,13 +95,20 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
             );
         }
 
+        // Print fire level
         int burnTime = this.menu.getBurnTime();
+        int fireHeight;
         if (burnTime > 0) {
             if (MAX_FIRE_HEIGHT < burnTime) {
                 MAX_FIRE_HEIGHT = burnTime;
             }
-            double burnRatio = (double) burnTime / (double) MAX_FIRE_HEIGHT;
-            int fireHeight = Math.toIntExact(Math.round(FIRE_HEIGHT * burnRatio));
+            double burnRatio = (double) burnTime / MAX_FIRE_HEIGHT;
+            double fireHeightRaw = FIRE_HEIGHT * burnRatio;
+            if (fireHeightRaw > 0.0 && fireHeightRaw < 1.0) {
+                fireHeight = 1;
+            }else {
+                fireHeight = (int) fireHeightRaw;
+            }
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
@@ -118,6 +122,7 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
             MAX_FIRE_HEIGHT = 0;
         }
 
+        // Print progress level
         int cookTime = this.menu.getCookTime();
         int cookTimeTotal = this.menu.getCookTimeTotal();
         if (cookTime > 0) {

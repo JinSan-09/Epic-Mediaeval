@@ -17,7 +17,7 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public FermentationBarrelMenu(int id, Inventory playerInventory) {
-        this(id, playerInventory, new ItemStackHandler(4),ContainerLevelAccess.NULL, new SimpleContainerData(1));
+        this(id, playerInventory, new ItemStackHandler(4),ContainerLevelAccess.NULL, new SimpleContainerData(2));
     }
 
     public FermentationBarrelMenu(int id, Inventory playerInv, IItemHandler dataInv, ContainerLevelAccess access, ContainerData data) {
@@ -49,48 +49,42 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
         }
     }
 
-    public ContainerData getData() {
-        return data;
-    }
+    public int getFermentationTime(){return this.data.get(0);}
+    public int getFermentationTotal(){return this.data.get(1);}
 
     @Override
-    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int quickMovedSlotIndex) {
-        ItemStack quickMovedStack = ItemStack.EMPTY;
-        Slot quickMovedSlot = this.slots.get(quickMovedSlotIndex);
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
+        Slot slot = this.slots.get(index);
+        if (slot.hasItem()) {
+            ItemStack original = slot.getItem();
+            ItemStack copy = original.copy();
 
-        if (quickMovedSlot.hasItem()) {
-            ItemStack rawStack = quickMovedSlot.getItem();
-            quickMovedStack = rawStack.copy();
+            int containerSlots = 4;
+            int playerInventoryEnd = containerSlots + 27;
+            int hotbarEnd = playerInventoryEnd + 9;
 
-            if (quickMovedSlotIndex == 0) {
-                if (!this.moveItemStackTo(rawStack, 5, 41, true)) {
+            if (index < containerSlots) {
+                if (!moveItemStackTo(original, containerSlots, hotbarEnd, true)) {
                     return ItemStack.EMPTY;
                 }
-            }else if (quickMovedSlotIndex >= 5 && quickMovedSlotIndex < 41) {
-                if (!this.moveItemStackTo(rawStack, 1, 5, false)) {
-                    if (quickMovedSlotIndex < 32) {
-                        if (!this.moveItemStackTo(rawStack, 32, 41, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    }
-                    else if (!this.moveItemStackTo(rawStack, 5, 32, false)) {
-                        return ItemStack.EMPTY;
-                    }
+            } else if (index < playerInventoryEnd) {
+                if (!moveItemStackTo(original, 0, containerSlots, false)) {
+                    return ItemStack.EMPTY;
                 }
-            }else if (!this.moveItemStackTo(rawStack, 5, 41, false)) {
-                return ItemStack.EMPTY;
-            }
-            if (rawStack.isEmpty()) {
-                quickMovedSlot.set(ItemStack.EMPTY);
             } else {
-                quickMovedSlot.setChanged();
+                if (!moveItemStackTo(original, 0, containerSlots, false)) {
+                    return ItemStack.EMPTY;
+                }
             }
-            if (rawStack.getCount() == quickMovedStack.getCount()) {
-                return ItemStack.EMPTY;
+
+            if (original.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
             }
-            quickMovedSlot.onTake(player, rawStack);
+            return copy;
         }
-        return quickMovedStack;
+        return ItemStack.EMPTY;
     }
 
     @Override

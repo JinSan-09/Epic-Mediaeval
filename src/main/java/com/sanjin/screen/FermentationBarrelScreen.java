@@ -14,6 +14,13 @@ public class FermentationBarrelScreen extends AbstractContainerScreen<Fermentati
 
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID,"textures/gui/container/fermentation_barrel_gui.png");
 
+    private static final int BUBBLE_X = 119;
+    private static final int BUBBLE_Y = 17;
+    private static final int BUBBLE_WIDTH = 27;
+    private static final int BUBBLE_HEIGHT = 44;
+    private static final int BUBBLE_U = 176;
+    private static final int BUBBLE_V = 0;
+
     public FermentationBarrelScreen(FermentationBarrelMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageWidth = 176;
@@ -28,6 +35,21 @@ public class FermentationBarrelScreen extends AbstractContainerScreen<Fermentati
                 this.leftPos, this.topPos,
                 0, 0,
                 this.imageWidth, this.imageHeight,
+                256,256
+        );
+
+        // Print bubble level
+        int bubbleLevel;
+        int time = this.menu.getFermentationTime();
+        int totalTime = this.menu.getFermentationTotal();
+        double ratioTime = (double)time / totalTime;
+        bubbleLevel = (int) (BUBBLE_HEIGHT * ratioTime);
+        guiGraphics.blit(
+                RenderType::guiTextured,
+                TEXTURE,
+                this.leftPos + BUBBLE_X, this.topPos + BUBBLE_Y + (BUBBLE_HEIGHT - bubbleLevel),
+                BUBBLE_U, BUBBLE_V + (BUBBLE_HEIGHT - bubbleLevel),
+                BUBBLE_WIDTH, bubbleLevel,
                 256,256
         );
     }

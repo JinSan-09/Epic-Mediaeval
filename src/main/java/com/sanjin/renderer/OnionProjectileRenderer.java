@@ -30,22 +30,17 @@ public class OnionProjectileRenderer extends ThrownItemRenderer<OnionProjectile>
         this.shadowStrength = 0.4F;
     }
 
-    public void render(OnionProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-
-        // 处理物品的旋转
+    //OnionProjectile entity, float partialTicks
+    public void render(OnionProjectile entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
-
-        // 根据飞行时间调整缩放大小，让洋葱看起来在"翻滚"
         float scale = MIN_SCALE + (MAX_SCALE - MIN_SCALE) *
                 (0.5F + 0.5F * Mth.sin(entity.tickCount * 0.3F));
         poseStack.scale(scale, scale, scale);
 
-        // 围绕y轴旋转
         poseStack.mulPose(Axis.YP.rotationDegrees(
                 (entity.tickCount + partialTicks) * 80.0F
         ));
 
-        // 围绕x和z轴稍微倾斜
         float tiltX = Mth.sin((entity.tickCount + partialTicks) * 0.1F) * 15.0F;
         float tiltZ = Mth.cos((entity.tickCount + partialTicks) * 0.1F) * 15.0F;
         poseStack.mulPose(Axis.XP.rotationDegrees(tiltX));
@@ -54,7 +49,6 @@ public class OnionProjectileRenderer extends ThrownItemRenderer<OnionProjectile>
         ItemStack itemstack = entity.getItem();
         BakedModel bakedModel = this.itemRenderer.getModel(itemstack, entity.level(), null, entity.getId());
 
-        // 渲染物品
         this.itemRenderer.render(
                 itemstack,
                 ItemDisplayContext.GROUND,

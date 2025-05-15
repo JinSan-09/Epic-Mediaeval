@@ -24,6 +24,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -34,6 +35,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class FermentationBarrelBlockEntity extends BlockEntity implements MenuProvider, EntityBlock {
@@ -51,33 +53,16 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-            // 当物品栏内容变化时，如果不在发酵中且桶未满，尝试开始新的发酵
             if (!isFermentation && fermentedProductCount == 0) {
                 tryStartFermentation();
             }
         }
     };
-    private final ContainerData data = new SimpleContainerData(2){
-        @Override
-        public int get(int index) {
-            return switch (index) {
-                case 0 -> fermentationTime;
-                case 1 -> fermentationTimeTotal;
-                default -> 0;
-            };
-        }
-
-        @Override
-        public void set(int index, int value) {
-            switch (index) {
-                case 0 -> fermentationTime = value;
-                case 1 -> fermentationTimeTotal = value;
-            }
-        }
-    };
+    private final ContainerData data = new SimpleContainerData(2);
     private ItemStack currentFermentationResult = ItemStack.EMPTY;
     private ItemStack currentRequiredContainer = ItemStack.EMPTY;
-    private int fermentedProductCount = 0;
+    private String group;
+    private int fermentedProductCount;
 
     public FermentationBarrelBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.FERMENTATION_BARREL_BLOCK_ENTITY.get(), pos, blockState);
@@ -91,11 +76,18 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
     // ========== Tick logic =========
     public static void serverTick(Level level, BlockPos pos, BlockState state, FermentationBarrelBlockEntity blockEntity) {
         blockEntity.tick(pos, state);
+        blockEntity.updateData();
         blockEntity.tryStartFermentation();
         blockEntity.setChanged();
     }
     public void tick(BlockPos pos, BlockState state) {
         if (isFermentation) {
+            Optional<FermentationBarrelRecipe> recipe = getValidRecipe();
+            if (recipe.isEmpty()) {
+                isFermentation = false;
+                fermentationTime = 0;
+                return;
+            }
             if (level != null && level.getGameTime() % 20 == 0) {
                 level.playSound(null, worldPosition, SoundEvents.BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundSource.BLOCKS, 0.3f, 1.0f);
             }
@@ -116,6 +108,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
             this.currentRecipe = recipe.get();
             this.currentFermentationResult = currentRecipe.getResult().copy();
             this.currentRequiredContainer = currentRecipe.getContainer().copy();
+            this.group = currentRecipe.getGroup();
             startFermentation();
         }
     }
@@ -150,7 +143,11 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
                 stack.shrink(1);
                 inventory.setStackInSlot(i, stack);
             }else {
-                inventory.setStackInSlot(i, ItemStack.EMPTY);
+                if (stack.getItem() == Items.MILK_BUCKET || stack.getItem() == Items.WATER_BUCKET) {
+                    inventory.setStackInSlot(i, Items.BUCKET.getDefaultInstance());
+                }else {
+                    inventory.setStackInSlot(i, ItemStack.EMPTY);
+                }
             }
         }
     }
@@ -176,15 +173,14 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
         return !heldItem.isEmpty() && heldItem.getItem() == requiredContainer.getItem();
     }
     public InteractionResult extractFermentedItem(Player player, ItemStack heldItem){
-        if (fermentedProductCount <= 0 || currentFermentationResult.isEmpty() || currentRequiredContainer.isEmpty()) {
+        if (fermentedProductCount <= 0 || currentFermentationResult.isEmpty() || currentRequiredContainer.isEmpty()){
             return InteractionResult.PASS;
         }
 
         // If the container in player's hand is not correct
         if (!isMatchingContainer(heldItem, currentRequiredContainer)) {
             if (level != null && !level.isClientSide) {
-                player.displayClientMessage(
-                        Component.translatable("message.fermentation_barrel.wrong_container", currentRequiredContainer.getDisplayName()), true);
+                player.displayClientMessage(Component.translatable("message.fermentation_barrel.wrong_container", currentRequiredContainer.getDisplayName()), true);
             }
             return InteractionResult.FAIL;
         }
@@ -204,7 +200,13 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
                 level.setBlock(getBlockPos(), getBlockState().setValue(FermentationBarrelBlock.FULL, false), 3);
                 tryStartFermentation();
             }
-            level.playSound(null, worldPosition, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+
+            // Place sound
+            if (Objects.equals(this.group, "wine")){
+                level.playSound(null, worldPosition, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            } else if (Objects.equals(this.group, "pickles")) {
+                level.playSound(null, worldPosition, SoundEvents.HONEY_BLOCK_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            }
 
             setChanged();
             return InteractionResult.SUCCESS;
@@ -213,27 +215,14 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
         return InteractionResult.PASS;
     }
 
-    // ========= Transfer data between Server and Client ==========
-    public void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
-        super.loadAdditional(tag, provider);
-        this.fermentationTime = tag.getInt("FermentationTime");
-        this.fermentationTimeTotal = tag.getInt("FermentationTimeTotal");
-        this.isFermentation = tag.getBoolean("IsFermentation");
-        this.hasOutput = tag.getBoolean("HasOutput");
-
-        CompoundTag inventoryTag = tag.getCompound("Inventory");
-        this.inventory.deserializeNBT(provider, inventoryTag);
-
-
-        if (level != null) {
-            BlockState newState = getBlockState();
-            boolean isFull = hasOutput;
-            newState = newState.setValue(FermentationBarrelBlock.FULL, isFull);
-
-            level.setBlock(worldPosition, newState, 3);
-        }
-
+    // ========= Transfer data to StewStoveMenu class =========
+    private void updateData() {
+        data.set(0, fermentationTime);
+        data.set(1, fermentationTimeTotal);
     }
+
+    // ========= Transfer data between Server and Client ==========
+    @Override
     public void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
         super.saveAdditional(tag, provider);
         tag.putInt("FermentationTime", this.fermentationTime);
@@ -260,6 +249,39 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
             tag.put("RequiredContainer", containerTag);
         }
     }
+
+    @Override
+    public void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
+        super.loadAdditional(tag, provider);
+        this.fermentationTime = tag.getInt("FermentationTime");
+        this.fermentationTimeTotal = tag.getInt("FermentationTimeTotal");
+        this.isFermentation = tag.getBoolean("IsFermentation");
+        this.hasOutput = tag.getBoolean("HasOutput");
+
+        CompoundTag inventoryTag = tag.getCompound("Inventory");
+        this.inventory.deserializeNBT(provider, inventoryTag);
+
+        if (tag.contains("FermentedResult", Tag.TAG_COMPOUND)) {
+            this.currentFermentationResult = ItemStack.parseOptional(provider, tag.getCompound("FermentedResult"));
+        } else {
+            this.currentFermentationResult = ItemStack.EMPTY;
+        }
+        if (tag.contains("RequiredContainer", Tag.TAG_COMPOUND)) {
+            this.currentRequiredContainer = ItemStack.parseOptional(provider, tag.getCompound("RequiredContainer"));
+        } else {
+            this.currentRequiredContainer= ItemStack.EMPTY;
+        }
+
+        if (level != null) {
+            BlockState newState = getBlockState();
+            boolean isFull = hasOutput;
+            newState = newState.setValue(FermentationBarrelBlock.FULL, isFull);
+
+            level.setBlock(worldPosition, newState, 3);
+        }
+
+    }
+
 
     // ========= Other needed settings =========
     @Override

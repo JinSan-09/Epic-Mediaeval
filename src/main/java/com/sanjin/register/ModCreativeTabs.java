@@ -13,10 +13,9 @@ import java.util.function.Supplier;
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, EpicMediaeval.MODID);
 
-    public static final Supplier<CreativeModeTab> EPIC_MEDIAEVAL_FOOD_ITEM_TAB = CREATIVE_TABS.register(
-            "epic_mediaeval_food_item_tab",
-            () -> CreativeModeTab.builder()
-                    .title(Component.translatable("itemGroup.epic_mediaeval_food_item_tab"))
+    public static final Supplier<CreativeModeTab> EPIC_MEDIAEVAL_DISHES_AND_MATERIALS = CREATIVE_TABS.register("epic_mediaeval_dishes_and_materials", () ->
+            CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.epic_mediaeval_dishes_and_materials"))
                     .icon(() -> new ItemStack(ModItems.HONEY_CHICKEN.get()))
                     .displayItems((parameters, output) -> {
                         // Food items
@@ -53,7 +52,6 @@ public class ModCreativeTabs {
                         output.accept(ModItems.COOKED_TROUT.get());
                         output.accept(ModItems.COOKED_ELK_MEAT.get());
                         output.accept(ModItems.COOKED_VENISON.get());
-                        output.accept(ModItems.SWEET_PLUM_WINE.get());
                         // Primitives items
                         output.accept(ModItems.BARLEY.get());
                         output.accept(ModItems.OATS.get());
@@ -62,7 +60,6 @@ public class ModCreativeTabs {
                         output.accept(ModItems.HORSERADISH.get());
                         output.accept(ModItems.GREEN_PEPPER.get());
                         output.accept(ModItems.ONION.get());
-                        output.accept(ModItems.CHEESE.get());
                         output.accept(ModItems.CHICKPEA.get());
                         output.accept(ModItems.WHITE_BEANS.get());
                         output.accept(ModItems.LEMON.get());
@@ -73,12 +70,23 @@ public class ModCreativeTabs {
                         output.accept(ModItems.RAW_TROUT.get());
                         output.accept(ModItems.RAW_ELK_MEAT.get());
                         output.accept(ModItems.RAW_VENISON.get());
-                        output.accept(ModItems.DOUGH.get());
                         // Tableware items
                         output.accept(ModItems.LARGE_WOODEN_BOWL.get());
                         output.accept(ModItems.WOODEN_BOWL.get());
-                        output.accept(ModItems.WINE_BOTTLE.get());
                         output.accept(ModItems.WHITE_PORCELAIN_DISH.get());
+                    }).build());
+    public static final Supplier<CreativeModeTab> EPIC_MEDIAEVAL_WINE_AND_SAUCE = CREATIVE_TABS.register("epic_mediaeval_wine_and_sauce", () ->
+            CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.epic_mediaeval_wine_and_sauce"))
+                    .icon(() -> new ItemStack(ModItems.SWEET_PLUM_WINE.get())).displayItems((parameters, output) -> {
+                        // Wine items
+                        output.accept(ModItems.SWEET_PLUM_WINE.get());
+                        output.accept(ModItems.BARLEY_WINE.get());
+                        // Sauce items
+                        output.accept(ModItems.CHEESE.get());
+                        output.accept(ModItems.DOUGH.get());
+                        // Tableware items
+                        output.accept(ModItems.WINE_BOTTLE.get());
                     }).build());
 
     public static void register(IEventBus eventBus) {

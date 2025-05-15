@@ -13,13 +13,20 @@ public class FermentationBarrelRecipeInput implements RecipeInput {
     public static final FermentationBarrelRecipeInput EMPTY = new FermentationBarrelRecipeInput(NonNullList.withSize(4, ItemStack.EMPTY));
     private final NonNullList<ItemStack> ingredients;
     private final ItemStack container;
-    private final StackedItemContents stackedItemContents = new StackedItemContents();
     private final int nonEmptyIngredientCount;
 
     public FermentationBarrelRecipeInput(NonNullList<ItemStack> ingredients) {
+        int temp;
+        int count = 0;
         this.ingredients = ingredients;
         this.container = ItemStack.EMPTY;
-        this.nonEmptyIngredientCount = ingredients.size();
+        for (ItemStack stack : ingredients) {
+            if (!stack.isEmpty()) {
+                count++;
+            }
+        }
+        temp = count;
+        this.nonEmptyIngredientCount = temp;
     }
 
     public static FermentationBarrelRecipeInput of(List<ItemStack> ingredients) {
@@ -34,9 +41,6 @@ public class FermentationBarrelRecipeInput implements RecipeInput {
     }
     public ItemStack getContainer(){
         return this.container;
-    }
-    public StackedItemContents getStackedItemContents(){
-        return this.stackedItemContents;
     }
     public int getNonEmptyIngredientCount(){
         return this.nonEmptyIngredientCount;

@@ -2,6 +2,7 @@ package com.sanjin.entity.blockentity;
 
 import com.sanjin.block.StewStoveBlock;
 import com.sanjin.menu.StewStoveMenu;
+import com.sanjin.recipe.FermentationBarrelRecipe;
 import com.sanjin.recipe.StewStoveRecipe;
 import com.sanjin.recipe.recipeinput.StewStoveRecipeInput;
 import com.sanjin.register.ModBlockEntities;
@@ -45,7 +46,6 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     private static final int MATERIAL_SLOTS_START = 0;
     private static final int MATERIAL_SLOTS_COUNT = 4;
 
-    private final ContainerData data = new SimpleContainerData(4);
     private StewStoveRecipe currentRecipe;
     private int waterLevel;
     private int burnTime;
@@ -65,6 +65,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             }
         }
     };
+    private final ContainerData data = new SimpleContainerData(4);
 
     public StewStoveBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.STEW_STOVE_BLOCK_ENTITY.get(), pos, state);
@@ -95,6 +96,12 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             }
         }
         if (isCooking) {
+            Optional<StewStoveRecipe> recipe = getValidRecipe();
+            if (recipe.isEmpty()) {
+                isCooking = false;
+                cookTime = 0;
+                return;
+            }
             if (level != null) {
                 level.playSound(null, worldPosition, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0f, 1.0f);
             }
@@ -288,7 +295,22 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         data.set(3,cookTimeTotal);
     }
 
+
     // ========= Transfer data between Server and Client ==========
+    @Override
+    public void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
+        super.saveAdditional(tag, provider);
+        tag.putInt("WaterLevel", this.waterLevel);
+        tag.putInt("BurnTime", this.burnTime);
+        tag.putInt("CookTime", this.cookTime);
+        tag.putInt("CookTimeTotal", this.cookTimeTotal);
+        tag.putBoolean("IsCooking", this.isCooking);
+
+        CompoundTag inventoryTag = this.inventory.serializeNBT(provider);
+        tag.put("Inventory", inventoryTag);
+    }
+
+    @Override
     public void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
         super.loadAdditional(tag, provider);
         this.waterLevel = tag.getInt("WaterLevel");
@@ -314,17 +336,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             level.setBlock(worldPosition, newState, 3);
         }
     }
-    public void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
-        super.saveAdditional(tag, provider);
-        tag.putInt("WaterLevel", this.waterLevel);
-        tag.putInt("BurnTime", this.burnTime);
-        tag.putInt("CookTime", this.cookTime);
-        tag.putInt("CookTimeTotal", this.cookTimeTotal);
-        tag.putBoolean("IsCooking", this.isCooking);
 
-        CompoundTag inventoryTag = this.inventory.serializeNBT(provider);
-        tag.put("Inventory", inventoryTag);
-    }
 
     // ========= Some Get-method =========
     public boolean getCookingState(){

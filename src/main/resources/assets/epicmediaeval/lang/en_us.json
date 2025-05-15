@@ -18,7 +18,6 @@
   "item.epicmediaeval.oxtail_soup":"Oxtail Soup",
   "item.epicmediaeval.flower_salad":"Flower Salad",
   "item.epicmediaeval.sweet_cookie":"Sweet Cookie",
-  "item.epicmediaeval.sweet_plum_wine":"Sweet Plum Wine",
   "item.epicmediaeval.rabbit_meat_salad":"Rabbit Meat Salad",
   "item.epicmediaeval.bacon_white_beans":"Bacon White Beans",
   "item.epicmediaeval.clay_baked_trout":"Clay Baked Trout",
@@ -59,14 +58,24 @@
   "item.epicmediaeval.cheese": "Cheese",
   "item.epicmediaeval.onion": "Onion",
 
+  "item.epicmediaeval.sweet_plum_wine":"§9Mirabelle Brandy",
+  "item.epicmediaeval.barley_wine": "§9Bière Brune",
+
   "block.epicmediaeval.stew_stove": "Stew stove",
   "block.epicmediaeval.fermentation_barrel": "Fermentation barrel",
 
+  "item.sweet_plum_wine.text1": "§6§oBrewed with sweet plums originating from the banks of the Dorn Green Blood",
+  "item.sweet_plum_wine.text2": "§oWith a lower intensity, the taste is smooth as silk.",
+  "item.barley_wine.text1": "§6§oCrafted from exquisitely brewed barley cultivated in the Riverlands",
+  "item.barley_wine.text2": "§oCountry folk hoard this vintage, reserved for the uncorking ritual when guests of honor arrive—the first sip bites with bitterness, the second blooms with sweetness",
+
   "container.stew_stove.text": "Stew Stove",
   "container.fermentation_barrel.text": "Fermentation barrel",
+
   "recipe_book.stew_stove.tooltip":"Recipe book",
 
-  "itemGroup.epic_mediaeval_food_item_tab":"Epic Mediaeval Food",
+  "itemGroup.epic_mediaeval_dishes_and_materials":"Advanced Dishes & Raw Materials",
+  "itemGroup.epic_mediaeval_wine_and_sauce": "Alcoholic Beverages & Sauces",
 
-  "message.fermentation_barrel.wrong_container": "Need correct container!"
+  "message.fermentation_barrel.wrong_container": "§cNeed correct container!"
 }

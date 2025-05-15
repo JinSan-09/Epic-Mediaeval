@@ -2,14 +2,11 @@
   "type": "epicmediaeval:fermentation_barrel",
   "group": "pickles",
   "ingredients": [
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "minecraft:water_bucket"
+    "minecraft:milk_bucket"
   ],
   "result": {
-    "count": 8,
-    "id": "epicmediaeval:dough"
+    "id": "epicmediaeval:cheese",
+    "count": 8
   },
   "container": {
     "id": "epicmediaeval:wooden_bowl"

@@ -57,18 +57,9 @@ public class OnionProjectile extends ThrowableItemProjectile {
         super.onHitEntity(hitResult);
 
         Entity target = hitResult.getEntity();
-        Entity owner = this.getOwner();
 
         if (target instanceof LivingEntity livingTarget) {
 
-            DamageSource damageSource;
-            if (owner instanceof LivingEntity livingOwner) {
-                damageSource = this.damageSources().thrown(this, livingOwner);
-            } else {
-                damageSource = this.damageSources().thrown(this, null);
-            }
-
-            DamageSource knockbackOnlySource = damageSource;
             if (!livingTarget.level().isClientSide()) {
                 Vec3 knockbackDir = livingTarget.position().subtract(this.position()).normalize();
                 double knockbackStrength = 0.8;

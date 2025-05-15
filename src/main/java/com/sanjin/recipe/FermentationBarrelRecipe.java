@@ -19,12 +19,14 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
     public final NonNullList<Ingredient> inputs;
     private final ItemStack output;
     private final ItemStack container;
+    private final String group;
     private final float experience;
     private final int fermentationTime;
-    public FermentationBarrelRecipe(NonNullList<Ingredient> inputs, ItemStack output, ItemStack container, float experience, int cookingTime) {
+    public FermentationBarrelRecipe(NonNullList<Ingredient> inputs, ItemStack output, ItemStack container,String group, float experience, int cookingTime) {
         this.inputs = inputs;
         this.output = output;
         this.container = container;
+        this.group = group;
         this.experience = experience;
         this.fermentationTime = cookingTime;
     }
@@ -38,6 +40,7 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
     public ItemStack getContainer(){
         return this.container;
     }
+    public String getGroup(){return this.group;}
     public float getExperience(){
         return this.experience;
     }

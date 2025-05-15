@@ -24,6 +24,7 @@ public class FermentationBarrelRecipeSerializer implements RecipeSerializer<Ferm
                             ).forGetter(FermentationBarrelRecipe::getInputs),
                             ItemStack.CODEC.fieldOf("result").forGetter(FermentationBarrelRecipe::getResult),
                             ItemStack.CODEC.fieldOf("container").forGetter(FermentationBarrelRecipe::getContainer),
+                            Codec.STRING.fieldOf("group").forGetter(FermentationBarrelRecipe::getGroup),
                             Codec.FLOAT.optionalFieldOf("experience",0.0f).forGetter(FermentationBarrelRecipe::getExperience),
                             Codec.INT.optionalFieldOf("cooking_time",300).forGetter(FermentationBarrelRecipe::getFermentationTime))
                     .apply(instance, FermentationBarrelRecipe::new)
@@ -43,13 +44,14 @@ public class FermentationBarrelRecipeSerializer implements RecipeSerializer<Ferm
             }
             ItemStack outputIn = ItemStack.STREAM_CODEC.decode(buffer);
             ItemStack container = ItemStack.STREAM_CODEC.decode(buffer);
+            String groupIn = buffer.readUtf();
             float experienceIn = buffer.readFloat();
             int cookTimeIn = buffer.readVarInt();
 
-            return new FermentationBarrelRecipe(inputItemsIn, outputIn, container, experienceIn, cookTimeIn);
+            return new FermentationBarrelRecipe(inputItemsIn, outputIn, container, groupIn, experienceIn, cookTimeIn);
         } catch (Exception e) {
             System.err.println("Error decoding FermentationBarrelRecipe from network: " + e.getMessage());
-            return new FermentationBarrelRecipe( NonNullList.create(), ItemStack.EMPTY, ItemStack.EMPTY, 0.0f, 0);
+            return new FermentationBarrelRecipe( NonNullList.create(), ItemStack.EMPTY, ItemStack.EMPTY, "", 0.0f,0);
         }
     }
 
