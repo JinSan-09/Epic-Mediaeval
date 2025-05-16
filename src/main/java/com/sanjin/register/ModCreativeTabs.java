@@ -82,6 +82,7 @@ public class ModCreativeTabs {
                         // Wine items
                         output.accept(ModItems.SWEET_PLUM_WINE.get());
                         output.accept(ModItems.BARLEY_WINE.get());
+                        output.accept(ModItems.LEMON_JUICE_WINE.get());
                         // Sauce items
                         output.accept(ModItems.CHEESE.get());
                         output.accept(ModItems.DOUGH.get());

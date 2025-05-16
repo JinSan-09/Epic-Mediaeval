@@ -9,12 +9,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BarleyWineItem extends Item {
+public class CustomWineItem extends Item {
 
     private final boolean hasEnchantmentEffect;
     private final List<Component> tooltipLines;
 
-    public BarleyWineItem(Properties properties, boolean hasEnchantmentEffect, List<Component> tooltipLines) {
+    public CustomWineItem(Properties properties, boolean hasEnchantmentEffect, List<Component> tooltipLines) {
         super(properties);
         this.hasEnchantmentEffect = hasEnchantmentEffect;
         this.tooltipLines = tooltipLines;

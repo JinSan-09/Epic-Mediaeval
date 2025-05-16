@@ -58,8 +58,9 @@
   "item.epicmediaeval.cheese": "芝士",
   "item.epicmediaeval.onion": "洋葱",
 
-  "item.epicmediaeval.sweet_plum_wine":"§9陈酿香梅白兰地",
+  "item.epicmediaeval.sweet_plum_wine":"§d陈酿香梅白兰地",
   "item.epicmediaeval.barley_wine": "§9精酿黑啤",
+  "item.epicmediaeval.lemon_juice_wine": "§9柠檬果酒",
 
   "block.epicmediaeval.stew_stove": "煲汤炉",
   "block.epicmediaeval.fermentation_barrel": "发酵桶",
@@ -68,6 +69,8 @@
   "item.sweet_plum_wine.text2": "§o烈度较低，口感丝滑如绸",
   "item.barley_wine.text1": "§6§o使用种植于河间地的大麦精酿制成",
   "item.barley_wine.text2": "§o农家常备此酒，一般仅在招待客人时才会开瓶，一口苦涩两口回甘",
+  "item.lemon_juice_wine.text1": "§6§o使用盛夏厅产出的新鲜柠檬酿成",
+  "item.lemon_juice_wine.text2": "§o甜如少女唇吻，抿上一口就能使人心情大好",
 
   "container.stew_stove.text": "煲汤炉",
   "container.fermentation_barrel.text": "发酵桶",

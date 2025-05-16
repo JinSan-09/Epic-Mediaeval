@@ -3,6 +3,7 @@ package com.sanjin.menu;
 import com.sanjin.register.ModBlocks;
 import com.sanjin.register.ModItems;
 import com.sanjin.register.ModMenus;
+import com.sanjin.register.ModRecipeBooks;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -80,6 +81,10 @@ public class StewStoveMenu extends AbstractContainerMenu {
 
     public Player getPlayer() {
         return null;
+    }
+
+    public RecipeBookType getRecipeBookType(){
+        return ModRecipeBooks.STEW_STOVE_RECIPE_BOOK_TYPE;
     }
 
     @Override

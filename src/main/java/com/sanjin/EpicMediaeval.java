@@ -4,6 +4,7 @@ import com.sanjin.register.*;
 import com.sanjin.renderer.OnionProjectileRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -38,6 +39,8 @@ public class EpicMediaeval
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
 
+        ModComponents.register(modEventBus);
+        ModRecipeBookCategories.register(modEventBus);
         ModItemEntities.register(modEventBus);
         ModBlockEntities.register(modEventBus);
 
@@ -80,6 +83,13 @@ public class EpicMediaeval
         @SubscribeEvent
         public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(ModItemEntities.ONION_ENTITY.get(), OnionProjectileRenderer::new);
+        }
+        @SubscribeEvent
+        public static void registerSearchCategories(RegisterRecipeBookSearchCategoriesEvent event) {
+            event.register(
+                    ModRecipeBookCategories.STEW_STOVE_SEARCH_CATEGORY,
+                    ModRecipeBookCategories.STEW_STOVE_CATEGORY.get()
+            );
         }
     }
 }

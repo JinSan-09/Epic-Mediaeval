@@ -1,9 +1,7 @@
 package com.sanjin.register;
 
 import com.sanjin.EpicMediaeval;
-import com.sanjin.item.BarleyWineItem;
-import com.sanjin.item.OnionItem;
-import com.sanjin.item.SweetPlumWineItem;
+import com.sanjin.item.*;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -101,31 +99,12 @@ public class ModItems {
             new Item.Properties().food(ModComponents.HIGH_GRADE_FOOD));
 
     // Wine items
-    public static final DeferredItem<Item> SWEET_PLUM_WINE = ITEMS.register("sweet_plum_wine",
-            registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
-                return new SweetPlumWineItem(new Item.Properties()
-                        .setId(key)
-                        .component(DataComponents.CONSUMABLE, Consumable.builder().consumeSeconds(2.0f).animation(ItemUseAnimation.DRINK).sound(SoundEvents.GENERIC_DRINK).soundAfterConsume(SoundEvents.GENERIC_DRINK).hasConsumeParticles(false).build())
-                        .stacksTo(1),
-                        false,
-                        List.of(
-                                Component.translatable("item.sweet_plum_wine.text1"),
-                                Component.translatable("item.sweet_plum_wine.text2")
-                        )
-                );}
-    );
-    public static final DeferredItem<Item> BARLEY_WINE = ITEMS.register("barley_wine",
-            registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
-                return new BarleyWineItem(new Item.Properties()
-                        .setId(key).component(DataComponents.CONSUMABLE, Consumable.builder().consumeSeconds(2.0f).animation(ItemUseAnimation.DRINK).sound(SoundEvents.GENERIC_DRINK).soundAfterConsume(SoundEvents.GENERIC_DRINK).hasConsumeParticles(false).build())
-                        .stacksTo(1),
-                        false,
-                        List.of(
-                                Component.translatable("item.barley_wine.text1"),
-                                Component.translatable("item.barley_wine.text2")
-                        )
-                );}
-    );
+    public static final DeferredItem<Item> SWEET_PLUM_WINE = wineRegister("sweet_plum_wine",
+            false,"item.sweet_plum_wine.text1","sweet_plum_wine.text2");
+    public static final DeferredItem<Item> BARLEY_WINE = wineRegister("barley_wine",
+            false,"item.barley_wine.text1","item.barley_wine.text2");
+    public static final DeferredItem<Item> LEMON_JUICE_WINE = wineRegister("lemon_juice_wine",
+            false,"item.lemon_juice_wine.text1","item.lemon_juice_wine.text2");
 
     // Primitives items
     public static final DeferredItem<Item> BARLEY = ITEMS.registerSimpleItem("barley",
@@ -166,6 +145,21 @@ public class ModItems {
             new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> WHITE_BEANS = ITEMS.registerSimpleItem("white_beans",
             new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+
+    public static DeferredItem<Item> wineRegister(String name, Boolean hasEnchantmentEffect, String text1, String text2) {
+        return ITEMS.register(name,
+                registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
+                    return new CustomWineItem(new Item.Properties()
+                            .setId(key).component(DataComponents.CONSUMABLE, Consumable.builder().consumeSeconds(2.0f).animation(ItemUseAnimation.DRINK).sound(SoundEvents.GENERIC_DRINK).soundAfterConsume(SoundEvents.GENERIC_DRINK).hasConsumeParticles(false).build())
+                            .stacksTo(1),
+                            hasEnchantmentEffect,
+                            List.of(
+                                    Component.translatable(text1),
+                                    Component.translatable(text2)
+                            )
+                    );}
+        );
+    }
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -1,12 +1,14 @@
 package com.sanjin.recipe;
 
 import com.sanjin.recipe.recipeinput.StewStoveRecipeInput;
+import com.sanjin.register.ModRecipeBookCategories;
 import com.sanjin.register.ModRecipeSerializers;
 import com.sanjin.register.ModRecipes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -105,6 +107,11 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
 
     @Override
     public @NotNull RecipeBookCategory recipeBookCategory() {
+        return ModRecipeBookCategories.STEW_STOVE_CATEGORY.get();
+    }
+
+    @Override
+    public @NotNull List<RecipeDisplay> display(){
         return null;
     }
 

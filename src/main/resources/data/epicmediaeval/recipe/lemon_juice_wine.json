@@ -1,0 +1,19 @@
+{
+  "type": "epicmediaeval:fermentation_barrel",
+  "group": "wine",
+  "ingredients": [
+    "epicmediaeval:lemon",
+    "epicmediaeval:lemon",
+    "epicmediaeval:lemon",
+    "epicmediaeval:barley"
+  ],
+  "result": {
+    "id": "epicmediaeval:lemon_juice_wine",
+    "count": 1
+  },
+  "container": {
+    "id": "epicmediaeval:wine_bottle"
+  },
+  "experience": 0.35,
+  "cooking_time": 500
+}

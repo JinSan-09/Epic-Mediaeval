@@ -58,8 +58,9 @@
   "item.epicmediaeval.cheese": "Cheese",
   "item.epicmediaeval.onion": "Onion",
 
-  "item.epicmediaeval.sweet_plum_wine":"§9Mirabelle Brandy",
+  "item.epicmediaeval.sweet_plum_wine":"§dMirabelle Brandy",
   "item.epicmediaeval.barley_wine": "§9Bière Brune",
+  "item.epicmediaeval.lemon_juice_wine": "§9Citrus lemon wine",
 
   "block.epicmediaeval.stew_stove": "Stew stove",
   "block.epicmediaeval.fermentation_barrel": "Fermentation barrel",
@@ -68,6 +69,8 @@
   "item.sweet_plum_wine.text2": "§oWith a lower intensity, the taste is smooth as silk.",
   "item.barley_wine.text1": "§6§oCrafted from exquisitely brewed barley cultivated in the Riverlands",
   "item.barley_wine.text2": "§oCountry folk hoard this vintage, reserved for the uncorking ritual when guests of honor arrive—the first sip bites with bitterness, the second blooms with sweetness",
+  "item.lemon_juice_wine.text1": "§6§oCrafted from sun-ripened Summerhall lemons",
+  "item.lemon_juice_wine.text2": "§oSweet as a maiden’s kiss, a single sip lightens the heaviest heart",
 
   "container.stew_stove.text": "Stew Stove",
   "container.fermentation_barrel.text": "Fermentation barrel",
