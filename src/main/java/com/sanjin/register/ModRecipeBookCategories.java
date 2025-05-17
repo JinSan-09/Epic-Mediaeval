@@ -12,8 +12,11 @@ import java.util.function.Supplier;
 public class ModRecipeBookCategories {
     public static final DeferredRegister<RecipeBookCategory> RECIPE_BOOK_CATEGORY = DeferredRegister.create(Registries.RECIPE_BOOK_CATEGORY, EpicMediaeval.MODID);
 
-    public static final Supplier<RecipeBookCategory> STEW_STOVE_CATEGORY = RECIPE_BOOK_CATEGORY.register("stew_stove_category", RecipeBookCategory::new);
-    public static final ExtendedRecipeBookCategory STEW_STOVE_SEARCH_CATEGORY = new ExtendedRecipeBookCategory() {};
+    public static final Supplier<RecipeBookCategory> STEW_STOVE_STEWS = RECIPE_BOOK_CATEGORY.register("stew_stove_stews_category", RecipeBookCategory::new);
+    public static final Supplier<RecipeBookCategory> STEW_STOVE_SOUP = RECIPE_BOOK_CATEGORY.register("stew_stove_soup_category", RecipeBookCategory::new);
+
+    public static final ExtendedRecipeBookCategory STEWS_SEARCH_CATEGORY = new ExtendedRecipeBookCategory() {};
+    public static final ExtendedRecipeBookCategory SOUP_SEARCH_CATEGORY = new ExtendedRecipeBookCategory() {};
 
     public static void register(IEventBus eventBus) {
         RECIPE_BOOK_CATEGORY.register(eventBus);

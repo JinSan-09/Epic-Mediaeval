@@ -24,6 +24,7 @@ public class StewStoveRecipeSerializer implements RecipeSerializer<StewStoveReci
                             ).forGetter(StewStoveRecipe::getInputs),
                             ItemStack.CODEC.fieldOf("result").forGetter(StewStoveRecipe::getResult),
                             ItemStack.CODEC.fieldOf("container").forGetter(StewStoveRecipe::getContainer),
+                            Codec.STRING.fieldOf("group").forGetter(StewStoveRecipe::getGroup),
                             Codec.FLOAT.optionalFieldOf("experience",0.0f).forGetter(StewStoveRecipe::getExperience),
                             Codec.INT.optionalFieldOf("cooking_time",300).forGetter(StewStoveRecipe::getCookingTime))
                     .apply(instance, StewStoveRecipe::new)
@@ -42,13 +43,14 @@ public class StewStoveRecipeSerializer implements RecipeSerializer<StewStoveReci
             }
             ItemStack outputIn = ItemStack.STREAM_CODEC.decode(buffer);
             ItemStack container = ItemStack.STREAM_CODEC.decode(buffer);
+            String groupIn = buffer.readUtf();
             float experienceIn = buffer.readFloat();
             int cookTimeIn = buffer.readVarInt();
 
-            return new StewStoveRecipe(inputItemsIn, outputIn, container, experienceIn, cookTimeIn);
+            return new StewStoveRecipe(inputItemsIn, outputIn, container, groupIn, experienceIn, cookTimeIn);
         } catch (Exception e) {
             System.err.println("Error decoding StewStoveRecipe from network: " + e.getMessage());
-            return new StewStoveRecipe( NonNullList.create(), ItemStack.EMPTY, ItemStack.EMPTY, 0.0f, 0);
+            return new StewStoveRecipe( NonNullList.create(), ItemStack.EMPTY, ItemStack.EMPTY,"", 0.0f, 0);
         }
     }
 

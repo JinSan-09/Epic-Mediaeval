@@ -2,18 +2,28 @@ package com.sanjin.screen;
 
 import com.sanjin.EpicMediaeval;
 import com.sanjin.menu.StewStoveMenu;
+import com.sanjin.register.ModItems;
+import com.sanjin.register.ModRecipeBookCategories;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.client.gui.components.WidgetSprites;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.navigation.ScreenPosition;
+import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
+import net.minecraft.client.gui.screens.recipebook.GhostSlots;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.StackedItemContents;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import org.jetbrains.annotations.NotNull;
 
-public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
+import java.util.List;
+
+public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
 
     private static final ResourceLocation MAIN_TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/container/stew_stove_gui.png");
     private static final ResourceLocation BUTTON_TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/button/stew_stove_recipe_book_button.png");
@@ -41,25 +51,50 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
     private static final int COOK_U = 176;
     private static final int COOK_V = 52;
 
-    private ImageButton recipeBookButton;
+    private static final List<RecipeBookComponent.TabInfo> TAB_INFOS = List.of(
+            new RecipeBookComponent.TabInfo(ModItems.BARLEY_BEEF_STEW.get(), ModRecipeBookCategories.STEW_STOVE_STEWS.get()),
+            new RecipeBookComponent.TabInfo(ModItems.LEEK_SOUP.get(), ModRecipeBookCategories.STEW_STOVE_SOUP.get())
+            );
 
     public StewStoveScreen(StewStoveMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, title);
+        super(menu, new RecipeBookComponent<>(menu, TAB_INFOS) {
+            @Override
+            protected void initFilterButtonTextures() {
+
+            }
+
+            @Override
+            protected boolean isCraftingSlot(@NotNull Slot slot) {
+                return false;
+            }
+
+            @Override
+            protected void selectMatchingRecipes(@NotNull RecipeCollection recipeCollection, @NotNull StackedItemContents stackedItemContents) {
+
+            }
+
+            @Override
+            protected @NotNull Component getRecipeFilterName() {
+                return Component.translatable("stew_stove_recipe_filter");
+            }
+
+            @Override
+            protected void fillGhostRecipe(@NotNull GhostSlots ghostSlots, @NotNull RecipeDisplay recipeDisplay, @NotNull ContextMap contextMap) {
+
+            }
+        },playerInventory, title);
         this.imageWidth = 176;
         this.imageHeight = 166;
     }
 
+    @Override
     protected void init() {
         super.init();
-        WidgetSprites ws = new WidgetSprites(BUTTON_TEXTURE, BUTTON_TEXTURE_LIT);
-        this.recipeBookButton = new ImageButton(this.leftPos + 12, this.topPos + 32, 20, 18, ws, this::onRecipeButtonPress, Component.translatable("recipe_book.stew_stove.tooltip"));
-        this.addRenderableWidget(recipeBookButton);
     }
 
-    private void onRecipeButtonPress(Button button) {
-        if (minecraft != null) {
-            minecraft.setScreen(new StewStoveRecipeBookScreen(this, this.menu.getPlayer()));
-        }
+    @Override
+    protected @NotNull ScreenPosition getRecipeBookButtonPosition() {
+        return null;
     }
 
     @Override
@@ -149,9 +184,4 @@ public class StewStoveScreen extends AbstractContainerScreen<StewStoveMenu> {
         super.removed();
     }
 
-    public void returnFromRecipeScreen() {
-        if (this.minecraft != null) {
-            this.minecraft.setScreen(this);
-        }
-    }
 }

@@ -15,7 +15,7 @@ public class ModMenus {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU,EpicMediaeval.MODID);
 
     public static final DeferredHolder<MenuType<?>, MenuType<StewStoveMenu>> STEW_STOVE_MENU = MENUS.register("stew_stove_menu", () ->
-            new MenuType<>(StewStoveMenu::new,FeatureFlags.DEFAULT_FLAGS));
+            new MenuType<>(StewStoveMenu::new, FeatureFlags.DEFAULT_FLAGS));
     public static final DeferredHolder<MenuType<?>, MenuType<FermentationBarrelMenu>> FERMENTATION_BARREL_MENU = MENUS.register("fermentation_barrel_menu", () ->
             new MenuType<>(FermentationBarrelMenu::new,FeatureFlags.DEFAULT_FLAGS));
 

@@ -40,6 +40,7 @@ public class EpicMediaeval
         ModBlocks.register(modEventBus);
 
         ModComponents.register(modEventBus);
+        ModRecipeDisplays.register(modEventBus);
         ModRecipeBookCategories.register(modEventBus);
         ModItemEntities.register(modEventBus);
         ModBlockEntities.register(modEventBus);
@@ -87,8 +88,12 @@ public class EpicMediaeval
         @SubscribeEvent
         public static void registerSearchCategories(RegisterRecipeBookSearchCategoriesEvent event) {
             event.register(
-                    ModRecipeBookCategories.STEW_STOVE_SEARCH_CATEGORY,
-                    ModRecipeBookCategories.STEW_STOVE_CATEGORY.get()
+                    ModRecipeBookCategories.STEWS_SEARCH_CATEGORY,
+                    ModRecipeBookCategories.STEW_STOVE_STEWS.get()
+            );
+            event.register(
+                    ModRecipeBookCategories.SOUP_SEARCH_CATEGORY,
+                    ModRecipeBookCategories.STEW_STOVE_SOUP.get()
             );
         }
     }

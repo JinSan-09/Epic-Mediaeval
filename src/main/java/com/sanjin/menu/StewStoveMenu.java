@@ -1,23 +1,31 @@
 package com.sanjin.menu;
 
-import com.sanjin.register.ModBlocks;
-import com.sanjin.register.ModItems;
-import com.sanjin.register.ModMenus;
-import com.sanjin.register.ModRecipeBooks;
+import com.sanjin.recipe.StewStoveRecipe;
+import com.sanjin.recipe.recipeinput.StewStoveRecipeInput;
+import com.sanjin.register.*;
+import net.minecraft.recipebook.ServerPlaceRecipe;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class StewStoveMenu extends AbstractContainerMenu {
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+public class StewStoveMenu extends RecipeBookMenu {
 
     private final ContainerLevelAccess access;
     private final ContainerData data;
+    private boolean placingRecipe;
 
     public StewStoveMenu(int id, Inventory playerInventory) {
         this(id, playerInventory, new ItemStackHandler(8),ContainerLevelAccess.NULL, new SimpleContainerData(4));
@@ -82,8 +90,65 @@ public class StewStoveMenu extends AbstractContainerMenu {
     public Player getPlayer() {
         return null;
     }
+    private void beginPlacingRecipe() {
+        this.placingRecipe = true;
+    }
+    private void finishPlacingRecipe(ServerLevel level, RecipeHolder<StewStoveRecipe> holder) {
+        this.placingRecipe = false;
+    }
 
-    public RecipeBookType getRecipeBookType(){
+    @Override
+    public @NotNull PostPlaceAction handlePlacement(boolean b, boolean b1, @NotNull RecipeHolder<?> recipeHolder, @NotNull ServerLevel level, @NotNull Inventory inventory) {
+        RecipeHolder<StewStoveRecipe> holder = (RecipeHolder<StewStoveRecipe>) recipeHolder;
+        this.beginPlacingRecipe();
+        RecipeBookMenu.PostPlaceAction action;
+        try{
+            List<Slot> inputSlots = IntStream.range(0, 4).mapToObj(this.slots::get).toList();
+            action = ServerPlaceRecipe.placeRecipe(
+                    new ServerPlaceRecipe.CraftingMenuAccess<>(){
+                        @Override
+                        public void fillCraftSlotsStackedContents(@NotNull StackedItemContents contents) {
+                            StewStoveMenu.this.fillCraftSlotsStackedContents(contents);
+                        }
+
+                        @Override
+                        public void clearCraftingContent() {
+                            for (int i = 0; i < 4; i++) {
+                                StewStoveMenu.this.slots.get(i).set(ItemStack.EMPTY);
+                            }
+                        }
+
+                        @Override
+                        public boolean recipeMatches(@NotNull RecipeHolder<StewStoveRecipe> holder) {
+                            StewStoveRecipe recipe = holder.value();
+                            List<ItemStack> inputs = IntStream.range(0, 4).mapToObj(idx -> StewStoveMenu.this.slots.get(idx).getItem()).toList();
+                            ItemStack container = StewStoveMenu.this.slots.get(4).getItem();
+                            StewStoveRecipeInput recipeInput = StewStoveRecipeInput.of(inputs, container);
+
+                            return recipe.matches(recipeInput, level);
+                        }
+                    },
+                    2, 2, inputSlots, inputSlots, inventory, holder, b, b1
+            );
+        }finally{
+            this.finishPlacingRecipe(level, holder);
+        }
+
+        return action;
+    }
+
+    @Override
+    public void fillCraftSlotsStackedContents(@NotNull StackedItemContents contents) {
+        for (int i = 0; i < 4; i++) {
+            ItemStack stack = this.slots.get(i).getItem();
+            if (!stack.isEmpty()) {
+                contents.accountStack(stack, 1);
+            }
+        }
+    }
+
+    @Override
+    public @NotNull RecipeBookType getRecipeBookType(){
         return ModRecipeBooks.STEW_STOVE_RECIPE_BOOK_TYPE;
     }
 

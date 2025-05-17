@@ -1,5 +1,6 @@
 package com.sanjin.recipe;
 
+import com.sanjin.recipe.recipedisplay.StewStoveRecipeDisplay;
 import com.sanjin.recipe.recipeinput.StewStoveRecipeInput;
 import com.sanjin.register.ModRecipeBookCategories;
 import com.sanjin.register.ModRecipeSerializers;
@@ -9,6 +10,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,14 +24,16 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
     private final NonNullList<Ingredient> inputs ;
     private final ItemStack output;
     private final ItemStack container;
+    private final String group;
     private final float experience;
     private final int cookingTime;
 
 
-    public StewStoveRecipe(NonNullList<Ingredient> inputs, ItemStack output, @NotNull ItemStack container, float experience, int cookingTime){
+    public StewStoveRecipe(NonNullList<Ingredient> inputs, ItemStack output, @NotNull ItemStack container, String group, float experience, int cookingTime){
         this.inputs = inputs;
         this.output = output;
         this.container = container;
+        this.group = group;
         this.experience = experience;
         this.cookingTime = cookingTime;
     }
@@ -43,6 +47,9 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
     }
     public ItemStack getContainer(){
         return this.container;
+    }
+    public String getGroup(){
+        return this.group;
     }
     public float getExperience(){
         return this.experience;
@@ -107,12 +114,24 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
 
     @Override
     public @NotNull RecipeBookCategory recipeBookCategory() {
-        return ModRecipeBookCategories.STEW_STOVE_CATEGORY.get();
+        if (this.group.equals("stews"))return ModRecipeBookCategories.STEW_STOVE_STEWS.get();
+        if (this.group.equals("soup"))return ModRecipeBookCategories.STEW_STOVE_SOUP.get();
+        else return new RecipeBookCategory();
     }
 
     @Override
     public @NotNull List<RecipeDisplay> display(){
-        return null;
+        List<SlotDisplay> displays = new ArrayList<>(inputs.size());
+        for (Ingredient ingredient : inputs) {
+            displays.add(ingredient.display());
+        }
+        return List.of(
+                new StewStoveRecipeDisplay(
+                        new SlotDisplay.Composite(displays).contents(),
+                        new SlotDisplay.ItemStackSlotDisplay(this.container),
+                        new SlotDisplay.ItemStackSlotDisplay(this.output)
+                )
+        );
     }
 
     @Override
