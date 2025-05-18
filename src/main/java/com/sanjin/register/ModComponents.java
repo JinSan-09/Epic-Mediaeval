@@ -5,7 +5,10 @@ import com.sanjin.component.EffectComponent;
 import com.sanjin.component.UseRemainderComponent;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.component.Consumable;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -17,6 +20,7 @@ public class ModComponents {
     public static final FoodProperties HIGH_GRADE_FOOD = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0f).build();
     public static final FoodProperties MIDDLE_GRADE_FOOD = new FoodProperties.Builder().nutrition(5).saturationModifier(0.5f).build();
     public static final FoodProperties LOW_GRADE_FOOD = new FoodProperties.Builder().nutrition(1).saturationModifier(0).build();
+    public static final Consumable COMMON_DRINK = Consumable.builder().consumeSeconds(2.0f).animation(ItemUseAnimation.DRINK).sound(SoundEvents.GENERIC_DRINK).soundAfterConsume(SoundEvents.GENERIC_DRINK).hasConsumeParticles(false).build();
 
     public static final Supplier<DataComponentType<UseRemainderComponent>> USE_REMAINDER_COMPONENT = REGISTRAR.registerComponentType("use_remainder_component",
             builder -> builder.persistent(UseRemainderComponent.CODEC).networkSynchronized(UseRemainderComponent.NETWORK_CODEC));

@@ -28,10 +28,9 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 public class EpicMediaeval
 {
     public static final String MODID = "epicmediaeval";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
-    public EpicMediaeval(IEventBus modEventBus, ModContainer modContainer)
-    {
+    public EpicMediaeval(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -80,7 +79,6 @@ public class EpicMediaeval
         private static void onRegisterScreens(RegisterMenuScreensEvent event) {
             ModScreens.register(event);
         }
-
         @SubscribeEvent
         public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(ModItemEntities.ONION_ENTITY.get(), OnionProjectileRenderer::new);

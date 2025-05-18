@@ -74,7 +74,10 @@
 
   "container.stew_stove.text": "煲汤炉",
   "container.fermentation_barrel.text": "发酵桶",
-  "recipe_book.stew_stove.tooltip":"配方书",
+
+  "recipe.filter.stew_stove": "仅显示可烧炖",
+
+  "recipe_book.tooltip.stew_stove":"配方书",
 
   "itemGroup.epic_mediaeval_dishes_and_materials": "史诗中世纪高级菜品与原料",
   "itemGroup.epic_mediaeval_wine_and_sauce": "史诗中世纪名酒与酱料",

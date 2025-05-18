@@ -2,6 +2,7 @@ package com.sanjin.register;
 
 import com.sanjin.EpicMediaeval;
 import com.sanjin.item.*;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -70,15 +71,15 @@ public class ModItems {
     public static final DeferredItem<Item> HORSERADISH_BEEF_STEW = ITEMS.registerSimpleItem("horseradish_beef_stew",
             new Item.Properties().food(ModComponents.HIGH_GRADE_FOOD));
     public static final DeferredItem<Item> LEEK_SOUP = ITEMS.registerSimpleItem("leek_soup",
-            new Item.Properties().component(DataComponents.CONSUMABLE,Consumable.builder().consumeSeconds(2.0f).animation(ItemUseAnimation.DRINK).sound(SoundEvents.GENERIC_DRINK).soundAfterConsume(SoundEvents.GENERIC_DRINK).hasConsumeParticles(false).build()));
+            new Item.Properties().component(DataComponents.CONSUMABLE, ModComponents.COMMON_DRINK));
     public static final DeferredItem<Item> LEMON_CAKE = ITEMS.registerSimpleItem("lemon_cake",
             new Item.Properties().food(ModComponents.HIGH_GRADE_FOOD));
     public static final DeferredItem<Item> LORD_MANDLEY_PIE = ITEMS.registerSimpleItem("lord_mandley_pie",
             new Item.Properties().food(ModComponents.HIGH_GRADE_FOOD));
     public static final DeferredItem<Item> NETTLE_TEA = ITEMS.registerSimpleItem("nettle_tea",
-            new Item.Properties().component(DataComponents.CONSUMABLE,Consumable.builder().consumeSeconds(2.0f).animation(ItemUseAnimation.DRINK).sound(SoundEvents.GENERIC_DRINK).soundAfterConsume(SoundEvents.GENERIC_DRINK).hasConsumeParticles(false).build()));
+            new Item.Properties().component(DataComponents.CONSUMABLE, ModComponents.COMMON_DRINK));
     public static final DeferredItem<Item> OXTAIL_SOUP = ITEMS.registerSimpleItem("oxtail_soup",
-            new Item.Properties().component(DataComponents.CONSUMABLE,Consumable.builder().consumeSeconds(2.0f).animation(ItemUseAnimation.DRINK).sound(SoundEvents.GENERIC_DRINK).soundAfterConsume(SoundEvents.GENERIC_DRINK).hasConsumeParticles(false).build()));
+            new Item.Properties().component(DataComponents.CONSUMABLE, ModComponents.COMMON_DRINK));
     public static final DeferredItem<Item> PITA_BREAD_WITH_HUMMUS = ITEMS.registerSimpleItem("pita_bread_with_hummus",
             new Item.Properties().food(ModComponents.HIGH_GRADE_FOOD));
     public static final DeferredItem<Item> RABBIT_MEAT_SALAD = ITEMS.registerSimpleItem("rabbit_meat_salad",
@@ -146,7 +147,7 @@ public class ModItems {
     public static final DeferredItem<Item> WHITE_BEANS = ITEMS.registerSimpleItem("white_beans",
             new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
 
-    public static DeferredItem<Item> wineRegister(String name, Boolean hasEnchantmentEffect, String text1, String text2) {
+    public static DeferredItem<Item> wineRegister(String name,boolean hasEnchantmentEffect, String text1, String text2) {
         return ITEMS.register(name,
                 registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
                     return new CustomWineItem(new Item.Properties()

@@ -1,0 +1,10 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/inventory/RecipeBookType",
+      "name": "EPICMEDIAEVAL_STEW_STOVE",
+      "constructor": "()V",
+      "parameters": []
+    }
+  ]
+}

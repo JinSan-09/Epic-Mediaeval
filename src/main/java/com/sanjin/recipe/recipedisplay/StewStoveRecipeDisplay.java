@@ -48,6 +48,10 @@ public record StewStoveRecipeDisplay(List<SlotDisplay> inputs, SlotDisplay conta
                 }
         );
     }
+    public List<SlotDisplay> getInputsDisplay(){
+        return this.inputs;
+    }
+    public SlotDisplay getContainerDisplay(){return this.container;}
 
     @Override
     public @NotNull SlotDisplay result() {

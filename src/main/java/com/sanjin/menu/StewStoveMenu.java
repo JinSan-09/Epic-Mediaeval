@@ -18,7 +18,6 @@ import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class StewStoveMenu extends RecipeBookMenu {
@@ -90,6 +89,9 @@ public class StewStoveMenu extends RecipeBookMenu {
     public Player getPlayer() {
         return null;
     }
+    public Slot getResultSlot(){
+        return this.getSlot(7);
+    }
     private void beginPlacingRecipe() {
         this.placingRecipe = true;
     }
@@ -149,7 +151,7 @@ public class StewStoveMenu extends RecipeBookMenu {
 
     @Override
     public @NotNull RecipeBookType getRecipeBookType(){
-        return ModRecipeBooks.STEW_STOVE_RECIPE_BOOK_TYPE;
+        return RecipeBookType.valueOf("EPICMEDIAEVAL_STEW_STOVE");
     }
 
     @Override

@@ -28,6 +28,14 @@ public class FermentationBarrelScreen extends AbstractContainerScreen<Fermentati
     }
 
     @Override
+    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(graphics,mouseX,mouseY,partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.renderTooltip(graphics, mouseX, mouseY);
+
+    }
+
+    @Override
     protected void renderBg(@NotNull GuiGraphics guiGraphics, float v, int i, int i1) {
         guiGraphics.blit(
                 RenderType::guiTextured,
@@ -52,14 +60,6 @@ public class FermentationBarrelScreen extends AbstractContainerScreen<Fermentati
                 BUBBLE_WIDTH, bubbleLevel,
                 256,256
         );
-    }
-
-    @Override
-    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(graphics, mouseX, mouseY, partialTicks);
-        this.renderBackground(graphics,mouseX,mouseY,partialTicks);
-        this.renderTooltip(graphics, mouseX, mouseY);
-
     }
 
     @Override

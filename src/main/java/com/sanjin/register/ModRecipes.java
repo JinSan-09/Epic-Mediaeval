@@ -4,7 +4,6 @@ import com.sanjin.EpicMediaeval;
 import com.sanjin.recipe.FermentationBarrelRecipe;
 import com.sanjin.recipe.StewStoveRecipe;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
