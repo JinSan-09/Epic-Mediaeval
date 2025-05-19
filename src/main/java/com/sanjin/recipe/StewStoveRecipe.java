@@ -114,9 +114,11 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
 
     @Override
     public @NotNull RecipeBookCategory recipeBookCategory() {
-        if (this.group.equals("stews"))return ModRecipeBookCategories.STEW_STOVE_STEWS.get();
-        if (this.group.equals("soup"))return ModRecipeBookCategories.STEW_STOVE_SOUP.get();
-        else return new RecipeBookCategory();
+        return switch (this.group) {
+            case "stews" -> ModRecipeBookCategories.STEW_STOVE_STEWS.get();
+            case "soup"  -> ModRecipeBookCategories.STEW_STOVE_SOUP.get();
+            default      -> ModRecipeBookCategories.STEW_STOVE_MISC.get();
+        };
     }
 
     @Override

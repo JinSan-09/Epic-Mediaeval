@@ -14,9 +14,17 @@ public class ModRecipeBookCategories {
 
     public static final Supplier<RecipeBookCategory> STEW_STOVE_STEWS = RECIPE_BOOK_CATEGORY.register("stew_stove_stews_category", RecipeBookCategory::new);
     public static final Supplier<RecipeBookCategory> STEW_STOVE_SOUP = RECIPE_BOOK_CATEGORY.register("stew_stove_soup_category", RecipeBookCategory::new);
+    public static final Supplier<RecipeBookCategory> STEW_STOVE_MISC = RECIPE_BOOK_CATEGORY.register("stew_stove_misc", RecipeBookCategory::new);
+    public static final Supplier<RecipeBookCategory> FERMENTATION_BARREL_WINS = RECIPE_BOOK_CATEGORY.register("fermentation_barrel_wins_category", RecipeBookCategory::new);
+    public static final Supplier<RecipeBookCategory> FERMENTATION_BARREL_PICKLES = RECIPE_BOOK_CATEGORY.register("fermentation_barrel_pickles_category", RecipeBookCategory::new);
+    public static final Supplier<RecipeBookCategory> FERMENTATION_BARREL_MISC = RECIPE_BOOK_CATEGORY.register("fermentation_barrel_misc", RecipeBookCategory::new);
 
     public static final ExtendedRecipeBookCategory STEWS_SEARCH_CATEGORY = new ExtendedRecipeBookCategory() {};
     public static final ExtendedRecipeBookCategory SOUP_SEARCH_CATEGORY = new ExtendedRecipeBookCategory() {};
+    public static final ExtendedRecipeBookCategory STEW_STOVE_MISC_SEARCH_CATEGORY = new ExtendedRecipeBookCategory() {};
+    public static final ExtendedRecipeBookCategory WINS_SEARCH_CATEGORY = new ExtendedRecipeBookCategory() {};
+    public static final ExtendedRecipeBookCategory PICKLES_SEARCH_CATEGORY = new ExtendedRecipeBookCategory() {};
+    public static final ExtendedRecipeBookCategory FERMENTATION_BARREL_MISC_SEARCH_CATEGORY = new ExtendedRecipeBookCategory() {};
 
     public static void register(IEventBus eventBus) {
         RECIPE_BOOK_CATEGORY.register(eventBus);

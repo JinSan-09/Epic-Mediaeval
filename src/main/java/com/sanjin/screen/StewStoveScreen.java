@@ -14,34 +14,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
 
-    private static final ResourceLocation MAIN_TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/container/stew_stove_gui.png");
+    private static final ResourceLocation MAIN_TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/container/new_stew_stove_gui.png");
 
-    private static final int WATER_METER_X = 47;
-    private static final int WATER_METER_Y = 14;
-    private static final int WATER_METER_WIDTH = 10;
-    private static final int WATER_METER_HEIGHT = 42;
-    private static final int WATER_LEVEL_U = 176;
-    private static final int WATER_LEVEL_V = 0;
-
-    private static final int FIRE_X = 77;
-    private static final int FIRE_Y = 50;
-    private static final int FIRE_HEIGHT = 10;
-    private static final int FIRE_WIDTH = 22;
-    private static final int FIRE_U = 176;
-    private static final int FIRE_V = 42;
-    private static int MAX_FIRE_HEIGHT = 0;
-
-    private static final int COOK_X = 115;
-    private static final int COOK_Y = 24;
-    private static final int COOK_HEIGHT = 17;
-    private static final int COOK_WIDTH = 22;
-    private static final int COOK_U = 176;
-    private static final int COOK_V = 52;
+    private int burnTimeTotal = 0;
 
     public StewStoveScreen(StewStoveMenu menu, Inventory playerInventory, Component title) {
         super(menu, new StewStoveRecipeBookComponent(menu), playerInventory, title);
-        this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.imageWidth = 232;
+        this.imageHeight = 241;
     }
 
     @Override
@@ -51,7 +31,7 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
 
     @Override
     protected @NotNull ScreenPosition getRecipeBookButtonPosition() {
-        return new ScreenPosition(this.leftPos + 12, this.topPos + 32);
+        return new ScreenPosition(this.leftPos + 6, this.topPos + 55);
     }
 
     @Override
@@ -63,70 +43,146 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
 
     @Override
     protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+
+        final int FIRE_X = 85;
+        final int FIRE_Y = 120;
+        final int FIRE_U = 0;
+        int FIRE_V = 241;
+        final int FIRE_WIDTH = 62;
+        final int FIRE_HEIGHT = 27;
+
+        final int SOUP_X = 58;
+        final int SOUP_Y = 57;
+        final int SOUP_U = 62;
+        int SOUP_V = 327;
+        final int SOUP_WIDTH = 133;
+        final int SOUP_HEIGHT = 43;
+
+        final int COOKING_ONE_X = 102;
+        final int COOKING_ONE_Y = 22;
+        final int COOKING_ONE_U = 0;
+        final int COOKING_ONE_V = 333;
+        final int COOKING_ONE_WIDTH = 25;
+        final int COOKING_ONE_HEIGHT = 30;
+
+        final int COOKING_TWO_X = 176;
+        final int COOKING_TWO_Y = 71;
+        final int COOKING_TWO_U = 0;
+        final int COOKING_TWO_V = 322;
+        final int COOKING_TWO_WIDTH = 18;
+        final int COOKING_TWO_HEIGHT = 11;
+
         guiGraphics.blit(
                 RenderType::guiTextured,
                 MAIN_TEXTURE,
                 this.leftPos, this.topPos,
                 0, 0,
                 this.imageWidth, this.imageHeight,
-                256,256
+                512,512
         );
 
-        // Print water level
+        // Print soup level
         int waterLevel = this.menu.getWaterLevel();
-        if (waterLevel > 0) {
-            int waterHeight = (waterLevel * WATER_METER_HEIGHT) / 10;
+        if (waterLevel > 0 && waterLevel <= 3) {
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
-                    this.leftPos + WATER_METER_X,
-                    this.topPos + WATER_METER_Y + (WATER_METER_HEIGHT - waterHeight),
-                    WATER_LEVEL_U, WATER_LEVEL_V,
-                    WATER_METER_WIDTH, waterHeight,
-                    256, 256
+                    this.leftPos + SOUP_X,this.topPos + SOUP_Y,
+                    SOUP_U,SOUP_V,
+                    SOUP_WIDTH,SOUP_HEIGHT,
+                    512,512
+            );
+        }else if (waterLevel > 3 && waterLevel <= 7) {
+            SOUP_V = 284;
+            guiGraphics.blit(
+                    RenderType::guiTextured,
+                    MAIN_TEXTURE,
+                    this.leftPos + SOUP_X,this.topPos + SOUP_Y,
+                    SOUP_U,SOUP_V,
+                    SOUP_WIDTH,SOUP_HEIGHT,
+                    512,512
+            );
+        } else if (waterLevel > 7 && waterLevel <= 10) {
+            SOUP_V = 241;
+            guiGraphics.blit(
+                    RenderType::guiTextured,
+                    MAIN_TEXTURE,
+                    this.leftPos + SOUP_X,this.topPos + SOUP_Y,
+                    SOUP_U,SOUP_V,
+                    SOUP_WIDTH,SOUP_HEIGHT,
+                    512,512
             );
         }
 
         // Print fire level
         int burnTime = this.menu.getBurnTime();
-        int fireHeight;
-        if (burnTime > 0) {
-            if (MAX_FIRE_HEIGHT < burnTime) {
-                MAX_FIRE_HEIGHT = burnTime;
-            }
-            double burnRatio = (double) burnTime / MAX_FIRE_HEIGHT;
-            double fireHeightRaw = FIRE_HEIGHT * burnRatio;
-            if (fireHeightRaw > 0.0 && fireHeightRaw < 1.0) {
-                fireHeight = 1;
-            }else {
-                fireHeight = (int) fireHeightRaw;
-            }
+        burnTimeTotal = Math.max(burnTimeTotal,burnTime);
+        double OrRatio = (double) burnTime/burnTimeTotal;
+        if (OrRatio <= 1 && OrRatio > 0.7) {
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
-                    this.leftPos + FIRE_X,
-                    this.topPos + FIRE_Y + (FIRE_HEIGHT - fireHeight),
-                    FIRE_U, FIRE_V + (FIRE_HEIGHT - fireHeight),
-                    FIRE_WIDTH, fireHeight,
-                    256, 256
+                    this.leftPos + FIRE_X,this.topPos + FIRE_Y,
+                    FIRE_U,FIRE_V,
+                    FIRE_WIDTH,FIRE_HEIGHT,
+                    512,512
             );
-        }else {
-            MAX_FIRE_HEIGHT = 0;
+        }else if (OrRatio <= 0.7 && OrRatio > 0.3) {
+            FIRE_V = 268;
+            guiGraphics.blit(
+                    RenderType::guiTextured,
+                    MAIN_TEXTURE,
+                    this.leftPos + FIRE_X,this.topPos + FIRE_Y,
+                    FIRE_U,FIRE_V,
+                    FIRE_WIDTH,FIRE_HEIGHT,
+                    512,512
+            );
+        }else if (OrRatio > 0 && OrRatio <= 0.3) {
+            FIRE_V = 295;
+            guiGraphics.blit(
+                    RenderType::guiTextured,
+                    MAIN_TEXTURE,
+                    this.leftPos + FIRE_X,this.topPos + FIRE_Y,
+                    FIRE_U,FIRE_V,
+                    FIRE_WIDTH,FIRE_HEIGHT,
+                    512,512
+            );
         }
 
-        // Print progress level
-        int cookTime = this.menu.getCookTime();
+        // Print cooking progress
         int cookTimeTotal = this.menu.getCookTimeTotal();
-        if (cookTime > 0) {
-            int cookWidth = COOK_WIDTH * cookTime/cookTimeTotal;
+        int cookTime = this.menu.getCookTime();
+        double cookRatio = (double)cookTime / cookTimeTotal;
+        if (cookRatio <= 0.5) {
+            int cookingHeight = 2 * (int) (COOKING_ONE_HEIGHT * cookRatio);
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
-                    this.leftPos + COOK_X,
-                    this.topPos + COOK_Y,
-                    COOK_U,COOK_V,
-                    cookWidth,COOK_HEIGHT,
-                    256, 256
+                    this.leftPos + COOKING_ONE_X,this.topPos + COOKING_ONE_Y,
+                    COOKING_ONE_U,COOKING_ONE_V,
+                    COOKING_ONE_WIDTH,cookingHeight,
+                    512,512
+            );
+        }else {
+            double newCookTimeTotal = 0.5*cookTimeTotal;
+            int newCookTime = (int) (cookTime - cookTimeTotal*0.5);
+            double newRatio = newCookTime / newCookTimeTotal;
+            int cookWidth = (int) (COOKING_TWO_WIDTH * newRatio);
+            guiGraphics.blit(
+                    RenderType::guiTextured,
+                    MAIN_TEXTURE,
+                    this.leftPos + COOKING_ONE_X,this.topPos + COOKING_ONE_Y,
+                    COOKING_ONE_U,COOKING_ONE_V,
+                    COOKING_ONE_WIDTH,COOKING_ONE_HEIGHT,
+                    512,512
+            );
+            guiGraphics.blit(
+                    RenderType::guiTextured,
+                    MAIN_TEXTURE,
+                    this.leftPos + COOKING_TWO_X,this.topPos + COOKING_TWO_Y,
+                    COOKING_TWO_U,COOKING_TWO_V,
+                    cookWidth,COOKING_TWO_HEIGHT,
+                    512,512
             );
         }
     }

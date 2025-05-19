@@ -3,10 +3,10 @@ package com.sanjin.recipe.recipedisplay;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.sanjin.register.ModBlocks;
-import com.sanjin.register.ModItems;
 import com.sanjin.register.ModRecipeDisplays;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import org.jetbrains.annotations.NotNull;
@@ -14,20 +14,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public record StewStoveRecipeDisplay(List<SlotDisplay> inputs, SlotDisplay container, SlotDisplay output) implements RecipeDisplay {
+public record FermentationBarrelRecipeDisplay(List<SlotDisplay> inputs) implements RecipeDisplay {
 
-    public static final MapCodec<StewStoveRecipeDisplay> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                            SlotDisplay.CODEC.listOf().fieldOf("ingredients").forGetter(StewStoveRecipeDisplay::inputs),
-                            SlotDisplay.CODEC.fieldOf("container").forGetter(StewStoveRecipeDisplay::container),
-                            SlotDisplay.CODEC.fieldOf("result").forGetter(StewStoveRecipeDisplay::output)
-                    ).apply(instance, StewStoveRecipeDisplay::new)
+    private static final SlotDisplay emptySlot = new SlotDisplay.ItemStackSlotDisplay(ItemStack.EMPTY);
+
+    public static final MapCodec<FermentationBarrelRecipeDisplay> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            SlotDisplay.CODEC.listOf().fieldOf("ingredients").forGetter(FermentationBarrelRecipeDisplay::inputs)
+            ).apply(instance, FermentationBarrelRecipeDisplay::new)
     );
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, StewStoveRecipeDisplay> STREAM_CODEC = StreamCodec.composite(
-            getInputsStreamCodec(), StewStoveRecipeDisplay::inputs,
-            SlotDisplay.STREAM_CODEC, StewStoveRecipeDisplay::container,
-            SlotDisplay.STREAM_CODEC, StewStoveRecipeDisplay::output,
-            StewStoveRecipeDisplay::new
+    public static final StreamCodec<RegistryFriendlyByteBuf, FermentationBarrelRecipeDisplay> STREAM_CODEC = StreamCodec.composite(
+            getInputsStreamCodec(), FermentationBarrelRecipeDisplay::inputs,
+            FermentationBarrelRecipeDisplay::new
     );
 
     private static StreamCodec<RegistryFriendlyByteBuf, List<SlotDisplay>> getInputsStreamCodec(){
@@ -51,20 +49,19 @@ public record StewStoveRecipeDisplay(List<SlotDisplay> inputs, SlotDisplay conta
     public List<SlotDisplay> getInputsDisplay(){
         return this.inputs;
     }
-    public SlotDisplay getContainerDisplay(){return this.container;}
 
     @Override
     public @NotNull SlotDisplay result() {
-        return output;
+        return emptySlot;
     }
 
     @Override
     public @NotNull SlotDisplay craftingStation() {
-        return new SlotDisplay.ItemStackSlotDisplay(ModBlocks.STEW_STOVE_BLOCK.toStack());
+        return new SlotDisplay.ItemStackSlotDisplay(ModBlocks.FERMENTATION_BARREL_BLOCK.toStack());
     }
 
     @Override
-    public RecipeDisplay.@NotNull Type<? extends RecipeDisplay> type() {
-        return ModRecipeDisplays.STEW_STOVE_RECIPE_DISPLAY.get();
+    public @NotNull Type<? extends RecipeDisplay> type() {
+        return ModRecipeDisplays.FERMENTATION_BARREL_RECIPE_DISPLAY.get();
     }
 }

@@ -1,6 +1,7 @@
 package com.sanjin.register;
 
 import com.sanjin.EpicMediaeval;
+import com.sanjin.recipe.recipedisplay.FermentationBarrelRecipeDisplay;
 import com.sanjin.recipe.recipedisplay.StewStoveRecipeDisplay;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
@@ -14,6 +15,8 @@ public class ModRecipeDisplays {
 
     public static final Supplier<RecipeDisplay.Type<StewStoveRecipeDisplay>> STEW_STOVE_RECIPE_DISPLAY = RECIPE_DISPLAYS.register("stew_stove_recipe_display", () ->
             new RecipeDisplay.Type<>(StewStoveRecipeDisplay.MAP_CODEC, StewStoveRecipeDisplay.STREAM_CODEC));
+    public static final Supplier<RecipeDisplay.Type<FermentationBarrelRecipeDisplay>> FERMENTATION_BARREL_RECIPE_DISPLAY = RECIPE_DISPLAYS.register("fermentation_barrel_recipe_display", () ->
+            new RecipeDisplay.Type<>(FermentationBarrelRecipeDisplay.MAP_CODEC, FermentationBarrelRecipeDisplay.STREAM_CODEC));
 
     public static void register(IEventBus bus) {
         RECIPE_DISPLAYS.register(bus);

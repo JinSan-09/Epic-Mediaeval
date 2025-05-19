@@ -2,16 +2,19 @@ package com.sanjin.menu;
 
 import com.sanjin.register.ModBlocks;
 import com.sanjin.register.ModMenus;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class FermentationBarrelMenu extends AbstractContainerMenu {
+public class FermentationBarrelMenu extends RecipeBookMenu {
 
     private final ContainerLevelAccess access;
     private final ContainerData data;
@@ -90,5 +93,25 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(@NotNull Player player) {
         return AbstractContainerMenu.stillValid(this.access, player, ModBlocks.FERMENTATION_BARREL_BLOCK.get());
+    }
+
+    @Override
+    public @NotNull PostPlaceAction handlePlacement(boolean b, boolean b1, @NotNull RecipeHolder<?> recipeHolder, @NotNull ServerLevel serverLevel, @NotNull Inventory inventory) {
+        return null;
+    }
+
+    @Override
+    public void fillCraftSlotsStackedContents(@NotNull StackedItemContents contents) {
+        for (int i = 0; i < 4; i++) {
+            ItemStack stack = this.slots.get(i).getItem();
+            if (!stack.isEmpty()) {
+                contents.accountStack(stack, 1);
+            }
+        }
+    }
+
+    @Override
+    public @NotNull RecipeBookType getRecipeBookType() {
+        return RecipeBookType.valueOf("EPICMEDIAEVAL_FERMENTATION_BARREL");
     }
 }

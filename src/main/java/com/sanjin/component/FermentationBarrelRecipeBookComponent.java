@@ -1,7 +1,8 @@
 package com.sanjin.component;
 
+import com.sanjin.menu.FermentationBarrelMenu;
 import com.sanjin.menu.StewStoveMenu;
-import com.sanjin.recipe.recipedisplay.StewStoveRecipeDisplay;
+import com.sanjin.recipe.recipedisplay.FermentationBarrelRecipeDisplay;
 import com.sanjin.register.ModItems;
 import com.sanjin.register.ModRecipeBookCategories;
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -19,14 +20,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static com.sanjin.EpicMediaeval.LOGGER;
-
-public class StewStoveRecipeBookComponent extends RecipeBookComponent<StewStoveMenu> {
+public class FermentationBarrelRecipeBookComponent extends RecipeBookComponent<FermentationBarrelMenu> {
 
     private static final List<RecipeBookComponent.TabInfo> TAB_INFOS = List.of(
-            new RecipeBookComponent.TabInfo(ModItems.BARLEY_BEEF_STEW.get(), ModRecipeBookCategories.STEW_STOVE_STEWS.get()),
-            new RecipeBookComponent.TabInfo(ModItems.LEEK_SOUP.get(), ModRecipeBookCategories.STEW_STOVE_SOUP.get()),
-            new RecipeBookComponent.TabInfo(ModItems.WOODEN_BOWL.get(), ModRecipeBookCategories.STEW_STOVE_MISC.get())
+            new RecipeBookComponent.TabInfo(ModItems.SWEET_PLUM_WINE.get(), ModRecipeBookCategories.FERMENTATION_BARREL_WINS.get()),
+            new RecipeBookComponent.TabInfo(ModItems.CHEESE.get(), ModRecipeBookCategories.FERMENTATION_BARREL_PICKLES.get()),
+            new RecipeBookComponent.TabInfo(ModItems.WINE_BOTTLE.get(), ModRecipeBookCategories.FERMENTATION_BARREL_MISC.get())
     );
 
     private static final WidgetSprites FILTER_BUTTON_SPRITES = new WidgetSprites(
@@ -36,12 +35,8 @@ public class StewStoveRecipeBookComponent extends RecipeBookComponent<StewStoveM
             ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_disabled_highlighted")
     );
 
-    public StewStoveRecipeBookComponent(StewStoveMenu menu) {
+    public FermentationBarrelRecipeBookComponent(FermentationBarrelMenu menu) {
         super(menu, TAB_INFOS);
-    }
-    
-    private boolean canDisplay(RecipeDisplay display){
-        return true;
     }
 
     @Override
@@ -56,29 +51,23 @@ public class StewStoveRecipeBookComponent extends RecipeBookComponent<StewStoveM
     }
 
     @Override
-    protected void selectMatchingRecipes(@NotNull RecipeCollection collection, @NotNull StackedItemContents sic) {
-        LOGGER.debug("Recipe collection size before filter: {}", collection.getRecipes().size());
-        collection.selectRecipes(sic, this::canDisplay);
-        LOGGER.debug("Recipe collection size after filter: {}", collection.getRecipes().size());
-        collection.selectRecipes(sic,this::canDisplay);
+    protected void selectMatchingRecipes(@NotNull RecipeCollection collection, @NotNull StackedItemContents stackedItemContents) {
+
     }
 
     @Override
     protected @NotNull Component getRecipeFilterName() {
-        return Component.translatable("recipe.filter.stew_stove");
+        return null;
     }
 
     @Override
     protected void fillGhostRecipe(@NotNull GhostSlots ghostSlots, @NotNull RecipeDisplay recipeDisplay, @NotNull ContextMap context) {
-        StewStoveMenu menu = this.menu;
-
-        ghostSlots.setResult(menu.getResultSlot(), context, recipeDisplay.result());
-        if (recipeDisplay instanceof StewStoveRecipeDisplay stewStoveRecipeDisplay) {
-            List<SlotDisplay> inputs = stewStoveRecipeDisplay.getInputsDisplay();
+        FermentationBarrelMenu menu = this.menu;
+        if (recipeDisplay instanceof FermentationBarrelRecipeDisplay fermentationBarrelRecipeDisplay) {
+            List<SlotDisplay> inputs = fermentationBarrelRecipeDisplay.getInputsDisplay();
             for (int i = 0; i < inputs.size() && i < 4; i++) {
                 ghostSlots.setInput(menu.slots.get(i), context, inputs.get(i));
             }
-            ghostSlots.setInput(menu.slots.get(6), context, stewStoveRecipeDisplay.container());
         }
     }
 }

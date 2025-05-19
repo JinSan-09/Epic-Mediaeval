@@ -5,6 +5,12 @@
       "name": "EPICMEDIAEVAL_STEW_STOVE",
       "constructor": "()V",
       "parameters": []
+    },
+    {
+      "enum": "net/minecraft/world/inventory/RecipeBookType",
+      "name": "EPICMEDIAEVAL_FERMENTATION_BARREL",
+      "constructor": "()V",
+      "parameters": []
     }
   ]
 }

@@ -40,38 +40,37 @@ public class StewStoveMenu extends RecipeBookMenu {
         for (int i = 0; i < 4; i++) {
             int row   = i / 2;
             int col   = i % 2;
-            int xPos  = 71 + col * 18;
-            int yPos  = 15 + row * 18;
+            int xPos  = 59 + col * 18;
+            int yPos  = 11 + row * 18;
             this.addSlot(new SlotItemHandler(dataInv, i, xPos, yPos));
         }
-        this.addSlot(new SlotItemHandler(dataInv, 4, 44, 61) {
+        this.addSlot(new SlotItemHandler(dataInv, 4, 136, 20) {
             @Override public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.getItem() == Items.WATER_BUCKET || stack.getItem() == net.minecraft.world.item.Items.BUCKET;
             }
         });
-        this.addSlot(new SlotItemHandler(dataInv, 5, 80, 61) );
-        this.addSlot(new SlotItemHandler(dataInv, 6, 145, 47) {
+        this.addSlot(new SlotItemHandler(dataInv, 5, 13, 122));
+        this.addSlot(new SlotItemHandler(dataInv, 6, 197, 81) {
             @Override public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.is(ModItems.LARGE_WOODEN_BOWL) || stack.is(ModItems.WOODEN_BOWL);
             }
         });
-        this.addSlot(new SlotItemHandler(dataInv, 7, 145, 24) {
+        this.addSlot(new SlotItemHandler(dataInv, 7, 197, 56) {
             @Override public boolean mayPlace(@NotNull ItemStack stack) {
                 return false;
             }
         });
         //Payer Menu
-        int invY = 84;
+        int invY = 159;
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
-                this.addSlot(new net.minecraft.world.inventory.Slot(
-                        playerInv, col + row * 9 + 9, 8 + col * 18, invY + row * 18));
+                this.addSlot(new Slot(playerInv, col + row * 9 + 9, 36 + col * 18, invY + row * 18));
             }
         }
-        int hotbarY = 142;
+        int hotbarY = 217;
         for (int col = 0; col < 9; col++) {
             this.addSlot(new net.minecraft.world.inventory.Slot(
-                    playerInv, col, 8 + col * 18, hotbarY));
+                    playerInv, col, 36 + col * 18, hotbarY));
         }
     }
 

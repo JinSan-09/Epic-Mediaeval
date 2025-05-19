@@ -72,7 +72,7 @@
   "item.lemon_juice_wine.text1": "§6§o使用盛夏厅产出的新鲜柠檬酿成",
   "item.lemon_juice_wine.text2": "§o甜如少女唇吻，抿上一口就能使人心情大好",
 
-  "container.stew_stove.text": "煲汤炉",
+  "container.stew_stove.text": "§f§l煲汤炉",
   "container.fermentation_barrel.text": "发酵桶",
 
   "recipe.filter.stew_stove": "仅显示可烧炖",

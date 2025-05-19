@@ -93,6 +93,10 @@ public class EpicMediaeval
                     ModRecipeBookCategories.SOUP_SEARCH_CATEGORY,
                     ModRecipeBookCategories.STEW_STOVE_SOUP.get()
             );
+            event.register(
+                    ModRecipeBookCategories.STEW_STOVE_MISC_SEARCH_CATEGORY,
+                    ModRecipeBookCategories.STEW_STOVE_MISC.get()
+            );
         }
     }
 }

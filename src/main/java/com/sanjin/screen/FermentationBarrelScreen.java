@@ -1,16 +1,21 @@
 package com.sanjin.screen;
 
 import com.sanjin.EpicMediaeval;
+import com.sanjin.component.FermentationBarrelRecipeBookComponent;
 import com.sanjin.menu.FermentationBarrelMenu;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.RecipeBookMenu;
 import org.jetbrains.annotations.NotNull;
 
-public class FermentationBarrelScreen extends AbstractContainerScreen<FermentationBarrelMenu> {
+public class FermentationBarrelScreen extends AbstractRecipeBookScreen<FermentationBarrelMenu> {
 
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID,"textures/gui/container/fermentation_barrel_gui.png");
 
@@ -22,9 +27,14 @@ public class FermentationBarrelScreen extends AbstractContainerScreen<Fermentati
     private static final int BUBBLE_V = 0;
 
     public FermentationBarrelScreen(FermentationBarrelMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, title);
+        super(menu, new FermentationBarrelRecipeBookComponent(menu), playerInventory, title);
         this.imageWidth = 176;
         this.imageHeight = 166;
+    }
+
+    @Override
+    protected @NotNull ScreenPosition getRecipeBookButtonPosition() {
+        return null;
     }
 
     @Override
