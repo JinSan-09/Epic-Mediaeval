@@ -33,8 +33,13 @@ public class FermentationBarrelScreen extends AbstractRecipeBookScreen<Fermentat
     }
 
     @Override
+    protected void init() {
+        super.init();
+    }
+
+    @Override
     protected @NotNull ScreenPosition getRecipeBookButtonPosition() {
-        return null;
+        return new ScreenPosition(this.leftPos + 6, this.topPos + 55);
     }
 
     @Override

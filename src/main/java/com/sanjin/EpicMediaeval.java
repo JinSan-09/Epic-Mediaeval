@@ -97,6 +97,18 @@ public class EpicMediaeval
                     ModRecipeBookCategories.STEW_STOVE_MISC_SEARCH_CATEGORY,
                     ModRecipeBookCategories.STEW_STOVE_MISC.get()
             );
+            event.register(
+                    ModRecipeBookCategories.WINS_SEARCH_CATEGORY,
+                    ModRecipeBookCategories.FERMENTATION_BARREL_WINS.get()
+            );
+            event.register(
+                    ModRecipeBookCategories.PICKLES_SEARCH_CATEGORY,
+                    ModRecipeBookCategories.FERMENTATION_BARREL_PICKLES.get()
+            );
+            event.register(
+                    ModRecipeBookCategories.FERMENTATION_BARREL_MISC_SEARCH_CATEGORY,
+                    ModRecipeBookCategories.FERMENTATION_BARREL_MISC.get()
+            );
         }
     }
 }

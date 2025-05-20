@@ -14,17 +14,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public record FermentationBarrelRecipeDisplay(List<SlotDisplay> inputs) implements RecipeDisplay {
-
-    private static final SlotDisplay emptySlot = new SlotDisplay.ItemStackSlotDisplay(ItemStack.EMPTY);
+public record FermentationBarrelRecipeDisplay(List<SlotDisplay> inputs, SlotDisplay output) implements RecipeDisplay {
 
     public static final MapCodec<FermentationBarrelRecipeDisplay> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            SlotDisplay.CODEC.listOf().fieldOf("ingredients").forGetter(FermentationBarrelRecipeDisplay::inputs)
+            SlotDisplay.CODEC.listOf().fieldOf("ingredients").forGetter(FermentationBarrelRecipeDisplay::inputs),
+            SlotDisplay.CODEC.fieldOf("result").forGetter(FermentationBarrelRecipeDisplay::output)
             ).apply(instance, FermentationBarrelRecipeDisplay::new)
     );
 
     public static final StreamCodec<RegistryFriendlyByteBuf, FermentationBarrelRecipeDisplay> STREAM_CODEC = StreamCodec.composite(
             getInputsStreamCodec(), FermentationBarrelRecipeDisplay::inputs,
+            SlotDisplay.STREAM_CODEC, FermentationBarrelRecipeDisplay::output,
             FermentationBarrelRecipeDisplay::new
     );
 
@@ -52,7 +52,7 @@ public record FermentationBarrelRecipeDisplay(List<SlotDisplay> inputs) implemen
 
     @Override
     public @NotNull SlotDisplay result() {
-        return emptySlot;
+        return output;
     }
 
     @Override

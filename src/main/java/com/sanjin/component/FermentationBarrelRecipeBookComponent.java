@@ -1,7 +1,6 @@
 package com.sanjin.component;
 
 import com.sanjin.menu.FermentationBarrelMenu;
-import com.sanjin.menu.StewStoveMenu;
 import com.sanjin.recipe.recipedisplay.FermentationBarrelRecipeDisplay;
 import com.sanjin.register.ModItems;
 import com.sanjin.register.ModRecipeBookCategories;
@@ -19,6 +18,8 @@ import net.minecraft.world.item.crafting.display.SlotDisplay;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static com.sanjin.EpicMediaeval.LOGGER;
 
 public class FermentationBarrelRecipeBookComponent extends RecipeBookComponent<FermentationBarrelMenu> {
 
@@ -39,6 +40,10 @@ public class FermentationBarrelRecipeBookComponent extends RecipeBookComponent<F
         super(menu, TAB_INFOS);
     }
 
+    private boolean canDisplay(RecipeDisplay display){
+        return true;
+    }
+
     @Override
     protected void initFilterButtonTextures() {
         this.filterButton.initTextureValues(FILTER_BUTTON_SPRITES);
@@ -51,13 +56,17 @@ public class FermentationBarrelRecipeBookComponent extends RecipeBookComponent<F
     }
 
     @Override
-    protected void selectMatchingRecipes(@NotNull RecipeCollection collection, @NotNull StackedItemContents stackedItemContents) {
+    protected void selectMatchingRecipes(@NotNull RecipeCollection collection, @NotNull StackedItemContents sic) {
+        LOGGER.debug("Recipe collection size before filter: {}", collection.getRecipes().size());
+        collection.selectRecipes(sic, this::canDisplay);
+        LOGGER.debug("Recipe collection size after filter: {}", collection.getRecipes().size());
+        collection.selectRecipes(sic,this::canDisplay);
 
     }
 
     @Override
     protected @NotNull Component getRecipeFilterName() {
-        return null;
+        return Component.translatable("recipe.filter.fermentation_barrel");
     }
 
     @Override

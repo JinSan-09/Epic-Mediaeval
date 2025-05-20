@@ -75,9 +75,8 @@
   "container.stew_stove.text": "§f§lStew Stove",
   "container.fermentation_barrel.text": "Fermentation barrel",
 
-  "recipe.filter.stew_stove": "Stew Stove",
-
-  "recipe_book.tooltip.stew_stove":"Recipe book",
+  "recipe.filter.stew_stove": "Only stewable is shown",
+  "recipe.filter.fermentation_barrel": "Only fermentable is shown",
 
   "itemGroup.epic_mediaeval_dishes_and_materials":"Advanced Dishes & Raw Materials",
   "itemGroup.epic_mediaeval_wine_and_sauce": "Alcoholic Beverages & Sauces",

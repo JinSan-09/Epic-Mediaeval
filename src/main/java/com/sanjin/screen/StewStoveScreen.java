@@ -25,6 +25,17 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
     }
 
     @Override
+    protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY){
+        graphics.drawString(
+                this.font,
+                this.title,
+                this.titleLabelX,
+                this.titleLabelY,
+                0x404040
+        );
+    }
+
+    @Override
     protected void init() {
         super.init();
     }

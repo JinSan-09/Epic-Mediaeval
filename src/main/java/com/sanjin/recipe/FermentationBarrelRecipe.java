@@ -1,12 +1,16 @@
 package com.sanjin.recipe;
 
+import com.sanjin.recipe.recipedisplay.FermentationBarrelRecipeDisplay;
 import com.sanjin.recipe.recipeinput.FermentationBarrelRecipeInput;
+import com.sanjin.register.ModRecipeBookCategories;
 import com.sanjin.register.ModRecipeSerializers;
 import com.sanjin.register.ModRecipes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -115,7 +119,25 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
 
     @Override
     public @NotNull RecipeBookCategory recipeBookCategory() {
-        return null;
+        return switch (group){
+            case "wine" -> ModRecipeBookCategories.FERMENTATION_BARREL_WINS.get();
+            case "pickles" -> ModRecipeBookCategories.FERMENTATION_BARREL_PICKLES.get();
+            default -> ModRecipeBookCategories.FERMENTATION_BARREL_MISC.get();
+        };
+    }
+
+    @Override
+    public @NotNull List<RecipeDisplay> display(){
+        List<SlotDisplay> displays = new ArrayList<>(inputs.size());
+        for (Ingredient ingredient : inputs) {
+            displays.add(ingredient.display());
+        }
+        return List.of(
+                new FermentationBarrelRecipeDisplay(
+                        new SlotDisplay.Composite(displays).contents(),
+                        new SlotDisplay.ItemStackSlotDisplay(this.output)
+                )
+        );
     }
 
     @Override
