@@ -61,6 +61,7 @@
   "item.epicmediaeval.sweet_plum_wine":"§dMirabelle Brandy",
   "item.epicmediaeval.barley_wine": "§9Bière Brune",
   "item.epicmediaeval.lemon_juice_wine": "§9Citrus lemon wine",
+  "item.epicmediaeval.frog_wine": "§dFrogchant Draught",
 
   "block.epicmediaeval.stew_stove": "Stew stove",
   "block.epicmediaeval.fermentation_barrel": "Fermentation barrel",
@@ -71,9 +72,8 @@
   "item.barley_wine.text2": "§oCountry folk hoard this vintage, reserved for the uncorking ritual when guests of honor arrive—the first sip bites with bitterness, the second blooms with sweetness",
   "item.lemon_juice_wine.text1": "§6§oCrafted from sun-ripened Summerhall lemons",
   "item.lemon_juice_wine.text2": "§oSweet as a maiden’s kiss, a single sip lightens the heaviest heart",
-
-  "container.stew_stove.text": "§f§lStew Stove",
-  "container.fermentation_barrel.text": "Fermentation barrel",
+  "item.frog_wine_text1": "§6§oThe dark green liquid is bubbling and you can see what looks like frog limbs floating on the surface",
+  "item.frog_wine_text2": "§oNo one knows how this evil liquid was invented, and it even emits a fragrance and... frog sounds? Maybe you're hallucinating",
 
   "recipe.filter.stew_stove": "Only stewable is shown",
   "recipe.filter.fermentation_barrel": "Only fermentable is shown",

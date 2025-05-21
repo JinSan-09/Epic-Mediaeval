@@ -9,14 +9,44 @@ import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import org.jetbrains.annotations.NotNull;
 
 public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
 
-    private static final ResourceLocation MAIN_TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/container/new_stew_stove_gui.png");
+    private static final ResourceLocation MAIN_TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/container/stew_stove_gui.png");
 
-    private int burnTimeTotal = 0;
+    private static final int FIRE_X = 85;
+    private static final int FIRE_Y = 119;
+    private static final int FIRE_U = 0;
+    private static final int FIRE_WIDTH = 62;
+    private static final int FIRE_HEIGHT = 27;
+
+    private static final int SOUP_X = 58;
+    private static final int SOUP_Y = 56;
+    private static final int SOUP_U = 62;
+    private static final int SOUP_WIDTH = 133;
+    private static final int SOUP_HEIGHT = 43;
+
+    private static final int COOKING_ONE_X = 102;
+    private static final int COOKING_ONE_Y = 21;
+    private static final int COOKING_ONE_U = 0;
+    private static final int COOKING_ONE_V = 322;
+    private static final int COOKING_ONE_WIDTH = 25;
+    private static final int COOKING_ONE_HEIGHT = 30;
+
+    private static final int COOKING_TWO_X = 176;
+    private static final int COOKING_TWO_Y = 70;
+    private static final int COOKING_TWO_U = 0;
+    private static final int COOKING_TWO_V = 352;
+    private static final int COOKING_TWO_WIDTH = 18;
+    private static final int COOKING_TWO_HEIGHT = 11;
+
+    private static int SOUP_V = 327;
+    private static int FIRE_V = 241;
+    private static int burnTimeTotal = 0;
 
     public StewStoveScreen(StewStoveMenu menu, Inventory playerInventory, Component title) {
         super(menu, new StewStoveRecipeBookComponent(menu), playerInventory, title);
@@ -54,35 +84,6 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
 
     @Override
     protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-
-        final int FIRE_X = 85;
-        final int FIRE_Y = 120;
-        final int FIRE_U = 0;
-        int FIRE_V = 241;
-        final int FIRE_WIDTH = 62;
-        final int FIRE_HEIGHT = 27;
-
-        final int SOUP_X = 58;
-        final int SOUP_Y = 57;
-        final int SOUP_U = 62;
-        int SOUP_V = 327;
-        final int SOUP_WIDTH = 133;
-        final int SOUP_HEIGHT = 43;
-
-        final int COOKING_ONE_X = 102;
-        final int COOKING_ONE_Y = 22;
-        final int COOKING_ONE_U = 0;
-        final int COOKING_ONE_V = 333;
-        final int COOKING_ONE_WIDTH = 25;
-        final int COOKING_ONE_HEIGHT = 30;
-
-        final int COOKING_TWO_X = 176;
-        final int COOKING_TWO_Y = 71;
-        final int COOKING_TWO_U = 0;
-        final int COOKING_TWO_V = 322;
-        final int COOKING_TWO_WIDTH = 18;
-        final int COOKING_TWO_HEIGHT = 11;
-
         guiGraphics.blit(
                 RenderType::guiTextured,
                 MAIN_TEXTURE,

@@ -2,6 +2,7 @@ package com.sanjin.screen;
 
 import com.sanjin.EpicMediaeval;
 import com.sanjin.component.FermentationBarrelRecipeBookComponent;
+import com.sanjin.entity.blockentity.FermentationBarrelBlockEntity;
 import com.sanjin.menu.FermentationBarrelMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenPosition;
@@ -17,19 +18,30 @@ import org.jetbrains.annotations.NotNull;
 
 public class FermentationBarrelScreen extends AbstractRecipeBookScreen<FermentationBarrelMenu> {
 
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID,"textures/gui/container/fermentation_barrel_gui.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID,"textures/gui/container/fermentation_barrel_gui.png");
 
-    private static final int BUBBLE_X = 119;
-    private static final int BUBBLE_Y = 17;
-    private static final int BUBBLE_WIDTH = 27;
-    private static final int BUBBLE_HEIGHT = 44;
-    private static final int BUBBLE_U = 176;
-    private static final int BUBBLE_V = 0;
+    private static final int TOP_U = 0;
+    private static final int TOP_V = 241;
+    private static final int TOP_X = 63;
+    private static final int TOP_Y = 45;
+    private static final int TOP_WIDTH = 106;
+    private static final int TOP_HEIGHT = 51;
 
     public FermentationBarrelScreen(FermentationBarrelMenu menu, Inventory playerInventory, Component title) {
         super(menu, new FermentationBarrelRecipeBookComponent(menu), playerInventory, title);
-        this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.imageWidth = 232;
+        this.imageHeight = 241;
+    }
+
+    @Override
+    protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY){
+        graphics.drawString(
+                this.font,
+                this.title,
+                this.titleLabelX,
+                this.titleLabelY,
+                0x404040
+        );
     }
 
     @Override
@@ -39,7 +51,7 @@ public class FermentationBarrelScreen extends AbstractRecipeBookScreen<Fermentat
 
     @Override
     protected @NotNull ScreenPosition getRecipeBookButtonPosition() {
-        return new ScreenPosition(this.leftPos + 6, this.topPos + 55);
+        return new ScreenPosition(this.leftPos + 5, this.topPos + 54);
     }
 
     @Override
@@ -58,23 +70,20 @@ public class FermentationBarrelScreen extends AbstractRecipeBookScreen<Fermentat
                 this.leftPos, this.topPos,
                 0, 0,
                 this.imageWidth, this.imageHeight,
-                256,256
+                512,512
         );
 
-        // Print bubble level
-        int bubbleLevel;
-        int time = this.menu.getFermentationTime();
-        int totalTime = this.menu.getFermentationTotal();
-        double ratioTime = (double)time / totalTime;
-        bubbleLevel = (int) (BUBBLE_HEIGHT * ratioTime);
-        guiGraphics.blit(
-                RenderType::guiTextured,
-                TEXTURE,
-                this.leftPos + BUBBLE_X, this.topPos + BUBBLE_Y + (BUBBLE_HEIGHT - bubbleLevel),
-                BUBBLE_U, BUBBLE_V + (BUBBLE_HEIGHT - bubbleLevel),
-                BUBBLE_WIDTH, bubbleLevel,
-                256,256
-        );
+        boolean fermentationState = this.menu.getFermentationState() > 0;
+        if (fermentationState) {
+            guiGraphics.blit(
+                    RenderType::guiTextured,
+                    TEXTURE,
+                    this.leftPos + TOP_X, this.topPos + TOP_Y,
+                    TOP_U, TOP_V,
+                    TOP_WIDTH, TOP_HEIGHT,
+                    512,512
+            );
+        }
     }
 
     @Override

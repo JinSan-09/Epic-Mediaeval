@@ -106,6 +106,8 @@ public class ModItems {
             false,"item.barley_wine.text1","item.barley_wine.text2");
     public static final DeferredItem<Item> LEMON_JUICE_WINE = wineRegister("lemon_juice_wine",
             false,"item.lemon_juice_wine.text1","item.lemon_juice_wine.text2");
+    public static final DeferredItem<Item> FROG_WINE = wineRegister("frog_wine",
+            false,"item.frog_wine.text1","item.frog_wine.text2");
 
     // Primitives items
     public static final DeferredItem<Item> BARLEY = ITEMS.registerSimpleItem("barley",

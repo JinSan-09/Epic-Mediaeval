@@ -4,6 +4,7 @@ import com.sanjin.menu.FermentationBarrelMenu;
 import com.sanjin.recipe.recipedisplay.FermentationBarrelRecipeDisplay;
 import com.sanjin.register.ModItems;
 import com.sanjin.register.ModRecipeBookCategories;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.recipebook.GhostSlots;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;

@@ -1,7 +1,10 @@
 package com.sanjin.menu;
 
+import com.sanjin.recipe.FermentationBarrelRecipe;
+import com.sanjin.recipe.recipeinput.FermentationBarrelRecipeInput;
 import com.sanjin.register.ModBlocks;
 import com.sanjin.register.ModMenus;
+import net.minecraft.recipebook.ServerPlaceRecipe;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -14,46 +17,56 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 public class FermentationBarrelMenu extends RecipeBookMenu {
 
     private final ContainerLevelAccess access;
     private final ContainerData data;
+    private boolean placingRecipe = false;
 
     public FermentationBarrelMenu(int id, Inventory playerInventory) {
-        this(id, playerInventory, new ItemStackHandler(4),ContainerLevelAccess.NULL, new SimpleContainerData(2));
+        this(id, playerInventory, new ItemStackHandler(4),ContainerLevelAccess.NULL, new SimpleContainerData(1));
     }
 
     public FermentationBarrelMenu(int id, Inventory playerInv, IItemHandler dataInv, ContainerLevelAccess access, ContainerData data) {
         super(ModMenus.FERMENTATION_BARREL_MENU.get(), id);
         this.access = access;
         this.data = data;
-
         this.addDataSlots(data);
 
         for (int i = 0; i < 4; i++) {
             int row   = i / 2;
             int col   = i % 2;
-            int xPos  = 71 + col * 18;
-            int yPos  = 24 + row * 18;
+            int xPos  = 99 + col * 18;
+            int yPos  = 7 + row * 18;
             this.addSlot(new SlotItemHandler(dataInv, i, xPos, yPos));
         }
 
-        int invY = 84;
+        int invY = 159;
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
                 this.addSlot(new net.minecraft.world.inventory.Slot(
-                        playerInv, col + row * 9 + 9, 8 + col * 18, invY + row * 18));
+                        playerInv, col + row * 9 + 9, 36 + col * 18, invY + row * 18));
             }
         }
-        int hotbarY = 142;
+        int hotbarY = 217;
         for (int col = 0; col < 9; col++) {
             this.addSlot(new net.minecraft.world.inventory.Slot(
-                    playerInv, col, 8 + col * 18, hotbarY));
+                    playerInv, col, 36 + col * 18, hotbarY));
         }
     }
 
-    public int getFermentationTime(){return this.data.get(0);}
-    public int getFermentationTotal(){return this.data.get(1);}
+    private void beginPlacingRecipe() {
+        this.placingRecipe = true;
+    }
+    private void finishPlacingRecipe(ServerLevel level, RecipeHolder<FermentationBarrelRecipe> holder) {
+        this.placingRecipe = false;
+    }
+    public int getFermentationState(){
+        return this.data.get(0);
+    }
 
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
@@ -96,8 +109,43 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
     }
 
     @Override
-    public @NotNull PostPlaceAction handlePlacement(boolean b, boolean b1, @NotNull RecipeHolder<?> recipeHolder, @NotNull ServerLevel serverLevel, @NotNull Inventory inventory) {
-        return null;
+    public @NotNull PostPlaceAction handlePlacement(boolean b, boolean b1, @NotNull RecipeHolder<?> recipeHolder, @NotNull ServerLevel level, @NotNull Inventory inventory) {
+        RecipeHolder<FermentationBarrelRecipe> holder = (RecipeHolder<FermentationBarrelRecipe>) recipeHolder;
+        this.beginPlacingRecipe();
+        RecipeBookMenu.PostPlaceAction action;
+        try{
+            List<Slot> inputSlots = IntStream.range(0, 4).mapToObj(this.slots::get).toList();
+            action = ServerPlaceRecipe.placeRecipe(
+                    new ServerPlaceRecipe.CraftingMenuAccess<>(){
+                        @Override
+                        public void fillCraftSlotsStackedContents(@NotNull StackedItemContents contents) {
+                            FermentationBarrelMenu.this.fillCraftSlotsStackedContents(contents);
+                        }
+
+                        @Override
+                        public void clearCraftingContent() {
+                            for (int i = 0; i < 4; i++) {
+                                FermentationBarrelMenu.this.slots.get(i).set(ItemStack.EMPTY);
+                            }
+                        }
+
+                        @Override
+                        public boolean recipeMatches(@NotNull RecipeHolder<FermentationBarrelRecipe> holder) {
+                            FermentationBarrelRecipe recipe = holder.value();
+                            List<ItemStack> inputs = IntStream.range(0, 4).mapToObj(idx -> FermentationBarrelMenu.this.slots.get(idx).getItem()).toList();
+                            ItemStack container = FermentationBarrelMenu.this.slots.get(4).getItem();
+                            FermentationBarrelRecipeInput recipeInput = FermentationBarrelRecipeInput.of(inputs);
+
+                            return recipe.matches(recipeInput, level);
+                        }
+                    },
+                    2, 2, inputSlots, inputSlots, inventory, holder, b, b1
+            );
+        }finally{
+            this.finishPlacingRecipe(level, holder);
+        }
+
+        return action;
     }
 
     @Override

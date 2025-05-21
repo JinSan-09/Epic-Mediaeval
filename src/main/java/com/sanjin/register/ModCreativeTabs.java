@@ -81,6 +81,7 @@ public class ModCreativeTabs {
                     .icon(() -> new ItemStack(ModItems.SWEET_PLUM_WINE.get())).displayItems((parameters, output) -> {
                         // Wine items
                         output.accept(ModItems.SWEET_PLUM_WINE.get());
+                        output.accept(ModItems.FROG_WINE.get());
                         output.accept(ModItems.BARLEY_WINE.get());
                         output.accept(ModItems.LEMON_JUICE_WINE.get());
                         // Sauce items

@@ -2,13 +2,13 @@
   "type": "epicmediaeval:fermentation_barrel",
   "group": "wine",
   "ingredients": [
-    "epicmediaeval:plum",
-    "epicmediaeval:plum",
-    "epicmediaeval:plum",
-    "epicmediaeval:plum"
+    "epicmediaeval:frog_leg",
+    "epicmediaeval:nettle_leaves",
+    "epicmediaeval:nettle_leaves",
+    "epicmediaeval:barley"
   ],
   "result": {
-    "id": "epicmediaeval:sweet_plum_wine",
+    "id": "epicmediaeval:frog_wine",
     "count": 1
   },
   "container": {

@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
@@ -41,21 +42,21 @@ public class StewStoveMenu extends RecipeBookMenu {
             int row   = i / 2;
             int col   = i % 2;
             int xPos  = 59 + col * 18;
-            int yPos  = 11 + row * 18;
+            int yPos  = 10 + row * 18;
             this.addSlot(new SlotItemHandler(dataInv, i, xPos, yPos));
         }
-        this.addSlot(new SlotItemHandler(dataInv, 4, 136, 20) {
+        this.addSlot(new SlotItemHandler(dataInv, 4, 136, 19) {
             @Override public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.getItem() == Items.WATER_BUCKET || stack.getItem() == net.minecraft.world.item.Items.BUCKET;
             }
         });
-        this.addSlot(new SlotItemHandler(dataInv, 5, 13, 122));
-        this.addSlot(new SlotItemHandler(dataInv, 6, 197, 81) {
+        this.addSlot(new SlotItemHandler(dataInv, 5, 23, 123));
+        this.addSlot(new SlotItemHandler(dataInv, 6, 197, 80) {
             @Override public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.is(ModItems.LARGE_WOODEN_BOWL) || stack.is(ModItems.WOODEN_BOWL);
             }
         });
-        this.addSlot(new SlotItemHandler(dataInv, 7, 197, 56) {
+        this.addSlot(new SlotItemHandler(dataInv, 7, 197, 55) {
             @Override public boolean mayPlace(@NotNull ItemStack stack) {
                 return false;
             }
@@ -86,7 +87,14 @@ public class StewStoveMenu extends RecipeBookMenu {
     public int getCookTimeTotal(){return this.data.get(3);}
 
     public Player getPlayer() {
-        return null;
+        return this.access.evaluate((level, pos) -> {
+            for (Player player : level.players()) {
+                if (player.containerMenu == this) {
+                    return player;
+                }
+            }
+            return null;
+        }).orElse(null);
     }
     public Slot getResultSlot(){
         return this.getSlot(7);

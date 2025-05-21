@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class StewStoveRecipeBookComponent extends RecipeBookComponent<StewStoveM
     public StewStoveRecipeBookComponent(StewStoveMenu menu) {
         super(menu, TAB_INFOS);
     }
-    
+
     private boolean canDisplay(RecipeDisplay display){
         return true;
     }
@@ -71,14 +72,30 @@ public class StewStoveRecipeBookComponent extends RecipeBookComponent<StewStoveM
     @Override
     protected void fillGhostRecipe(@NotNull GhostSlots ghostSlots, @NotNull RecipeDisplay recipeDisplay, @NotNull ContextMap context) {
         StewStoveMenu menu = this.menu;
-
+        // Fill result
         ghostSlots.setResult(menu.getResultSlot(), context, recipeDisplay.result());
+
         if (recipeDisplay instanceof StewStoveRecipeDisplay stewStoveRecipeDisplay) {
             List<SlotDisplay> inputs = stewStoveRecipeDisplay.getInputsDisplay();
+
+            // Count
+            int processedInputs = 0;
+            LOGGER.info("Setting ghost recipe with {} inputs", inputs.size());
+            // Fill inputs
             for (int i = 0; i < inputs.size() && i < 4; i++) {
-                ghostSlots.setInput(menu.slots.get(i), context, inputs.get(i));
+                Slot targetSlot = menu.slots.get(i);
+                SlotDisplay inputDisplay = inputs.get(i);
+                LOGGER.info("Setting input slot {}: {}", i, inputDisplay);
+                ghostSlots.setInput(targetSlot, context, inputDisplay);
+                processedInputs++;
             }
-            ghostSlots.setInput(menu.slots.get(6), context, stewStoveRecipeDisplay.container());
+            // Fill container
+            SlotDisplay containerDisplay = stewStoveRecipeDisplay.container();
+            LOGGER.info("Setting container slot: {}", containerDisplay);
+            ghostSlots.setInput(menu.slots.get(6), context, containerDisplay);
+            LOGGER.info("Ghost recipe set with {} inputs and container", processedInputs);
+        }else {
+            LOGGER.warn("RecipeDisplay is not a StewStoveRecipeDisplay: {}", recipeDisplay.getClass().getName());
         }
     }
 }

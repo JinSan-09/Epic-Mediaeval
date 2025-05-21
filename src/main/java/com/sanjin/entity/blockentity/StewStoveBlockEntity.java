@@ -355,7 +355,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     // ========= Other needed settings =========
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.translatable("container.stew_stove.text");
+        return Component.translatable("");
     }
 
     @Override

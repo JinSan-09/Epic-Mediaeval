@@ -3,7 +3,7 @@
 		"2": "epicmediaeval:block/fermentation_barrel_handle",
 		"3": "epicmediaeval:block/fermentation_barrel_base",
 		"5": "epicmediaeval:block/fermentation_barrel_top",
-		"particle": "epicmediaeval:block/fermentation_barrel_handle"
+		"particle": "epicmediaeval:block/fermentation_barrel_base"
 	},
 	"elements": [
 		{

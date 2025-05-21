@@ -123,13 +123,9 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
 
     @Override
     public @NotNull List<RecipeDisplay> display(){
-        List<SlotDisplay> displays = new ArrayList<>(inputs.size());
-        for (Ingredient ingredient : inputs) {
-            displays.add(ingredient.display());
-        }
         return List.of(
                 new StewStoveRecipeDisplay(
-                        new SlotDisplay.Composite(displays).contents(),
+                        this.getInputs().stream().map(Ingredient::display).toList(),
                         new SlotDisplay.ItemStackSlotDisplay(this.container),
                         new SlotDisplay.ItemStackSlotDisplay(this.output)
                 )

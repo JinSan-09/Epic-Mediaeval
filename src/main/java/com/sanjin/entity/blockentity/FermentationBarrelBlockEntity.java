@@ -58,7 +58,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
             }
         }
     };
-    private final ContainerData data = new SimpleContainerData(2);
+    private final ContainerData data = new SimpleContainerData(1);
     private ItemStack currentFermentationResult = ItemStack.EMPTY;
     private ItemStack currentRequiredContainer = ItemStack.EMPTY;
     private String group;
@@ -218,7 +218,6 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
     // ========= Transfer data to StewStoveMenu class =========
     private void updateData() {
         data.set(0, fermentationTime);
-        data.set(1, fermentationTimeTotal);
     }
 
     // ========= Transfer data between Server and Client ==========
@@ -286,7 +285,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
     // ========= Other needed settings =========
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.translatable("container.fermentation_barrel.text");
+        return Component.translatable("");
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.sanjin.recipe.recipedisplay;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.sanjin.register.ModBlocks;
-import com.sanjin.register.ModItems;
 import com.sanjin.register.ModRecipeDisplays;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
