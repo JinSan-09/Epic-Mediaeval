@@ -8,6 +8,9 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 
 public record UseRemainderComponent(ItemStack itemStack, int count) {
+
+    public static final UseRemainderComponent EMPTY = new UseRemainderComponent(ItemStack.EMPTY, 0);
+    
     public static final Codec<UseRemainderComponent> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     ItemStack.CODEC.fieldOf("itemStack").forGetter(UseRemainderComponent::itemStack),
@@ -21,25 +24,8 @@ public record UseRemainderComponent(ItemStack itemStack, int count) {
             UseRemainderComponent::new
     );
 
-    public static UseRemainderComponent empty() {
-        return new UseRemainderComponent(ItemStack.EMPTY, 0);
-    }
-
     public static UseRemainderComponent of(ItemStack itemStack, int count) {
         return new UseRemainderComponent(itemStack, count);
-    }
-
-    public ItemStack createItemStack() {
-        if (itemStack == null || count <= 0) {
-            return ItemStack.EMPTY;
-        }
-        ItemStack result = itemStack.copy();
-        result.setCount(count);
-        return result;
-    }
-
-    public boolean isValid() {
-        return itemStack != ItemStack.EMPTY && count > 0;
     }
 }
 

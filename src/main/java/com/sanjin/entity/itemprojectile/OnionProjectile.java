@@ -1,13 +1,11 @@
 package com.sanjin.entity.itemprojectile;
 
-import com.sanjin.register.ModItemEntities;
 import com.sanjin.register.ModItems;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -26,11 +24,6 @@ public class OnionProjectile extends ThrowableItemProjectile {
 
     public OnionProjectile(EntityType<OnionProjectile> entityType, Level level) {
         super(entityType, level);
-    }
-
-    public OnionProjectile(Level level, LivingEntity shooter) {
-        super(ModItemEntities.ONION_ENTITY.get(),level);
-        this.setOwner(shooter);
     }
 
     private void makeOnionParticles() {

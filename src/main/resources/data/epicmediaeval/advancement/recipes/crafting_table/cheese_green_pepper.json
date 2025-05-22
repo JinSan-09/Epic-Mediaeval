@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_key_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "epicmediaeval:green_pepper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_key_item"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "epicmediaeval:cheese_green_pepper"
+    ]
+  }
+}

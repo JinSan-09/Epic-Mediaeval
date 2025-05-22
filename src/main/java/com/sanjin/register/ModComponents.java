@@ -25,7 +25,7 @@ public class ModComponents {
     public static final Supplier<DataComponentType<UseRemainderComponent>> USE_REMAINDER_COMPONENT = REGISTRAR.registerComponentType("use_remainder_component",
             builder -> builder.persistent(UseRemainderComponent.CODEC).networkSynchronized(UseRemainderComponent.NETWORK_CODEC));
     public static final Supplier<DataComponentType<EffectComponent>> EFFECT_COMPONENT = REGISTRAR.registerComponentType("effect_component",
-            builder -> builder.persistent(EffectComponent.CODEC));
+            builder -> builder.persistent(EffectComponent.CODEC).networkSynchronized(EffectComponent.STREAM_CODEC));
 
     public static void register(IEventBus bus) {
         REGISTRAR.register(bus);

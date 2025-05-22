@@ -19,8 +19,8 @@ public class ModItemEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, EpicMediaeval.MODID);
 
     // 注册洋葱投掷物实体
-    public static final DeferredHolder<EntityType<?>, EntityType<OnionProjectile>> ONION_ENTITY = ENTITY_TYPES.register("onion_entity",
-            () -> EntityType.Builder.<OnionProjectile>of(OnionProjectile::new, MobCategory.MISC)
+    public static final Supplier<EntityType<OnionProjectile>> ONION_ENTITY = ENTITY_TYPES.register("onion_entity", () ->
+            EntityType.Builder.of(OnionProjectile::new, MobCategory.MISC)
                             .sized(0.25F, 0.25F)
                             .clientTrackingRange(4)
                             .updateInterval(10)

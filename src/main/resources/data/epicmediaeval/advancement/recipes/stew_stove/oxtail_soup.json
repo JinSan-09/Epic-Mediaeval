@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_key_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "epicmediaeval:oxtail"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_key_item"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "epicmediaeval:oxtail_soup"
+    ]
+  }
+}

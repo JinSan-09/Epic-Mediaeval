@@ -53,7 +53,7 @@ public class StewStoveMenu extends RecipeBookMenu {
         this.addSlot(new SlotItemHandler(dataInv, 5, 23, 123));
         this.addSlot(new SlotItemHandler(dataInv, 6, 197, 80) {
             @Override public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.is(ModItems.LARGE_WOODEN_BOWL) || stack.is(ModItems.WOODEN_BOWL);
+                return stack.is(ModItems.LARGE_WOODEN_BOWL.get()) || stack.is(ModItems.WOODEN_BOWL.get());
             }
         });
         this.addSlot(new SlotItemHandler(dataInv, 7, 197, 55) {

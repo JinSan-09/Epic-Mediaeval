@@ -1,21 +1,26 @@
 package com.sanjin.item;
 
-import com.sanjin.entity.itemprojectile.OnionProjectile;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public class OnionItem extends Item {
+public class ThrowableItem extends Item {
 
-    public OnionItem(Properties properties) {
+    private final EntityType<? extends ThrowableItemProjectile> projectileType;
+
+    public ThrowableItem(Properties properties, EntityType<? extends ThrowableItemProjectile> projectileType) {
         super(properties);
+        this.projectileType = projectileType;
     }
 
     @Override
@@ -27,17 +32,18 @@ public class OnionItem extends Item {
         // Add cooldown
         player.getCooldowns().addCooldown(itemstack,0);
 
-        if (!level.isClientSide) {
-            OnionProjectile onion = new OnionProjectile(level, player);
+        ThrowableItemProjectile itemProjectile = projectileType.create(level, EntitySpawnReason.SPAWN_ITEM_USE);
+        if (itemProjectile != null) {
+            if (!level.isClientSide) {
+                double x = player.getX();
+                double y = player.getEyeY();
+                double z = player.getZ();
+                itemProjectile.setPos(x, y, z);
 
-            double x = player.getX();
-            double y = player.getEyeY();
-            double z = player.getZ();
-            onion.setPos(x, y, z);
-
-            // Shoot from the player's front
-            onion.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.2F, 1.0F);
-            level.addFreshEntity(onion);
+                // Shoot from the player's front
+                itemProjectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.2F, 1.0F);
+                level.addFreshEntity(itemProjectile);
+            }
         }
         // Count
         player.awardStat(Stats.ITEM_USED.get(this));

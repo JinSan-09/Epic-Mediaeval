@@ -31,7 +31,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SEAFOOD_STEW.get());
                         output.accept(ModItems.BEEF_PIE.get());
                         output.accept(ModItems.BROWN_OAT_CAKE.get());
-                        output.accept(ModItems.CHESS_GREEN_PEPPER.get());
+                        output.accept(ModItems.CHEESE_GREEN_PEPPER.get());
                         output.accept(ModItems.CLAY_BAKED_TROUT.get());
                         output.accept(ModItems.COD_CAKE.get());
                         output.accept(ModItems.DORNISH_CAKE.get());
