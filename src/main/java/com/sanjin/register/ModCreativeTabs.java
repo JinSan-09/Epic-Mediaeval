@@ -80,11 +80,11 @@ public class ModCreativeTabs {
                     .title(Component.translatable("itemGroup.epic_mediaeval_wine_and_sauce"))
                     .icon(() -> new ItemStack(ModItems.SWEET_PLUM_WINE.get())).displayItems((parameters, output) -> {
                         // Wine items
-                        output.accept(ModItems.SWEET_PLUM_WINE.get());
-                        output.accept(ModItems.FROG_WINE.get());
                         output.accept(ModItems.BARLEY_WINE.get());
                         output.accept(ModItems.LEMON_JUICE_WINE.get());
-                        // Sauce items
+                        output.accept(ModItems.SWEET_PLUM_WINE.get());
+                        output.accept(ModItems.FROG_WINE.get());
+                        // Pickles items
                         output.accept(ModItems.CHEESE.get());
                         output.accept(ModItems.DOUGH.get());
                         // Tableware items

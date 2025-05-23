@@ -4,6 +4,7 @@ import com.sanjin.EpicMediaeval;
 import com.sanjin.component.FrogCreateComponent;
 import com.sanjin.register.ModComponents;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -18,32 +19,31 @@ import net.neoforged.neoforge.common.MutableDataComponentHolder;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 
 public class FrogEventHandler {
+
+    private static final String FROG_EFFECT_TAG = EpicMediaeval.MODID + ":frog_effect_expire";
+
     @SubscribeEvent
     public static void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
-
         Level level = player.level();
+        if (!(level instanceof ServerLevel serverLevel)) return;
 
-        if (!(level instanceof ServerLevel)) return;
+        CompoundTag persistentData = player.getPersistentData();
+        if (!persistentData.contains(FROG_EFFECT_TAG)) {
+            return;
+        }
 
-        DataComponentType<FrogCreateComponent> type = ModComponents.FROG_CREATE_COMPONENT.get();
-        FrogCreateComponent comp = null;
-
-        long expireTick = comp.getTick();
+        long expireTick = persistentData.getLong(FROG_EFFECT_TAG);
         long now = level.getGameTime();
-        EpicMediaeval.LOGGER.info("[FrogWine] onPlayerJump 读取 expireTick={}，当前刻={}", expireTick, now);
 
-        // 3. 仅在服务端且仍在有效期内才生成青蛙
-        if (level instanceof ServerLevel serverLevel && expireTick > now) {
+        if (expireTick > now) {
             Frog frog = EntityType.FROG.create(serverLevel, EntitySpawnReason.EVENT);
             if (frog != null) {
                 Vec3 pos = player.position();
                 frog.setPos(pos.x, pos.y, pos.z);
-                // 加发光和漂浮效果
-                frog.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 0, false, false));
-                frog.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 100, 1, false, false));
+                frog.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20*300, 0, false, false));
+                frog.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 20*300, 1, false, false));
                 serverLevel.addFreshEntity(frog);
-                EpicMediaeval.LOGGER.info("[FrogWine] 已生成青蛙 at x={} y={} z={}", pos.x, pos.y, pos.z);
             }
         }
     }

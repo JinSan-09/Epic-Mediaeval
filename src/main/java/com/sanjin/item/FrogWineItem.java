@@ -1,9 +1,11 @@
 package com.sanjin.item;
 
+import com.sanjin.EpicMediaeval;
 import com.sanjin.component.EffectComponent;
 import com.sanjin.component.FrogCreateComponent;
 import com.sanjin.component.UseRemainderComponent;
 import com.sanjin.register.ModComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,6 +19,8 @@ import java.util.List;
 import java.util.Random;
 
 public class FrogWineItem extends WineItem {
+
+    private static final String FROG_EFFECT_TAG = EpicMediaeval.MODID + ":frog_effect_expire";
 
     private final UseRemainderComponent remainder;
     private final EffectComponent effects;
@@ -50,9 +54,9 @@ public class FrogWineItem extends WineItem {
         }
         if (!level.isClientSide && user instanceof Player player) {
             long expireTick = level.getGameTime() + 20L * 60 * 5;
-            if(player instanceof MutableDataComponentHolder holder){
-                holder.set(ModComponents.FROG_CREATE_COMPONENT.get(), new FrogCreateComponent(expireTick));
-            }
+
+            CompoundTag persistentData = player.getPersistentData();
+            persistentData.putLong(FROG_EFFECT_TAG, expireTick);
         }
         return result;
     }

@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
@@ -90,10 +91,13 @@ public class ModItems {
                 false,
                 List.of(Component.translatable("item.frog_wine.text1"),Component.translatable("item.frog_wine.text2")),
                 new EffectComponent(List.of(
-                        new MobEffectInstance(MobEffects.LUCK, 3,2,true,true)
+                        new MobEffectInstance(MobEffects.UNLUCK, 20*600,5,true,true),
+                        new MobEffectInstance(MobEffects.CONFUSION, 20*600,5,true,true),
+                        new MobEffectInstance(MobEffects.NIGHT_VISION, 20*600,5,true,true),
+                        new MobEffectInstance(MobEffects.JUMP,20*600,5,true,true),
+                        new MobEffectInstance(MobEffects.DOLPHINS_GRACE,20*600,5,true,true)
                 )),
-                new UseRemainderComponent(ModItems.WINE_BOTTLE.get().getDefaultInstance(),1)
-        );
+                new UseRemainderComponent(ModItems.WINE_BOTTLE.get().getDefaultInstance(),1));
     });
 
     // Primitives items
