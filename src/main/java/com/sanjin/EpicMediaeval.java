@@ -1,10 +1,12 @@
 package com.sanjin;
 
+import com.sanjin.event.FrogEventHandler;
 import com.sanjin.register.*;
 import com.sanjin.renderer.OnionProjectileRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -49,6 +51,8 @@ public class EpicMediaeval
         ModRecipeSerializers.register(modEventBus);
 
         ModCreativeTabs.register(modEventBus);
+
+        NeoForge.EVENT_BUS.register(FrogEventHandler.class);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -80,11 +84,11 @@ public class EpicMediaeval
             ModScreens.register(event);
         }
         @SubscribeEvent
-        public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        public static void registerEntityRenderers(EntityRenderersEvent.@NotNull RegisterRenderers event) {
             event.registerEntityRenderer(ModItemEntities.ONION_ENTITY.get(), OnionProjectileRenderer::new);
         }
         @SubscribeEvent
-        public static void registerSearchCategories(RegisterRecipeBookSearchCategoriesEvent event) {
+        public static void registerSearchCategories(@NotNull RegisterRecipeBookSearchCategoriesEvent event) {
             event.register(
                     ModRecipeBookCategories.STEWS_SEARCH_CATEGORY,
                     ModRecipeBookCategories.STEW_STOVE_STEWS.get()
@@ -110,5 +114,6 @@ public class EpicMediaeval
                     ModRecipeBookCategories.FERMENTATION_BARREL_MISC.get()
             );
         }
+
     }
 }

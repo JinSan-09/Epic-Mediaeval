@@ -37,16 +37,12 @@ public class ModItems {
     public static final DeferredItem<Item> BEEF_PIE = advancedDishesReg("beef_pie",false, ModItems.WHITE_PORCELAIN_DISH, ModComponents.HIGH_GRADE_FOOD, EffectComponent.EMPTY);
     public static final DeferredItem<Item> BROWN_OAT_CAKE = advancedDishesReg("brown_oat_cake",false,ModItems.WHITE_PORCELAIN_DISH, ModComponents.HIGH_GRADE_FOOD, EffectComponent.EMPTY);
     public static final DeferredItem<Item> CHEESE_GREEN_PEPPER = advancedDishesReg("cheese_green_pepper", false,ModItems.WHITE_PORCELAIN_DISH, ModComponents.HIGH_GRADE_FOOD, EffectComponent.EMPTY );
-    public static final DeferredItem<Item> CLAY_BAKED_TROUT = advancedDishesReg("clay_backed_trout",false,ModItems.WHITE_PORCELAIN_DISH, ModComponents.HIGH_GRADE_FOOD, EffectComponent.EMPTY);
+    public static final DeferredItem<Item> CLAY_BAKED_TROUT = advancedDishesReg("clay_baked_trout",false,ModItems.WHITE_PORCELAIN_DISH, ModComponents.HIGH_GRADE_FOOD, EffectComponent.EMPTY);
     public static final DeferredItem<Item> COD_CAKE = advancedDishesReg("cod_cake",false,ModItems.WHITE_PORCELAIN_DISH, ModComponents.HIGH_GRADE_FOOD, EffectComponent.EMPTY);
-    public static final DeferredItem<Item> COOKED_TROUT = ITEMS.registerSimpleItem("cooked_trout",
-            new Item.Properties().food(ModComponents.MIDDLE_GRADE_FOOD));
-    public static final DeferredItem<Item> COOKED_ELK_MEAT = ITEMS.registerSimpleItem("cooked_elk_meat",
-            new Item.Properties().food(ModComponents.MIDDLE_GRADE_FOOD));
-    public static final DeferredItem<Item> COOKED_VENISON = ITEMS.registerSimpleItem("cooked_venison",
-            new Item.Properties().food(ModComponents.MIDDLE_GRADE_FOOD));
-    public static final DeferredItem<Item> COOKED_FROG_LEG = ITEMS.registerSimpleItem("cooked_frog_leg",
-            new Item.Properties().food(ModComponents.MIDDLE_GRADE_FOOD));
+    public static final DeferredItem<Item> COOKED_TROUT = ITEMS.registerSimpleItem("cooked_trout", new Item.Properties().food(ModComponents.MIDDLE_GRADE_FOOD));
+    public static final DeferredItem<Item> COOKED_ELK_MEAT = ITEMS.registerSimpleItem("cooked_elk_meat", new Item.Properties().food(ModComponents.MIDDLE_GRADE_FOOD));
+    public static final DeferredItem<Item> COOKED_VENISON = ITEMS.registerSimpleItem("cooked_venison", new Item.Properties().food(ModComponents.MIDDLE_GRADE_FOOD));
+    public static final DeferredItem<Item> COOKED_FROG_LEG = ITEMS.registerSimpleItem("cooked_frog_leg", new Item.Properties().food(ModComponents.MIDDLE_GRADE_FOOD));
     public static final DeferredItem<Item> DORNISH_CAKE = advancedDishesReg("dornish_cake",false,ModItems.WHITE_PORCELAIN_DISH, ModComponents.HIGH_GRADE_FOOD, EffectComponent.EMPTY);
     public static final DeferredItem<Item> DORNISH_MEAT_RICE = advancedDishesReg("dornish_meat_rice",false,ModItems.WHITE_PORCELAIN_DISH, ModComponents.HIGH_GRADE_FOOD, EffectComponent.EMPTY);
     public static final DeferredItem<Item> ELK_MEATBALL = advancedDishesReg("elk_meatball",false,ModItems.WHITE_PORCELAIN_DISH, ModComponents.HIGH_GRADE_FOOD, EffectComponent.EMPTY);
@@ -86,53 +82,40 @@ public class ModItems {
                     new MobEffectInstance(MobEffects.GLOWING, 20*120, 2, true, true),
                     new MobEffectInstance(MobEffects.LUCK, 20*60, 2, true, true)
             )));
-    public static final DeferredItem<Item> FROG_WINE = wineItemReg("frog_wine",
-            false,"item.frog_wine.text1","item.frog_wine.text2", new EffectComponent(List.of(
-                    new MobEffectInstance(MobEffects.UNLUCK, 20*500, 5, true, true),
-                    new MobEffectInstance(MobEffects.CONFUSION, 20*500, 1, true, true),
-                    new MobEffectInstance(MobEffects.WATER_BREATHING, 20*500, 5, true, true),
-                    new MobEffectInstance(MobEffects.JUMP, 20*500, 5, true, true),
-                    new MobEffectInstance(MobEffects.NIGHT_VISION, 20*500, 5, true, true)
-            )));
+    public static final DeferredItem<Item> FROG_WINE = ITEMS.register("frog_wine",
+            registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
+        return new FrogWineItem(new Item.Properties()
+                .setId(key)
+                .component(DataComponents.CONSUMABLE, ModComponents.COMMON_DRINK),
+                false,
+                List.of(Component.translatable("item.frog_wine.text1"),Component.translatable("item.frog_wine.text2")),
+                new EffectComponent(List.of(
+                        new MobEffectInstance(MobEffects.LUCK, 3,2,true,true)
+                )),
+                new UseRemainderComponent(ModItems.WINE_BOTTLE.get().getDefaultInstance(),1)
+        );
+    });
 
     // Primitives items
-    public static final DeferredItem<Item> BARLEY = ITEMS.registerSimpleItem("barley",
-            new Item.Properties());
-    public static final DeferredItem<Item> BEEF_KIDNEY = ITEMS.registerSimpleItem("beef_kidney",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> CHEESE = ITEMS.registerSimpleItem("cheese",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> CHICKPEA = ITEMS.registerSimpleItem("chickpea",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> DOUGH = ITEMS.registerSimpleItem("dough",
-            new Item.Properties());
-    public static final DeferredItem<Item> FROG_LEG = ITEMS.registerSimpleItem("frog_leg",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> GREEN_PEPPER = ITEMS.registerSimpleItem("green_pepper",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> HORSERADISH = ITEMS.registerSimpleItem("horseradish",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> LEMON = ITEMS.registerSimpleItem("lemon",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> LEEK_LEAVES = ITEMS.registerSimpleItem("leek_leaves",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> NETTLE_LEAVES = ITEMS.registerSimpleItem("nettle_leaves",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> OATS = ITEMS.registerSimpleItem("oats",
-            new Item.Properties());
+    public static final DeferredItem<Item> BARLEY = ITEMS.registerSimpleItem("barley", new Item.Properties());
+    public static final DeferredItem<Item> BEEF_KIDNEY = ITEMS.registerSimpleItem("beef_kidney", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> CHEESE = ITEMS.registerSimpleItem("cheese", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> CHICKPEA = ITEMS.registerSimpleItem("chickpea", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> DOUGH = ITEMS.registerSimpleItem("dough", new Item.Properties());
+    public static final DeferredItem<Item> FROG_LEG = ITEMS.registerSimpleItem("frog_leg", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> GREEN_PEPPER = ITEMS.registerSimpleItem("green_pepper", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> HORSERADISH = ITEMS.registerSimpleItem("horseradish", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> LEMON = ITEMS.registerSimpleItem("lemon", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> LEEK_LEAVES = ITEMS.registerSimpleItem("leek_leaves", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> NETTLE_LEAVES = ITEMS.registerSimpleItem("nettle_leaves", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> OATS = ITEMS.registerSimpleItem("oats", new Item.Properties());
     public static final DeferredItem<Item> ONION = throwableItemReg("onion", ModItemEntities.ONION_ENTITY::get);
-    public static final DeferredItem<Item> OXTAIL = ITEMS.registerSimpleItem("oxtail",
-            new Item.Properties());
-    public static final DeferredItem<Item> PLUM = ITEMS.registerSimpleItem("plum",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> RAW_TROUT = ITEMS.registerSimpleItem("raw_trout",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> RAW_ELK_MEAT = ITEMS.registerSimpleItem("raw_elk_meat",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> RAW_VENISON = ITEMS.registerSimpleItem("raw_venison",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> WHITE_BEANS = ITEMS.registerSimpleItem("white_beans",
-            new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> OXTAIL = ITEMS.registerSimpleItem("oxtail", new Item.Properties());
+    public static final DeferredItem<Item> PLUM = ITEMS.registerSimpleItem("plum", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> RAW_TROUT = ITEMS.registerSimpleItem("raw_trout", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> RAW_ELK_MEAT = ITEMS.registerSimpleItem("raw_elk_meat", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> RAW_VENISON = ITEMS.registerSimpleItem("raw_venison", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> WHITE_BEANS = ITEMS.registerSimpleItem("white_beans", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
 
     public static DeferredItem<Item> wineItemReg(String name, boolean hasEnchantmentEffect, String text1, String text2, EffectComponent wineEffects) {
         return ITEMS.register(name,
