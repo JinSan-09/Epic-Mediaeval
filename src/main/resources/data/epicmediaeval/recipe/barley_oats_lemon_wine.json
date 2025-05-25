@@ -3,12 +3,12 @@
   "group": "wine",
   "ingredients": [
     "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley"
+    "epicmediaeval:oats",
+    "epicmediaeval:lemon",
+    "epicmediaeval:lemon"
   ],
   "result": {
-    "id": "epicmediaeval:barley_wine",
+    "id": "epicmediaeval:barley_oats_lemon_wine",
     "count": 1
   },
   "container": {

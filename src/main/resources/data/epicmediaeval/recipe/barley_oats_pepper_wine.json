@@ -4,16 +4,16 @@
   "ingredients": [
     "epicmediaeval:barley",
     "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley"
+    "epicmediaeval:oats",
+    "epicmediaeval:green_pepper"
   ],
   "result": {
-    "id": "epicmediaeval:barley_wine",
+    "id": "epicmediaeval:barley_oats_pepper_wine",
     "count": 1
   },
   "container": {
     "id": "epicmediaeval:wine_bottle"
   },
   "experience": 0.35,
-  "cooking_time": 600
+  "cooking_time": 300
 }

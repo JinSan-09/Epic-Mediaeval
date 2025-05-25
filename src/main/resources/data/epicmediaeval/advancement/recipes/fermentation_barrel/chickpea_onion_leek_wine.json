@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_key_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "epicmediaeval:chickpea"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_key_item"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "epicmediaeval:chickpea_onion_leek_wine"
+    ]
+  }
+}

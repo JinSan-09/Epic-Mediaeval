@@ -81,8 +81,44 @@ public class ModCreativeTabs {
                     .icon(() -> new ItemStack(ModItems.SWEET_PLUM_WINE.get())).displayItems((parameters, output) -> {
                         // Wine items
                         output.accept(ModItems.BARLEY_WINE.get());
+                        output.accept(ModItems.OATS_WINE.get());
                         output.accept(ModItems.LEMON_JUICE_WINE.get());
+                        output.accept(ModItems.BARLEY_OATS_PEPPER_WINE.get());
+                        output.accept(ModItems.OATS_LEEK_ONION_WINE.get());
+                        output.accept(ModItems.BARLEY_OATS_PLUM_WINE.get());
+                        output.accept(ModItems.CHICKPEA_OATS_ONION_WINE.get());
+                        output.accept(ModItems.OATS_HORSERADISH_ONION_WINE.get());
+                        output.accept(ModItems.BARLEY_OATS_HORSERADISH_WINE.get());
+                        output.accept(ModItems.OATS_CHICKPEA_PLUM_WINE.get());
+                        output.accept(ModItems.PEPPER_LEEK_NETTLE_WINE.get());
+                        output.accept(ModItems.CHICKPEA_LEMON_HORSERADISH_WINE.get());
+                        output.accept(ModItems.OATS_NETTLE_ONION_WINE.get());
+                        output.accept(ModItems.BARLEY_CHICKPEA_OATS_WINE.get());
+                        output.accept(ModItems.ONION_LEMON_NETTLE_WINE.get());
+                        output.accept(ModItems.OATS_LEEK_PLUM_WINE.get());
+                        output.accept(ModItems.BARLEY_OATS_ONION_WINE.get());
+                        output.accept(ModItems.OATS_CHICKPEA_NETTLE_WINE.get());
+                        output.accept(ModItems.CHICKPEA_PEPPER_NETTLE_WINE.get());
+                        output.accept(ModItems.BARLEY_PEPPER_HORSERADISH_WINE.get());
+                        output.accept(ModItems.OATS_ONION_HORSERADISH_WINE.get());
+                        output.accept(ModItems.CHICKPEA_LEMON_NETTLE_WINE.get());
+                        output.accept(ModItems.PEPPER_LEMON_LEEK_WINE.get());
+                        output.accept(ModItems.BARLEY_HORSERADISH_LEEK_WINE.get());
+                        output.accept(ModItems.BARLEY_NETTLE_PEPPER_WINE.get());
+                        output.accept(ModItems.BARLEY_PEPPER_ONION_WINE.get());
+                        output.accept(ModItems.OATS_CHICKPEA_LEMON_WINE.get());
+                        output.accept(ModItems.BARLEY_ONION_PLUM_WINE.get());
+                        output.accept(ModItems.OATS_PEPPER_NETTLE_WINE.get());
+                        output.accept(ModItems.OATS_CHICKPEA_PEPPER_WINE.get());
+                        output.accept(ModItems.CHICKPEA_HORSERADISH_NETTLE_WINE.get());
+                        output.accept(ModItems.CHICKPEA_ONION_LEEK_WINE.get());
+                        output.accept(ModItems.BARLEY_OATS_LEMON_WINE.get());
+                        output.accept(ModItems.PEPPER_NETTLE_ONION_WINE.get());
+                        output.accept(ModItems.CHICKPEA_OATS_LEEK_WINE.get());
                         output.accept(ModItems.SWEET_PLUM_WINE.get());
+                        output.accept(ModItems.DREAM_WINE.get());
+                        output.accept(ModItems.UNLUCK_WINE.get());
+                        output.accept(ModItems.STORM_WINE.get());
                         output.accept(ModItems.FROG_WINE.get());
                         // Pickles items
                         output.accept(ModItems.CHEESE.get());

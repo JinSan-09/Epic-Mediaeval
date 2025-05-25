@@ -2,13 +2,13 @@
   "type": "epicmediaeval:fermentation_barrel",
   "group": "wine",
   "ingredients": [
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley"
+    "epicmediaeval:green_pepper",
+    "epicmediaeval:green_pepper",
+    "epicmediaeval:nettle",
+    "epicmediaeval:onion"
   ],
   "result": {
-    "id": "epicmediaeval:barley_wine",
+    "id": "epicmediaeval:pepper_nettle_onion_wine",
     "count": 1
   },
   "container": {

@@ -19,9 +19,5 @@ public record FrogCreateComponent(Long aLong) {
             ByteBufCodecs.LONG,FrogCreateComponent::aLong,
             FrogCreateComponent::new
     );
-
-    public Long getTick(){
-        return aLong;
-    }
 }
 

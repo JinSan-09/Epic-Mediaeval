@@ -2,13 +2,13 @@
   "type": "epicmediaeval:fermentation_barrel",
   "group": "wine",
   "ingredients": [
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley"
+    "epicmediaeval:chickpea",
+    "epicmediaeval:lemon",
+    "epicmediaeval:nettle",
+    "epicmediaeval:nettle"
   ],
   "result": {
-    "id": "epicmediaeval:barley_wine",
+    "id": "epicmediaeval:chickpea_lemon_nettle_wine",
     "count": 1
   },
   "container": {

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "epicmediaeval:item/oats_nettle_onion_wine"
+  }
+}

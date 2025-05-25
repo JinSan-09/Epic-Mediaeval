@@ -1,9 +1,6 @@
 package com.sanjin.event;
 
 import com.sanjin.EpicMediaeval;
-import com.sanjin.component.FrogCreateComponent;
-import com.sanjin.register.ModComponents;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -15,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.common.MutableDataComponentHolder;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 
 public class FrogEventHandler {
@@ -37,7 +33,7 @@ public class FrogEventHandler {
         long now = level.getGameTime();
 
         if (expireTick > now) {
-            Frog frog = EntityType.FROG.create(serverLevel, EntitySpawnReason.EVENT);
+            Frog frog = EntityType.FROG.create(serverLevel, EntitySpawnReason.SPAWN_ITEM_USE);
             if (frog != null) {
                 Vec3 pos = player.position();
                 frog.setPos(pos.x, pos.y, pos.z);

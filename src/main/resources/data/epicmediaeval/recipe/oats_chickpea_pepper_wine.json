@@ -2,13 +2,13 @@
   "type": "epicmediaeval:fermentation_barrel",
   "group": "wine",
   "ingredients": [
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley"
+    "epicmediaeval:chickpea",
+    "epicmediaeval:oats",
+    "epicmediaeval:oats",
+    "epicmediaeval:green_pepper"
   ],
   "result": {
-    "id": "epicmediaeval:barley_wine",
+    "id": "epicmediaeval:oats_chickpea_pepper_wine",
     "count": 1
   },
   "container": {

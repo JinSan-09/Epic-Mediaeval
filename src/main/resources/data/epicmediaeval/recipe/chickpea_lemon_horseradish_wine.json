@@ -2,18 +2,18 @@
   "type": "epicmediaeval:fermentation_barrel",
   "group": "wine",
   "ingredients": [
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley"
+    "epicmediaeval:chickpea",
+    "epicmediaeval:lemon",
+    "epicmediaeval:horseradish",
+    "epicmediaeval:horseradish"
   ],
   "result": {
-    "id": "epicmediaeval:barley_wine",
+    "id": "epicmediaeval:chickpea_lemon_horseradish_wine",
     "count": 1
   },
   "container": {
     "id": "epicmediaeval:wine_bottle"
   },
   "experience": 0.35,
-  "cooking_time": 600
+  "cooking_time": 300
 }

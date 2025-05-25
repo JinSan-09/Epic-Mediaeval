@@ -2,13 +2,13 @@
   "type": "epicmediaeval:fermentation_barrel",
   "group": "wine",
   "ingredients": [
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley"
+    "epicmediaeval:green_pepper",
+    "epicmediaeval:lemon",
+    "epicmediaeval:leek_leaves",
+    "epicmediaeval:leek_leaves"
   ],
   "result": {
-    "id": "epicmediaeval:barley_wine",
+    "id": "epicmediaeval:pepper_lemon_leek_wine",
     "count": 1
   },
   "container": {

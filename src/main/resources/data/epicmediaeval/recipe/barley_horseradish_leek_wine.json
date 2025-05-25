@@ -3,12 +3,12 @@
   "group": "wine",
   "ingredients": [
     "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley",
-    "epicmediaeval:barley"
+    "epicmediaeval:horseradish",
+    "epicmediaeval:horseradish",
+    "epicmediaeval:leek_leaves"
   ],
   "result": {
-    "id": "epicmediaeval:barley_wine",
+    "id": "epicmediaeval:barley_horseradish_leek_wine",
     "count": 1
   },
   "container": {
