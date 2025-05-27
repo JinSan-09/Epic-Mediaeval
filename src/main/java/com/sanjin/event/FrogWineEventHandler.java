@@ -14,9 +14,9 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 
-public class FrogEventHandler {
+public class FrogWineEventHandler {
 
-    private static final String FROG_EFFECT_TAG = EpicMediaeval.MODID + ":frog_effect_expire";
+    private static final String FROG_EFFECT_TAG = EpicMediaeval.MODID + ":frog_create_effect_expire";
 
     @SubscribeEvent
     public static void onPlayerJump(LivingEvent.LivingJumpEvent event) {
@@ -33,7 +33,7 @@ public class FrogEventHandler {
         long now = level.getGameTime();
 
         if (expireTick > now) {
-            Frog frog = EntityType.FROG.create(serverLevel, EntitySpawnReason.SPAWN_ITEM_USE);
+            Frog frog = EntityType.FROG.create(serverLevel, EntitySpawnReason.EVENT);
             if (frog != null) {
                 Vec3 pos = player.position();
                 frog.setPos(pos.x, pos.y, pos.z);

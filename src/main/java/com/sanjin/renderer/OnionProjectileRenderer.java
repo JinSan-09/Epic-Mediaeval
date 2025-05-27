@@ -30,16 +30,13 @@ public class OnionProjectileRenderer extends ThrownItemRenderer<OnionProjectile>
         this.shadowStrength = 0.4F;
     }
 
-    //OnionProjectile entity, float partialTicks
+    //ThrownItemRenderState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight
     public void render(OnionProjectile entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
-        float scale = MIN_SCALE + (MAX_SCALE - MIN_SCALE) *
-                (0.5F + 0.5F * Mth.sin(entity.tickCount * 0.3F));
+        float scale = MIN_SCALE + (MAX_SCALE - MIN_SCALE) * (0.5F + 0.5F * Mth.sin(entity.tickCount * 0.3F));
         poseStack.scale(scale, scale, scale);
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(
-                (entity.tickCount + partialTicks) * 80.0F
-        ));
+        poseStack.mulPose(Axis.YP.rotationDegrees((entity.tickCount + partialTicks) * 80.0F));
 
         float tiltX = Mth.sin((entity.tickCount + partialTicks) * 0.1F) * 15.0F;
         float tiltZ = Mth.cos((entity.tickCount + partialTicks) * 0.1F) * 15.0F;

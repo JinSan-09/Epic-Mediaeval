@@ -2,7 +2,7 @@ package com.sanjin.register;
 
 import com.sanjin.EpicMediaeval;
 import com.sanjin.component.EffectComponent;
-import com.sanjin.component.FrogCreateComponent;
+import com.sanjin.component.TimeSetComponent;
 import com.sanjin.component.UseRemainderComponent;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -27,8 +27,8 @@ public class ModComponents {
             builder -> builder.persistent(UseRemainderComponent.CODEC).networkSynchronized(UseRemainderComponent.NETWORK_CODEC));
     public static final Supplier<DataComponentType<EffectComponent>> EFFECT_COMPONENT = REGISTRAR.registerComponentType("effect_component",
             builder -> builder.persistent(EffectComponent.CODEC).networkSynchronized(EffectComponent.STREAM_CODEC));
-    public static final Supplier<DataComponentType<FrogCreateComponent>> FROG_CREATE_COMPONENT = REGISTRAR.registerComponentType("frog_create_component",
-            builder -> builder.persistent(FrogCreateComponent.CODEC).networkSynchronized(FrogCreateComponent.NETWORK_CODEC));
+    public static final Supplier<DataComponentType<TimeSetComponent>> FROG_CREATE_COMPONENT = REGISTRAR.registerComponentType("frog_create_component",
+            builder -> builder.persistent(TimeSetComponent.CODEC).networkSynchronized(TimeSetComponent.NETWORK_CODEC));
 
     public static void register(IEventBus bus) {
         REGISTRAR.register(bus);

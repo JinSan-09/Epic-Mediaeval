@@ -1,6 +1,7 @@
 package com.sanjin;
 
-import com.sanjin.event.FrogEventHandler;
+import com.sanjin.event.FrogWineEventHandler;
+import com.sanjin.event.StormWineEventHandler;
 import com.sanjin.register.*;
 import com.sanjin.renderer.OnionProjectileRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -52,7 +53,8 @@ public class EpicMediaeval
 
         ModCreativeTabs.register(modEventBus);
 
-        NeoForge.EVENT_BUS.register(FrogEventHandler.class);
+        NeoForge.EVENT_BUS.register(FrogWineEventHandler.class);
+        NeoForge.EVENT_BUS.register(StormWineEventHandler.class);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
