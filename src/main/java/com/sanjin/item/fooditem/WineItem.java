@@ -1,7 +1,8 @@
-package com.sanjin.item;
+package com.sanjin.item.fooditem;
 
 import com.sanjin.component.EffectComponent;
 import com.sanjin.component.UseRemainderComponent;
+import com.sanjin.item.RemainderItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;

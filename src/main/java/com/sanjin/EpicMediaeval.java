@@ -3,7 +3,7 @@ package com.sanjin;
 import com.sanjin.event.FrogWineEventHandler;
 import com.sanjin.event.StormWineEventHandler;
 import com.sanjin.register.*;
-import com.sanjin.renderer.OnionProjectileRenderer;
+import com.sanjin.renderer.itemrender.OnionProjectileRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent;

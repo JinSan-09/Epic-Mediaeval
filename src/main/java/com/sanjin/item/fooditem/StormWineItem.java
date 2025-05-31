@@ -1,8 +1,9 @@
-package com.sanjin.item;
+package com.sanjin.item.fooditem;
 
 import com.sanjin.EpicMediaeval;
 import com.sanjin.component.EffectComponent;
 import com.sanjin.component.UseRemainderComponent;
+import com.sanjin.item.AbstractTimeComponentTagWineItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -12,7 +13,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class StormWineItem extends AbstractTimeComponentTagWineItem{
+public class StormWineItem extends AbstractTimeComponentTagWineItem {
 
     public StormWineItem(Properties properties, boolean hasEnchantmentEffect, List<Component> tooltipLines, EffectComponent effects, UseRemainderComponent remainder) {
         super(properties, hasEnchantmentEffect, tooltipLines, effects, remainder);

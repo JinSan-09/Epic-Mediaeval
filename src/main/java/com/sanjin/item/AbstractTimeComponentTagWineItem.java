@@ -1,8 +1,8 @@
 package com.sanjin.item;
 
-import com.sanjin.EpicMediaeval;
 import com.sanjin.component.EffectComponent;
 import com.sanjin.component.UseRemainderComponent;
+import com.sanjin.item.fooditem.WineItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -30,7 +30,6 @@ public abstract class AbstractTimeComponentTagWineItem extends WineItem {
     protected abstract String getComponentTagName();
     // Optional add new function
     protected void onEffectApplied(Player player, Level level, long expireTick) {
-        // 默认实现为空，子类可选择重写
     }
     protected Long getEffectTime(){
         return 20L*60*5;

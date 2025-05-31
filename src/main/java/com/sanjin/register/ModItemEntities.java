@@ -15,10 +15,8 @@ import java.util.function.Supplier;
 
 public class ModItemEntities {
 
-    // 创建实体类型注册器
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, EpicMediaeval.MODID);
 
-    // 注册洋葱投掷物实体
     public static final Supplier<EntityType<OnionProjectile>> ONION_ENTITY = ENTITY_TYPES.register("onion_entity", () ->
             EntityType.Builder.of(OnionProjectile::new, MobCategory.MISC)
                             .sized(0.25F, 0.25F)

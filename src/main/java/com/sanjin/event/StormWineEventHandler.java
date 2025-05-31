@@ -11,13 +11,14 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class StormWineEventHandler {
 
     private static final String STORM_EFFECT_TAG = EpicMediaeval.MODID + ":storm_create_effect_expire";
 
     @SubscribeEvent
-    public static void stormCreate(AttackEntityEvent event) {
+    public static void stormCreate(@NotNull AttackEntityEvent event) {
         Player player = event.getEntity();
         Entity target = event.getTarget();
         Level level = player.level();

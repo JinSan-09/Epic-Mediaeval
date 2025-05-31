@@ -13,13 +13,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class FrogWineEventHandler {
 
     private static final String FROG_EFFECT_TAG = EpicMediaeval.MODID + ":frog_create_effect_expire";
 
     @SubscribeEvent
-    public static void onPlayerJump(LivingEvent.LivingJumpEvent event) {
+    public static void onPlayerJump(LivingEvent.@NotNull LivingJumpEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         Level level = player.level();
         if (!(level instanceof ServerLevel serverLevel)) return;
