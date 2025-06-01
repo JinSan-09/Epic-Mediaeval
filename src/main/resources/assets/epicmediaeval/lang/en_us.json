@@ -102,6 +102,11 @@
   "block.epicmediaeval.stew_stove": "Stew stove",
   "block.epicmediaeval.fermentation_barrel": "Fermentation barrel",
 
+  "entity.epicmediaeval.female_peasant": "Female Peasant",
+  "entity.epicmediaeval.male_peasant": "Male Peasant",
+  "item.epicmediaeval.female_peasant_spawn_egg": "Female Peasant Spawn Egg",
+  "item.epicmediaeval.male_peasant_spawn_egg": "Male Peasant Spawn Egg",
+
   "item.sweet_plum_wine.text1": "§6§o=*Brewed with sweet plums originating from the banks of the Dorn Green Blood*=",
   "item.sweet_plum_wine.text2": "§o——With a lower intensity, the taste is smooth as silk.",
   "item.barley_wine.text1": "§6§o=*Crafted from exquisitely brewed barley cultivated in the Riverlands*=",

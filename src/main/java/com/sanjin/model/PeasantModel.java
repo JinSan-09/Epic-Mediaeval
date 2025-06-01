@@ -12,6 +12,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class PeasantModel extends HumanoidModel<PeasantRenderState> {
@@ -31,12 +32,24 @@ public class PeasantModel extends HumanoidModel<PeasantRenderState> {
     public PeasantModel(ModelPart root, boolean slim) {
         super(root);
         this.slim = slim;
-        this.leftSleeve = this.leftArm.getChild(LEFT_SLEEVE);
-        this.rightSleeve = this.rightArm.getChild(RIGHT_SLEEVE);
-        this.leftPants = this.leftLeg.getChild(LEFT_PANTS);
-        this.rightPants = this.rightLeg.getChild(RIGHT_PANTS);
-        this.jacket = this.body.getChild("jacket");
+        this.leftSleeve = getChildSafely(this.leftArm, "left_sleeve");
+        this.rightSleeve = getChildSafely(this.rightArm, "right_sleeve");
+        this.leftPants = getChildSafely(this.leftLeg, "left_pants");
+        this.rightPants = getChildSafely(this.rightLeg, "right_pants");
+        this.jacket = getChildSafely(this.body, "jacket");
+
         this.bodyParts = List.of(this.head, this.body, this.leftArm, this.rightArm, this.leftLeg, this.rightLeg);
+    }
+
+    private ModelPart getChildSafely(ModelPart parent, String childName) {
+        if (parent.hasChild(childName)) {
+            return parent.getChild(childName);
+        } else {
+            // 创建一个空的、不可见的ModelPart作为替代
+            ModelPart emptyPart = new ModelPart(List.of(), Map.of());
+            emptyPart.visible = false;
+            return emptyPart;
+        }
     }
 
     @Override
@@ -49,11 +62,21 @@ public class PeasantModel extends HumanoidModel<PeasantRenderState> {
         this.rightLeg.visible = flag;
         this.leftLeg.visible = flag;
         this.hat.visible = renderState.showHat;
-        this.jacket.visible = renderState.showJacket;
-        this.leftPants.visible = renderState.showLeftPants;
-        this.rightPants.visible = renderState.showRightPants;
-        this.leftSleeve.visible = renderState.showLeftSleeve;
-        this.rightSleeve.visible = renderState.showRightSleeve;
+        if (this.jacket != null) {
+            this.jacket.visible = renderState.showJacket;
+        }
+        if (this.leftPants != null) {
+            this.leftPants.visible = renderState.showLeftPants;
+        }
+        if (this.rightPants != null) {
+            this.rightPants.visible = renderState.showRightPants;
+        }
+        if (this.leftSleeve != null) {
+            this.leftSleeve.visible = renderState.showLeftSleeve;
+        }
+        if (this.rightSleeve != null) {
+            this.rightSleeve.visible = renderState.showRightSleeve;
+        }
         super.setupAnim(renderState);
     }
 

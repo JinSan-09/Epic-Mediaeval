@@ -3,6 +3,7 @@ package com.sanjin.register;
 import com.sanjin.EpicMediaeval;
 import com.sanjin.component.EffectComponent;
 import com.sanjin.component.UseRemainderComponent;
+import com.sanjin.entity.AbstractPeasantEntity;
 import com.sanjin.item.*;
 import com.sanjin.item.fooditem.FrogWineItem;
 import com.sanjin.item.fooditem.StormWineItem;
@@ -14,10 +15,14 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
@@ -133,6 +138,10 @@ public class ModItems {
     public static final DeferredItem<Item> RAW_VENISON = ITEMS.registerSimpleItem("raw_venison", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> WHITE_BEANS = ITEMS.registerSimpleItem("white_beans", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
 
+    // Spawn egg item
+    public static final DeferredHolder<Item, SpawnEggItem> FEMALE_PEASANT_SPAWN_EGG = spawnEggItemReg("female_peasant_spawn_egg", ModMobEntities.FEMALE_PEASANT_ENTITY::get, 0x8B4513, 0xDEB887);
+    public static final DeferredHolder<Item, SpawnEggItem> MALE_PEASANT_SPAWN_EGG = spawnEggItemReg("male_peasant_spawn_egg",ModMobEntities.MALE_PEASANT_ENTITY::get, 0x654321, 0xF4A460);
+
     public static @NotNull DeferredItem<Item> wineItemReg(String name, boolean hasEnchantmentEffect, String text1, String text2, EffectComponent wineEffects) {
         return ITEMS.register(name,
                 registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
@@ -180,6 +189,16 @@ public class ModItems {
                             effects
                     );
                 });
+    }
+    public static @NotNull DeferredHolder<Item, SpawnEggItem> spawnEggItemReg(String name, Supplier<EntityType<? extends Mob>> entitySupplier, int backgroundColor, int highlightColor){
+        return ITEMS.register(name, registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
+            Item.Properties props = new Item.Properties().setId(key);
+            EntityType<? extends Mob> type = entitySupplier.get();
+            return new SpawnEggItem(type,
+                    backgroundColor,
+                    highlightColor,
+                    props);
+        });
     }
     public static @NotNull Supplier<Item> tablewareItemReg(String name, int stacksTo){
         return ITEMS.register(name, registryName ->{ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);return new Item(new Item.Properties().stacksTo(stacksTo).setId(key));});

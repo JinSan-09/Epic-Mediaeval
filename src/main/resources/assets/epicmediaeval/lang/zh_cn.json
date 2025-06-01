@@ -102,6 +102,11 @@
   "block.epicmediaeval.stew_stove": "煲汤炉",
   "block.epicmediaeval.fermentation_barrel": "发酵桶",
 
+  "entity.epicmediaeval.female_peasant": "女性平民",
+  "entity.epicmediaeval.male_peasant": "男性平民",
+  "item.epicmediaeval.female_peasant_spawn_egg": "女性平民刷怪蛋",
+  "item.epicmediaeval.male_peasant_spawn_egg": "男性平民刷怪蛋",
+
   "item.sweet_plum_wine.text1": "§6§o=*使用生长于多恩绿血河河边的甜梅酿成*=",
   "item.sweet_plum_wine.text2": "§o——烈度较低，口感丝滑如绸",
   "item.barley_wine.text1": "§6§o=*使用种植于河间地的大麦精酿制成*=",

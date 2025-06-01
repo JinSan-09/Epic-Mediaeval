@@ -5,9 +5,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class MalePeasantEntity extends AbstractPeasantEntity {
 
@@ -58,30 +60,34 @@ public class MalePeasantEntity extends AbstractPeasantEntity {
             "Tilling","Townsend","Trask","Tremaine","Trent","Trevino","Tucker","Turpin","Tyrell","Underhill"
     };
 
-    private static final String[] MALE_TEXTURES = {};
+    private static final String[] MALE_TEXTURES = {
+            "epicmediaeval/textures/entity/peasant/male_peasant_1.png",
+            "epicmediaeval/textures/entity/peasant/male_peasant_2.png",
+            "epicmediaeval/textures/entity/peasant/male_peasant_3.png"
+    };
 
 
-    public MalePeasantEntity(EntityType<? extends Animal> entityType, Level level) {
+    public MalePeasantEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
     }
 
     @Override
-    protected String[] getDefaultTexturePaths() {
+    public String[] getDefaultTexturePaths() {
         return MALE_TEXTURES;
     }
 
     @Override
-    protected boolean isSlimDefault() {
+    public boolean isSlimDefault() {
         return false;
     }
 
     @Override
-    protected String[] getRandomFirstNameOptions() {
+    public String[] getRandomFirstNameOptions() {
         return MALE_FIRST_NAMES;
     }
 
     @Override
-    protected String[] getRandomLastNameOptions() {
+    public String[] getRandomLastNameOptions() {
         return MALE_LAST_NAMES;
     }
 
@@ -96,7 +102,7 @@ public class MalePeasantEntity extends AbstractPeasantEntity {
     }
 
     @Override
-    protected void handlePlayerInteraction(Player player) {
+    protected void handlePlayerInteraction(@NotNull Player player) {
         player.displayClientMessage(
                 Component.literal("Hello! I'm " + this.getPeasantName() + ", a local peasant farmer."), false);
         this.targetPlayer = player;

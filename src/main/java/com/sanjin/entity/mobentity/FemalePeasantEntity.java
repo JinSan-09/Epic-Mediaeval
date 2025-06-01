@@ -5,9 +5,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class FemalePeasantEntity extends AbstractPeasantEntity {
 
@@ -55,29 +56,33 @@ public class FemalePeasantEntity extends AbstractPeasantEntity {
             "Paine","Palmer","Parker","Parr","Pate","Payne","Peel","Pelham","Peverell","Phipps",
             "Pickering","Piers","Porter","Poyntz","Prescott","Preston","Pryor","Radford","Raleigh","Ramsey"
     };
-    private static final String[] FEMALE_TEXTURES = {};
+    private static final String[] FEMALE_TEXTURES = {
+            "epicmediaeval/textures/entity/peasant/female_peasant_1.png",
+            "epicmediaeval/textures/entity/peasant/female_peasant_2.png",
+            "epicmediaeval/textures/entity/peasant/female_peasant_3.png"
+    };
 
-    public FemalePeasantEntity(EntityType<? extends Animal> entityType, Level level) {
+    public FemalePeasantEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
     }
 
     @Override
-    protected String[] getDefaultTexturePaths() {
+    public String[] getDefaultTexturePaths() {
         return FEMALE_TEXTURES;
     }
 
     @Override
-    protected boolean isSlimDefault() {
+    public boolean isSlimDefault() {
         return true;
     }
 
     @Override
-    protected String[] getRandomFirstNameOptions() {
+    public String[] getRandomFirstNameOptions() {
         return FEMALE_FIRST_NAMES;
     }
 
     @Override
-    protected String[] getRandomLastNameOptions() {
+    public String[] getRandomLastNameOptions() {
         return FEMALE_LAST_NAMES;
     }
 
@@ -92,7 +97,7 @@ public class FemalePeasantEntity extends AbstractPeasantEntity {
     }
 
     @Override
-    protected void handlePlayerInteraction(Player player) {
+    protected void handlePlayerInteraction(@NotNull Player player) {
         player.displayClientMessage(
                 Component.literal("Greetings! I'm " + this.getPeasantName() + ", a peasant woman of this village."), false);
         this.targetPlayer = player;

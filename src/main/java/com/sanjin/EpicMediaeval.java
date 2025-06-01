@@ -1,12 +1,17 @@
 package com.sanjin;
 
+import com.sanjin.entity.mobentity.FemalePeasantEntity;
+import com.sanjin.entity.mobentity.MalePeasantEntity;
 import com.sanjin.event.FrogWineEventHandler;
+import com.sanjin.event.PeasantSpawnHandler;
 import com.sanjin.event.StormWineEventHandler;
 import com.sanjin.register.*;
+import com.sanjin.renderer.entityrender.PeasantEntityRenderer;
 import com.sanjin.renderer.itemrender.OnionProjectileRenderer;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -28,8 +33,8 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
 @Mod(EpicMediaeval.MODID)
-public class EpicMediaeval
-{
+public class EpicMediaeval {
+
     public static final String MODID = "epicmediaeval";
     public static final Logger LOGGER = LogUtils.getLogger();
 
@@ -46,6 +51,7 @@ public class EpicMediaeval
         ModRecipeBookCategories.register(modEventBus);
         ModItemEntities.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModMobEntities.register(modEventBus);
 
         ModMenus.register(modEventBus);
         ModRecipes.register(modEventBus);
@@ -55,10 +61,10 @@ public class EpicMediaeval
 
         NeoForge.EVENT_BUS.register(FrogWineEventHandler.class);
         NeoForge.EVENT_BUS.register(StormWineEventHandler.class);
+        NeoForge.EVENT_BUS.addListener(PeasantSpawnHandler::onEntityJoinWorld);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
+    private void commonSetup(final FMLCommonSetupEvent event) {
          LOGGER.info("HELLO FROM COMMON SETUP");
 
         if (Config.logDirtBlock)
@@ -84,6 +90,11 @@ public class EpicMediaeval
         @SubscribeEvent
         private static void onRegisterScreens(RegisterMenuScreensEvent event) {
             ModScreens.register(event);
+        }
+        @SubscribeEvent
+        public static void onRegisterEntityRenderers(EntityRenderersEvent.@NotNull RegisterRenderers event) {
+            event.registerEntityRenderer(ModMobEntities.FEMALE_PEASANT_ENTITY.get(), PeasantEntityRenderer::new);
+            event.registerEntityRenderer(ModMobEntities.MALE_PEASANT_ENTITY.get(), PeasantEntityRenderer::new);
         }
         @SubscribeEvent
         public static void registerEntityRenderers(EntityRenderersEvent.@NotNull RegisterRenderers event) {
@@ -116,6 +127,10 @@ public class EpicMediaeval
                     ModRecipeBookCategories.FERMENTATION_BARREL_MISC.get()
             );
         }
-
+        @SubscribeEvent
+        public static void registerEntityAttributes(@NotNull EntityAttributeCreationEvent event) {
+            event.put(ModMobEntities.FEMALE_PEASANT_ENTITY.get(), FemalePeasantEntity.createAttributes().build());
+            event.put(ModMobEntities.MALE_PEASANT_ENTITY.get(), MalePeasantEntity.createAttributes().build());
+        }
     }
 }

@@ -47,11 +47,33 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     protected Player targetPlayer;
     protected int interactionCooldown = 0;
 
-    public AbstractPeasantEntity(EntityType<? extends Animal> entityType, Level level) {
+    public AbstractPeasantEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
+
+        if (!level.isClientSide()) {
+            initializeRandomData();
+        }
     }
 
-    protected AttributeSupplier.Builder createAttributes() {
+    private void initializeRandomData() {
+        RandomSource random = this.getRandom();
+
+        String[] textures = getDefaultTexturePaths();
+        if (textures.length > 0) {
+            String texture = textures[random.nextInt(textures.length)];
+            setTextureLocation(texture);
+        }
+        setSlimModel(isSlimDefault());
+
+        // 随机选择一个名字
+        String[] firstNames = getRandomFirstNameOptions();
+        String[] lastNames = getRandomLastNameOptions();
+        String randomFirstName = firstNames[random.nextInt(firstNames.length)];
+        String randomLastName = lastNames[random.nextInt(lastNames.length)];
+        setPeasantName(randomFirstName + " " + randomLastName);
+    }
+
+    public static AttributeSupplier.@NotNull Builder createAttributes() {
         return Monster.createMonsterAttributes()
                 .add(Attributes.MAX_HEALTH, 40.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3D)
@@ -83,11 +105,11 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
 
-    protected abstract String[] getDefaultTexturePaths();
-    protected abstract boolean isSlimDefault();
+    public abstract String[] getDefaultTexturePaths();
+    public abstract boolean isSlimDefault();
     // Return random name list
-    protected abstract String[] getRandomFirstNameOptions();
-    protected abstract String[] getRandomLastNameOptions();
+    public abstract String[] getRandomFirstNameOptions();
+    public abstract String[] getRandomLastNameOptions();
 
     @Override
     public void tick() {
@@ -187,27 +209,7 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
         }
     }
 
-    public SpawnGroupData finalizeMobSpawn(@NotNull ServerLevelAccessor level, @NotNull DifficultyInstance difficulty, @NotNull EntitySpawnReason reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, reason, spawnData);
-
-        RandomSource random = level.getRandom();
-        // 初始化随机模型和纹理
-        String[] textures = getDefaultTexturePaths();
-        setSlimModel(isSlimDefault());
-        String texture = textures[random.nextInt(textures.length)];
-        setTextureLocation(texture);
-
-        // 随机选择一个名字
-        String[] firstNames = getRandomFirstNameOptions();
-        String[] lastNames = getRandomLastNameOptions();
-        String randomFirstName = firstNames[random.nextInt(firstNames.length)];
-        String randomLastName = lastNames[random.nextInt(lastNames.length)];
-        setPeasantName(randomFirstName+"."+randomLastName);
-
-        return data;
-    }
-
-    protected void handlePlayerInteraction(Player player) {
+    protected void handlePlayerInteraction(@NotNull Player player) {
         player.displayClientMessage(Component.literal("Hello, my name is " + this.getPeasantName()), false);
         this.targetPlayer = player;
     }
@@ -215,33 +217,6 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     @Override
     public @NotNull Component getName() {
         return Component.literal(this.getPeasantName());
-    }
-
-    public String getPeasantName() {
-        return this.entityData.get(DATA_NAME);
-    }
-
-    public void setPeasantName(String name) {
-        this.peasantName = name;
-        this.entityData.set(DATA_NAME, name);
-    }
-
-    public String getTextureLocation() {
-        return this.entityData.get(DATA_TEXTURE);
-    }
-
-    public void setTextureLocation(String location) {
-        this.textureLocation = location;
-        this.entityData.set(DATA_TEXTURE, location);
-    }
-
-    public boolean isSlimModel() {
-        return this.entityData.get(DATA_SLIM);
-    }
-
-    public void setSlimModel(boolean slim) {
-        this.slimModel = slim;
-        this.entityData.set(DATA_SLIM, slim);
     }
 
     @Override
@@ -301,5 +276,32 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     @Override
     public float getEquipmentDropChance(@NotNull EquipmentSlot slot) {
         return 0.1F;
+    }
+
+    public String getPeasantName() {
+        return this.entityData.get(DATA_NAME);
+    }
+
+    public void setPeasantName(String name) {
+        this.peasantName = name;
+        this.entityData.set(DATA_NAME, name);
+    }
+
+    public String getTextureLocation() {
+        return this.entityData.get(DATA_TEXTURE);
+    }
+
+    public void setTextureLocation(String location) {
+        this.textureLocation = location;
+        this.entityData.set(DATA_TEXTURE, location);
+    }
+
+    public boolean isSlimModel() {
+        return this.entityData.get(DATA_SLIM);
+    }
+
+    public void setSlimModel(boolean slim) {
+        this.slimModel = slim;
+        this.entityData.set(DATA_SLIM, slim);
     }
 }
