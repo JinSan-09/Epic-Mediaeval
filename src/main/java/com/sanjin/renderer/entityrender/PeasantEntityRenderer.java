@@ -5,7 +5,6 @@ import com.sanjin.EpicMediaeval;
 import com.sanjin.entity.AbstractPeasantEntity;
 import com.sanjin.model.PeasantModel;
 import com.sanjin.renderer.renderstate.PeasantRenderState;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -41,12 +40,20 @@ public class PeasantEntityRenderer extends LivingEntityRenderer<AbstractPeasantE
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull PeasantRenderState renderState) {
         String texturePath = renderState.getTexturePath();
+
         if (texturePath != null && !texturePath.isEmpty()) {
-            if (!texturePath.startsWith("minecraft:") && !texturePath.contains(":")) {
-                return ResourceLocation.fromNamespaceAndPath("minecraft", texturePath);
+            ResourceLocation location;
+
+            if (texturePath.contains(":")) {
+                location = ResourceLocation.parse(texturePath);
+            } else {
+                String cleanPath = getPath(texturePath);
+
+                location = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, cleanPath);
             }
-            return ResourceLocation.parse(texturePath);
+            return location;
         }
+
         return DefaultPlayerSkin.getDefaultTexture();
     }
 
@@ -89,4 +96,21 @@ public class PeasantEntityRenderer extends LivingEntityRenderer<AbstractPeasantE
     public @NotNull PeasantRenderState createRenderState() {
         return new PeasantRenderState();
     }
+
+    private static @NotNull String getPath(String texturePath) {
+        String cleanPath = texturePath;
+
+        if (cleanPath.startsWith("epicmediaeval/")) {
+            cleanPath = cleanPath.substring("epicmediaeval/".length());
+        }
+        if (cleanPath.startsWith("textures/")) {
+            cleanPath = cleanPath;
+        }
+
+        if (!cleanPath.endsWith(".png")) {
+            cleanPath += ".png";
+        }
+        return cleanPath;
+    }
+
 }

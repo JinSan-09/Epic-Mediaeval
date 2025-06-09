@@ -41,7 +41,7 @@ public class PeasantModel extends HumanoidModel<PeasantRenderState> {
         this.bodyParts = List.of(this.head, this.body, this.leftArm, this.rightArm, this.leftLeg, this.rightLeg);
     }
 
-    private ModelPart getChildSafely(ModelPart parent, String childName) {
+    private @NotNull ModelPart getChildSafely(@NotNull ModelPart parent, String childName) {
         if (parent.hasChild(childName)) {
             return parent.getChild(childName);
         } else {
@@ -53,7 +53,7 @@ public class PeasantModel extends HumanoidModel<PeasantRenderState> {
     }
 
     @Override
-    public void setupAnim(PeasantRenderState renderState) {
+    public void setupAnim(@NotNull PeasantRenderState renderState) {
         boolean flag = true;
 
         this.body.visible = flag;

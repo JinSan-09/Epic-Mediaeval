@@ -6,7 +6,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -61,9 +60,9 @@ public class MalePeasantEntity extends AbstractPeasantEntity {
     };
 
     private static final String[] MALE_TEXTURES = {
-            "epicmediaeval/textures/entity/peasant/male_peasant_1.png",
-            "epicmediaeval/textures/entity/peasant/male_peasant_2.png",
-            "epicmediaeval/textures/entity/peasant/male_peasant_3.png"
+            "textures/entity/male_peasant_1",
+            "textures/entity/male_peasant_2",
+            "textures/entity/male_peasant_3"
     };
 
 

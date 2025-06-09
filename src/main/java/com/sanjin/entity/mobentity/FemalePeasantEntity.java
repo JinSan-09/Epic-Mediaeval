@@ -57,9 +57,9 @@ public class FemalePeasantEntity extends AbstractPeasantEntity {
             "Pickering","Piers","Porter","Poyntz","Prescott","Preston","Pryor","Radford","Raleigh","Ramsey"
     };
     private static final String[] FEMALE_TEXTURES = {
-            "epicmediaeval/textures/entity/peasant/female_peasant_1.png",
-            "epicmediaeval/textures/entity/peasant/female_peasant_2.png",
-            "epicmediaeval/textures/entity/peasant/female_peasant_3.png"
+            "textures/entity/female_peasant_1",
+            "textures/entity/female_peasant_2",
+            "textures/entity/female_peasant_3"
     };
 
     public FemalePeasantEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
