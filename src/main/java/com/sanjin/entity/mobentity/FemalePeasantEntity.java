@@ -1,6 +1,7 @@
 package com.sanjin.entity.mobentity;
 
 import com.sanjin.entity.AbstractPeasantEntity;
+import com.sanjin.helper.PeasantEntityTexturesHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -56,11 +57,6 @@ public class FemalePeasantEntity extends AbstractPeasantEntity {
             "Paine","Palmer","Parker","Parr","Pate","Payne","Peel","Pelham","Peverell","Phipps",
             "Pickering","Piers","Porter","Poyntz","Prescott","Preston","Pryor","Radford","Raleigh","Ramsey"
     };
-    private static final String[] FEMALE_TEXTURES = {
-            "textures/entity/female_peasant_1",
-            "textures/entity/female_peasant_2",
-            "textures/entity/female_peasant_3"
-    };
 
     public FemalePeasantEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
@@ -68,7 +64,7 @@ public class FemalePeasantEntity extends AbstractPeasantEntity {
 
     @Override
     public String[] getDefaultTexturePaths() {
-        return FEMALE_TEXTURES;
+        return PeasantEntityTexturesHelper.getFemaleTextures();
     }
 
     @Override
