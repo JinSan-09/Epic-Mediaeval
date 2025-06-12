@@ -2,14 +2,15 @@ package com.sanjin.entity.mobentity;
 
 import com.sanjin.entity.AbstractPeasantEntity;
 import com.sanjin.helper.PeasantEntityTexturesHelper;
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 
 public class FemalePeasantEntity extends AbstractPeasantEntity {
 
@@ -63,6 +64,23 @@ public class FemalePeasantEntity extends AbstractPeasantEntity {
     }
 
     @Override
+    protected void onPlayerAttack(Player player, float damage) {
+        super.onPlayerAttack(player, damage);
+
+        UUID playerId = player.getUUID();
+        int favorability = getRelationshipComponent().getFavorability(playerId);
+
+        if (favorability < 0) {
+            // 可以添加恐慌行为或逃跑
+            this.goalSelector.addGoal(0, new PanicGoal(this, 1.5D));
+
+            // 播放恐惧音效
+            // this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+            //     SoundEvents.VILLAGER_HURT, SoundSource.NEUTRAL, 1.0F, 1.2F);
+        }
+    }
+
+    @Override
     public String[] getDefaultTexturePaths() {
         return PeasantEntityTexturesHelper.getFemaleTextures();
     }
@@ -92,10 +110,4 @@ public class FemalePeasantEntity extends AbstractPeasantEntity {
         return SoundEvents.PLAYER_DEATH;
     }
 
-    @Override
-    protected void handlePlayerInteraction(@NotNull Player player) {
-        player.displayClientMessage(
-                Component.literal("Greetings! I'm " + this.getPeasantName() + ", a peasant woman of this village."), false);
-        this.targetPlayer = player;
-    }
 }

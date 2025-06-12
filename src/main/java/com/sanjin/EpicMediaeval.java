@@ -1,5 +1,6 @@
 package com.sanjin;
 
+import com.mojang.logging.LogUtils;
 import com.sanjin.entity.mobentity.FemalePeasantEntity;
 import com.sanjin.entity.mobentity.MalePeasantEntity;
 import com.sanjin.event.FrogWineEventHandler;
@@ -8,15 +9,6 @@ import com.sanjin.event.StormWineEventHandler;
 import com.sanjin.register.*;
 import com.sanjin.renderer.entityrender.PeasantEntityRenderer;
 import com.sanjin.renderer.itemrender.OnionProjectileRenderer;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-
-import com.mojang.logging.LogUtils;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
@@ -29,8 +21,14 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 @Mod(EpicMediaeval.MODID)
 public class EpicMediaeval {
@@ -38,7 +36,7 @@ public class EpicMediaeval {
     public static final String MODID = "epicmediaeval";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public EpicMediaeval(IEventBus modEventBus, ModContainer modContainer) {
+    public EpicMediaeval(@NotNull IEventBus modEventBus, @NotNull ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);

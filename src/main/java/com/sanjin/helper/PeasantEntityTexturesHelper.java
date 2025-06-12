@@ -9,7 +9,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -60,7 +59,6 @@ public class PeasantEntityTexturesHelper {
             if (location.getNamespace().equals(EpicMediaeval.MODID)) {
                 String path = location.getPath();
                 textures.add(path);
-                EpicMediaeval.LOGGER.debug("发现纹理: {}", path);
             }
         }
 
@@ -92,12 +90,10 @@ public class PeasantEntityTexturesHelper {
         return textures.toArray(new String[0]);
     }
 
-    @Contract(value = " -> new", pure = true)
     private static String @NotNull [] getDefaultMaleTextures() {
         return new String[]{"textures/entity/male_peasant_1.png"};
     }
 
-    @Contract(value = " -> new", pure = true)
     private static String @NotNull [] getDefaultFemaleTextures() {
         return new String[]{"textures/entity/female_peasant_1.png"};
     }

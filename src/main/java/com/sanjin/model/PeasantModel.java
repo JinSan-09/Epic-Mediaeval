@@ -41,17 +41,6 @@ public class PeasantModel extends HumanoidModel<PeasantRenderState> {
         this.bodyParts = List.of(this.head, this.body, this.leftArm, this.rightArm, this.leftLeg, this.rightLeg);
     }
 
-    private @NotNull ModelPart getChildSafely(@NotNull ModelPart parent, String childName) {
-        if (parent.hasChild(childName)) {
-            return parent.getChild(childName);
-        } else {
-            // 创建一个空的、不可见的ModelPart作为替代
-            ModelPart emptyPart = new ModelPart(List.of(), Map.of());
-            emptyPart.visible = false;
-            return emptyPart;
-        }
-    }
-
     @Override
     public void setupAnim(@NotNull PeasantRenderState renderState) {
         boolean flag = true;
@@ -122,4 +111,16 @@ public class PeasantModel extends HumanoidModel<PeasantRenderState> {
     public ModelPart getRandomBodyPart(RandomSource random) {
         return Util.getRandom(this.bodyParts, random);
     }
+
+    private @NotNull ModelPart getChildSafely(@NotNull ModelPart parent, String childName) {
+        if (parent.hasChild(childName)) {
+            return parent.getChild(childName);
+        } else {
+            // 创建一个空的、不可见的ModelPart作为替代
+            ModelPart emptyPart = new ModelPart(List.of(), Map.of());
+            emptyPart.visible = false;
+            return emptyPart;
+        }
+    }
+
 }
