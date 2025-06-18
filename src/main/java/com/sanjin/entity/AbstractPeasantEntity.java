@@ -4,17 +4,21 @@ import com.sanjin.component.PeasantRelationshipComponent;
 import com.sanjin.data.PeasantInteractionHistory;
 import com.sanjin.entity.mobentity.FemalePeasantEntity;
 import com.sanjin.enums.PeasantInteractionType;
+import com.sanjin.gui.provider.PeasantMenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -254,6 +258,22 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     @Override
     public float getEquipmentDropChance(@NotNull EquipmentSlot slot) {
         return 0.1F;
+    }
+
+    @Override
+    public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
+        PeasantMenuProvider menuProvider = new PeasantMenuProvider(this);
+        if (!this.level().isClientSide) {
+            if (player instanceof ServerPlayer serverPlayer) {
+                if (this.isAlive() && player.distanceToSqr(this) < 16.0D) {
+                    serverPlayer.openMenu(menuProvider, (RegistryFriendlyByteBuf buffer) -> {
+                        buffer.writeInt(this.getId());
+                    });
+                    return InteractionResult.CONSUME;
+                }
+            }
+        }
+        return InteractionResult.SUCCESS;
     }
 
     private void initializeRandomData() {

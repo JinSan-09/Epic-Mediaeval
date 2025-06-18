@@ -6,6 +6,7 @@ import com.sanjin.entity.mobentity.MalePeasantEntity;
 import com.sanjin.event.FrogWineEventHandler;
 import com.sanjin.event.PeasantSpawnHandler;
 import com.sanjin.event.StormWineEventHandler;
+import com.sanjin.network.NetworkHandler;
 import com.sanjin.register.*;
 import com.sanjin.renderer.entityrender.PeasantEntityRenderer;
 import com.sanjin.renderer.itemrender.OnionProjectileRenderer;
@@ -27,6 +28,7 @@ import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEve
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -38,6 +40,7 @@ public class EpicMediaeval {
 
     public EpicMediaeval(@NotNull IEventBus modEventBus, @NotNull ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::registerNetworkHandlers);
         NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
@@ -60,8 +63,8 @@ public class EpicMediaeval {
         NeoForge.EVENT_BUS.register(FrogWineEventHandler.class);
         NeoForge.EVENT_BUS.register(StormWineEventHandler.class);
         NeoForge.EVENT_BUS.addListener(PeasantSpawnHandler::onEntityJoinWorld);
-    }
 
+    }
     private void commonSetup(final FMLCommonSetupEvent event) {
          LOGGER.info("HELLO FROM COMMON SETUP");
 
@@ -73,6 +76,9 @@ public class EpicMediaeval {
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
 
 
+    }
+    private void registerNetworkHandlers(RegisterPayloadHandlersEvent event) {
+        NetworkHandler.register(event);
     }
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {

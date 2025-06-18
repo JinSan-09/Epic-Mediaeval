@@ -61,9 +61,11 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
     private void beginPlacingRecipe() {
         this.placingRecipe = true;
     }
+
     private void finishPlacingRecipe(ServerLevel level, RecipeHolder<FermentationBarrelRecipe> holder) {
         this.placingRecipe = false;
     }
+
     public int getFermentationState(){
         return this.data.get(0);
     }

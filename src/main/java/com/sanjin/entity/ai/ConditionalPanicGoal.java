@@ -14,13 +14,11 @@ public class ConditionalPanicGoal extends PanicGoal {
 
     @Override
     public boolean canUse() {
-        // 只有在没有攻击目标时才恐慌
         return super.canUse() && malePeasantEntity.getTarget() == null;
     }
 
     @Override
     public boolean canContinueToUse() {
-        // 如果有攻击目标，停止恐慌
         return super.canContinueToUse() && malePeasantEntity.getTarget() == null;
     }
 

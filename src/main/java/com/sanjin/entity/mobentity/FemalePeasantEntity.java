@@ -71,7 +71,6 @@ public class FemalePeasantEntity extends AbstractPeasantEntity {
         int favorability = getRelationshipComponent().getFavorability(playerId);
 
         if (favorability < 0) {
-            // 可以添加恐慌行为或逃跑
             this.goalSelector.addGoal(0, new PanicGoal(this, 1.5D));
 
             // 播放恐惧音效
