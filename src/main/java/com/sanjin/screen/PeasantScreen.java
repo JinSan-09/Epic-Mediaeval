@@ -73,15 +73,15 @@ public class PeasantScreen extends AbstractContainerScreen<PeasantMenu> {
     private void initTabs() {
         tabWidgets.clear();
 
-        int tabX = leftPos + 8;
-        int tabY = topPos - 24;
+        int tabX = leftPos + 141;
+        int tabY = topPos + 3;
         int tabIndex = 0;
 
         for (PeasantGuiTabType tabType : PeasantGuiTabType.values()) {
             if (menu.canAccessTab(tabType)) {
                 PeasantTabWidget tabWidget = new PeasantTabWidget(
-                        tabX + (tabIndex * 28), tabY,
-                        28, 24,
+                        tabX + (tabIndex * 25), tabY,
+                        10, 13,
                         tabType,
                         this::onTabClicked,
                         tabType == menu.getCurrentTab()

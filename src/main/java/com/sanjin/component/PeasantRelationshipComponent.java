@@ -109,7 +109,6 @@ public class PeasantRelationshipComponent {
      * Master and servant system
      */
     public boolean setProfession(UUID requesterId, PeasantProfession newProfession) {
-        // 检查权限：只有主人可以设置职业
         if (!isMaster(requesterId) && newProfession != PeasantProfession.UNEMPLOYED) {
             return false;
         }
@@ -136,20 +135,17 @@ public class PeasantRelationshipComponent {
     }
 
     public void setMaster(UUID newMasterId) {
-        // 重置所有其他玩家的忠诚度为0
         for (UUID playerId : playerYield.keySet()) {
             if (!playerId.equals(newMasterId)) {
                 playerYield.put(playerId, 0);
             }
         }
 
-        // 确保新主人的忠诚度达到仆人级别
         int currentYield = getYield(newMasterId);
         if (currentYield < PeasantYieldLevel.SERVANT.getRequiredPoints()) {
             setYield(newMasterId, PeasantYieldLevel.SERVANT.getRequiredPoints());
         }
 
-        // 清除所有缓存
         unlockedTabsCache.clear();
     }
 
@@ -186,9 +182,8 @@ public class PeasantRelationshipComponent {
 
         history.add(interaction);
 
-        // 维护历史记录大小
         if (history.size() > MAX_HISTORY_SIZE) {
-            history.removeFirst(); // 移除最旧的记录
+            history.removeFirst();
         }
     }
 
@@ -228,7 +223,6 @@ public class PeasantRelationshipComponent {
 
         tag.putString("profession", profession.getSerializedName());
 
-        // 保存好感度和忠诚度数据
         CompoundTag favorabilityTag = new CompoundTag();
         for (Map.Entry<UUID, Integer> entry : playerFavorability.entrySet()) {
             favorabilityTag.putInt(entry.getKey().toString(), entry.getValue());
@@ -241,7 +235,6 @@ public class PeasantRelationshipComponent {
         }
         tag.put("yield", yieldTag);
 
-        // 保存交互历史
         CompoundTag historyTag = new CompoundTag();
         for (Map.Entry<UUID, List<PeasantInteractionHistory>> entry : interactionHistories.entrySet()) {
             ListTag playerHistoryList = new ListTag();
@@ -256,7 +249,7 @@ public class PeasantRelationshipComponent {
     }
 
     public void fromNBT(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider provider) {
-        // 清除现有数据
+
         playerFavorability.clear();
         playerYield.clear();
         interactionHistories.clear();
@@ -270,7 +263,6 @@ public class PeasantRelationshipComponent {
             }
         }
 
-        // 加载好感度和忠诚度数据
         if (tag.contains("favorability")) {
             CompoundTag favorabilityTag = tag.getCompound("favorability");
             for (String key : favorabilityTag.getAllKeys()) {
@@ -278,8 +270,8 @@ public class PeasantRelationshipComponent {
                     UUID playerId = UUID.fromString(key);
                     int points = favorabilityTag.getInt(key);
                     playerFavorability.put(playerId, points);
-                } catch (IllegalArgumentException e) {
-                    // 忽略无效的UUID
+                } catch (IllegalArgumentException ignored) {
+
                 }
             }
         }
@@ -290,13 +282,12 @@ public class PeasantRelationshipComponent {
                     UUID playerId = UUID.fromString(key);
                     int points = yieldTag.getInt(key);
                     playerYield.put(playerId, points);
-                } catch (IllegalArgumentException e) {
-                    // Same
+                } catch (IllegalArgumentException ignored) {
+
                 }
             }
         }
 
-        // 加载交互历史
         if (tag.contains("history")) {
             CompoundTag historyTag = tag.getCompound("history");
             for (String key : historyTag.getAllKeys()) {
@@ -309,16 +300,16 @@ public class PeasantRelationshipComponent {
                         CompoundTag interactionTag = playerHistoryList.getCompound(i);
                         try {
                             history.add(new PeasantInteractionHistory(interactionTag, provider));
-                        } catch (Exception e) {
-                            // 忽略损坏的交互记录
+                        } catch (Exception ignored) {
+
                         }
                     }
 
                     if (!history.isEmpty()) {
                         interactionHistories.put(playerId, history);
                     }
-                } catch (IllegalArgumentException e) {
-                    // 忽略无效的UUID
+                } catch (IllegalArgumentException ignored) {
+
                 }
             }
         }

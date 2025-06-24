@@ -43,7 +43,7 @@ public class RelationshipDisplayWidget extends AbstractWidget {
                 Component.literal("§l好感度: "),
                 this.getX() + 8,
                 this.getY() + 4,
-                0x4a3619,
+                0x2b1f14,
                 false);
         graphics.drawString(
                 font,
@@ -54,13 +54,12 @@ public class RelationshipDisplayWidget extends AbstractWidget {
                 false
         );
 
-        // 渲染忠诚度
         graphics.drawString(
                 font,
                 Component.literal("§l忠诚度: "),
                 this.getX() + 8,
                 this.getY() + 16,
-                0x4a3619,
+                0x2b1f14,
                 false);
         graphics.drawString(
                 font,

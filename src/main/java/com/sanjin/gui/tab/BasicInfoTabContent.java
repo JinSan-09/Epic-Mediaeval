@@ -31,33 +31,33 @@ public class BasicInfoTabContent extends AbstractTabContent {
         int currentY = y + 10;
         int lineHeight = 12;
 
-        graphics.drawString(font, "§l基本信息", x + 8, currentY, 0x4a3619, false);
+        graphics.drawString(font, "§l基本信息", x + 8, currentY, 0x2b1f14, false);
         currentY += lineHeight + 4;
 
         graphics.drawString(font, "姓名: " + peasant.getPeasantName(),
-                x + 8, currentY, 0xe8c47e, false);
+                x + 8, currentY, 0xffe187, false);
         currentY += lineHeight;
 
         graphics.drawString(font, "生命值: " + (int)peasant.getHealth() + "/" + (int)peasant.getMaxHealth(),
-                x + 8, currentY, 0xe8c47e, false);
+                x + 8, currentY, 0xffe187, false);
         currentY += lineHeight;
 
         currentY += 8;
-        graphics.drawString(font, "§l关系状态", x + 8, currentY, 0x4a3619, false);
+        graphics.drawString(font, "§l关系状态", x + 8, currentY, 0x2b1f14, false);
         currentY += lineHeight + 4;
 
         if (peasant.hasOwner()) {
             graphics.drawString(font, "主人: " + (peasant.getOwner() != null ? peasant.getOwner().getName().getString() : "未知"),
-                    x + 8, currentY, 0xe8c47e, false);
+                    x + 8, currentY, 0xffe187, false);
         } else {
-            graphics.drawString(font, "从属状态: 自由身", x + 8, currentY, 0xe8c47e, false);
+            graphics.drawString(font, "从属状态: 自由身", x + 8, currentY, 0xffe187, false);
         }
         currentY += lineHeight;
 
         if (menu.canTrade()) {
-            graphics.drawString(font, "交易态度：§c拒绝交易", x + 8, currentY, 0xe8c47e, false);
+            graphics.drawString(font, "交易态度：§c拒绝交易", x + 8, currentY, 0xffe187, false);
         } else {
-            graphics.drawString(font, "交易态度：§a可以交易", x + 8, currentY, 0xe8c47e, false);
+            graphics.drawString(font, "交易态度：§a可以交易", x + 8, currentY, 0xffe187, false);
         }
     }
 
