@@ -3,8 +3,8 @@ package com.sanjin.register;
 import com.sanjin.EpicMediaeval;
 import com.sanjin.component.EffectComponent;
 import com.sanjin.component.UseRemainderComponent;
-import com.sanjin.entity.AbstractPeasantEntity;
-import com.sanjin.item.*;
+import com.sanjin.item.RemainderItem;
+import com.sanjin.item.ThrowableItem;
 import com.sanjin.item.fooditem.FrogWineItem;
 import com.sanjin.item.fooditem.StormWineItem;
 import com.sanjin.item.fooditem.WineItem;
@@ -16,7 +16,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
@@ -142,6 +141,7 @@ public class ModItems {
     public static final DeferredHolder<Item, SpawnEggItem> FEMALE_PEASANT_SPAWN_EGG = spawnEggItemReg("female_peasant_spawn_egg", ModMobEntities.FEMALE_PEASANT_ENTITY::get, 0x8B4513, 0xDEB887);
     public static final DeferredHolder<Item, SpawnEggItem> MALE_PEASANT_SPAWN_EGG = spawnEggItemReg("male_peasant_spawn_egg",ModMobEntities.MALE_PEASANT_ENTITY::get, 0x654321, 0xF4A460);
 
+    // Register function
     public static @NotNull DeferredItem<Item> wineItemReg(String name, boolean hasEnchantmentEffect, String text1, String text2, EffectComponent wineEffects) {
         return ITEMS.register(name,
                 registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
