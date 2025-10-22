@@ -1,0 +1,93 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Client",
+      "presentation": {
+        "group": "Mod Development - Epic-Mediaeval",
+        "order": 0
+      },
+      "projectName": "Epic-Mediaeval",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/Users/sanjin/CursorProject/Epic-Mediaeval/build/moddev/clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/Users/sanjin/CursorProject/Epic-Mediaeval/build/moddev/clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003depicmediaeval%%/Users/sanjin/CursorProject/Epic-Mediaeval/bin/main"
+      ],
+      "cwd": "${workspaceFolder}/run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Data",
+      "presentation": {
+        "group": "Mod Development - Epic-Mediaeval",
+        "order": 1
+      },
+      "projectName": "Epic-Mediaeval",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/Users/sanjin/CursorProject/Epic-Mediaeval/build/moddev/dataRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/Users/sanjin/CursorProject/Epic-Mediaeval/build/moddev/dataRunVmArgs.txt",
+        "-Dfml.modFolders\u003depicmediaeval%%/Users/sanjin/CursorProject/Epic-Mediaeval/bin/main"
+      ],
+      "cwd": "${workspaceFolder}/run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "GameTestServer",
+      "presentation": {
+        "group": "Mod Development - Epic-Mediaeval",
+        "order": 2
+      },
+      "projectName": "Epic-Mediaeval",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/Users/sanjin/CursorProject/Epic-Mediaeval/build/moddev/gameTestServerRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/Users/sanjin/CursorProject/Epic-Mediaeval/build/moddev/gameTestServerRunVmArgs.txt",
+        "-Dfml.modFolders\u003depicmediaeval%%/Users/sanjin/CursorProject/Epic-Mediaeval/bin/main"
+      ],
+      "cwd": "${workspaceFolder}/run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Server",
+      "presentation": {
+        "group": "Mod Development - Epic-Mediaeval",
+        "order": 3
+      },
+      "projectName": "Epic-Mediaeval",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/Users/sanjin/CursorProject/Epic-Mediaeval/build/moddev/serverRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/Users/sanjin/CursorProject/Epic-Mediaeval/build/moddev/serverRunVmArgs.txt",
+        "-Dfml.modFolders\u003depicmediaeval%%/Users/sanjin/CursorProject/Epic-Mediaeval/bin/main"
+      ],
+      "cwd": "${workspaceFolder}/run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    }
+  ]
+}

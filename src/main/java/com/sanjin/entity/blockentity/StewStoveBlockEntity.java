@@ -2,7 +2,6 @@ package com.sanjin.entity.blockentity;
 
 import com.sanjin.block.StewStoveBlock;
 import com.sanjin.menu.StewStoveMenu;
-import com.sanjin.recipe.FermentationBarrelRecipe;
 import com.sanjin.recipe.StewStoveRecipe;
 import com.sanjin.recipe.recipeinput.StewStoveRecipeInput;
 import com.sanjin.register.ModBlockEntities;
