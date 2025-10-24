@@ -13,6 +13,9 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NotNull;
 
 public class PeasantEntityRenderer extends LivingEntityRenderer<AbstractPeasantEntity, PeasantRenderState, PeasantModel> {
@@ -38,7 +41,7 @@ public class PeasantEntityRenderer extends LivingEntityRenderer<AbstractPeasantE
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull PeasantRenderState renderState) {
+    public @NotNull ResourceLocation getTextureLocation(@Nonnull PeasantRenderState renderState) {
         String texturePath = renderState.getTexturePath();
 
         if (texturePath != null && !texturePath.isEmpty()) {
@@ -58,7 +61,7 @@ public class PeasantEntityRenderer extends LivingEntityRenderer<AbstractPeasantE
     }
 
     @Override
-    public void extractRenderState(@NotNull AbstractPeasantEntity entity, @NotNull PeasantRenderState renderState, float partialTicks) {
+    public void extractRenderState(@Nonnull AbstractPeasantEntity entity, @Nonnull PeasantRenderState renderState, float partialTicks) {
         super.extractRenderState(entity, renderState, partialTicks);
 
         renderState.setSlimModel(entity.isSlimModel());
@@ -87,7 +90,7 @@ public class PeasantEntityRenderer extends LivingEntityRenderer<AbstractPeasantE
     }
 
     @Override
-    protected void scale(@NotNull PeasantRenderState renderState, @NotNull PoseStack poseStack) {
+    protected void scale(@Nonnull PeasantRenderState renderState, @Nonnull PoseStack poseStack) {
         float scale = 0.9375F;
         poseStack.scale(scale, scale, scale);
     }

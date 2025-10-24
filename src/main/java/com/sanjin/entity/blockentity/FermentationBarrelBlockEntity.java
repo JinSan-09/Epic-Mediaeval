@@ -38,6 +38,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
 public class FermentationBarrelBlockEntity extends BlockEntity implements MenuProvider, EntityBlock {
 
     private static final int MATERIAL_SLOTS_START = 0;
@@ -222,7 +224,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
 
     // ========= Transfer data between Server and Client ==========
     @Override
-    public void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
+    public void saveAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         tag.putInt("FermentationTime", this.fermentationTime);
         tag.putInt("FermentationTimeTotal", this.fermentationTimeTotal);
@@ -250,7 +252,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
     }
 
     @Override
-    public void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
+    public void loadAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         this.fermentationTime = tag.getInt("FermentationTime");
         this.fermentationTimeTotal = tag.getInt("FermentationTimeTotal");
@@ -289,7 +291,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
     }
 
     @Override
-    public @Nullable AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player) {
+    public @Nullable AbstractContainerMenu createMenu(int id, @Nonnull Inventory inventory, @Nonnull Player player) {
         if (level != null) {
             return new FermentationBarrelMenu(id, inventory, this.inventory, ContainerLevelAccess.create(level, worldPosition), this.data);
         }
@@ -297,7 +299,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+    public @Nullable BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new FermentationBarrelBlockEntity(pos, state);
     }
 }

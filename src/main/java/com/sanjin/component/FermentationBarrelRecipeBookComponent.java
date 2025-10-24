@@ -4,7 +4,6 @@ import com.sanjin.menu.FermentationBarrelMenu;
 import com.sanjin.recipe.recipedisplay.FermentationBarrelRecipeDisplay;
 import com.sanjin.register.ModItems;
 import com.sanjin.register.ModRecipeBookCategories;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.recipebook.GhostSlots;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
@@ -19,6 +18,8 @@ import net.minecraft.world.item.crafting.display.SlotDisplay;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import static com.sanjin.EpicMediaeval.LOGGER;
 
@@ -51,13 +52,13 @@ public class FermentationBarrelRecipeBookComponent extends RecipeBookComponent<F
     }
 
     @Override
-    protected boolean isCraftingSlot(@NotNull Slot slot) {
+    protected boolean isCraftingSlot(@Nonnull Slot slot) {
         int idx = this.menu.slots.indexOf(slot);
         return idx >= 0 && idx < 4;
     }
 
     @Override
-    protected void selectMatchingRecipes(@NotNull RecipeCollection collection, @NotNull StackedItemContents sic) {
+    protected void selectMatchingRecipes(@Nonnull RecipeCollection collection, @Nonnull StackedItemContents sic) {
         LOGGER.debug("Recipe collection size before filter: {}", collection.getRecipes().size());
         collection.selectRecipes(sic, this::canDisplay);
         LOGGER.debug("Recipe collection size after filter: {}", collection.getRecipes().size());
@@ -71,7 +72,7 @@ public class FermentationBarrelRecipeBookComponent extends RecipeBookComponent<F
     }
 
     @Override
-    protected void fillGhostRecipe(@NotNull GhostSlots ghostSlots, @NotNull RecipeDisplay recipeDisplay, @NotNull ContextMap context) {
+    protected void fillGhostRecipe(@Nonnull GhostSlots ghostSlots, @Nonnull RecipeDisplay recipeDisplay, @Nonnull ContextMap context) {
         FermentationBarrelMenu menu = this.menu;
         if (recipeDisplay instanceof FermentationBarrelRecipeDisplay fermentationBarrelRecipeDisplay) {
             List<SlotDisplay> inputs = fermentationBarrelRecipeDisplay.getInputsDisplay();

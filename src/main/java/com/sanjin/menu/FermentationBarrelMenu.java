@@ -20,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import javax.annotation.Nonnull;
+
 public class FermentationBarrelMenu extends RecipeBookMenu {
 
     private final ContainerLevelAccess access;
@@ -71,7 +73,7 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
     }
 
     @Override
-    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@Nonnull Player player, int index) {
         Slot slot = this.slots.get(index);
         if (slot.hasItem()) {
             ItemStack original = slot.getItem();
@@ -106,12 +108,12 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
     }
 
     @Override
-    public boolean stillValid(@NotNull Player player) {
+    public boolean stillValid(@Nonnull Player player) {
         return AbstractContainerMenu.stillValid(this.access, player, ModBlocks.FERMENTATION_BARREL_BLOCK.get());
     }
 
     @Override
-    public @NotNull PostPlaceAction handlePlacement(boolean b, boolean b1, @NotNull RecipeHolder<?> recipeHolder, @NotNull ServerLevel level, @NotNull Inventory inventory) {
+    public @NotNull PostPlaceAction handlePlacement(boolean b, boolean b1, @Nonnull RecipeHolder<?> recipeHolder, @Nonnull ServerLevel level, @Nonnull Inventory inventory) {
         RecipeHolder<FermentationBarrelRecipe> holder = (RecipeHolder<FermentationBarrelRecipe>) recipeHolder;
         this.beginPlacingRecipe();
         RecipeBookMenu.PostPlaceAction action;
@@ -120,7 +122,7 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
             action = ServerPlaceRecipe.placeRecipe(
                     new ServerPlaceRecipe.CraftingMenuAccess<>(){
                         @Override
-                        public void fillCraftSlotsStackedContents(@NotNull StackedItemContents contents) {
+                        public void fillCraftSlotsStackedContents(@Nonnull StackedItemContents contents) {
                             FermentationBarrelMenu.this.fillCraftSlotsStackedContents(contents);
                         }
 
@@ -132,7 +134,7 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
                         }
 
                         @Override
-                        public boolean recipeMatches(@NotNull RecipeHolder<FermentationBarrelRecipe> holder) {
+                        public boolean recipeMatches(@Nonnull RecipeHolder<FermentationBarrelRecipe> holder) {
                             FermentationBarrelRecipe recipe = holder.value();
                             List<ItemStack> inputs = IntStream.range(0, 4).mapToObj(idx -> FermentationBarrelMenu.this.slots.get(idx).getItem()).toList();
                             ItemStack container = FermentationBarrelMenu.this.slots.get(4).getItem();
@@ -151,7 +153,7 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
     }
 
     @Override
-    public void fillCraftSlotsStackedContents(@NotNull StackedItemContents contents) {
+    public void fillCraftSlotsStackedContents(@Nonnull StackedItemContents contents) {
         for (int i = 0; i < 4; i++) {
             ItemStack stack = this.slots.get(i).getItem();
             if (!stack.isEmpty()) {

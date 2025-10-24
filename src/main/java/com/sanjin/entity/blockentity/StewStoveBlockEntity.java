@@ -35,6 +35,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
 public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, EntityBlock {
 
     // ========= The number of all slots =========
@@ -297,7 +299,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
 
     // ========= Transfer data between Server and Client ==========
     @Override
-    public void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
+    public void saveAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         tag.putInt("WaterLevel", this.waterLevel);
         tag.putInt("BurnTime", this.burnTime);
@@ -310,7 +312,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     }
 
     @Override
-    public void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider provider) {
+    public void loadAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         this.waterLevel = tag.getInt("WaterLevel");
         this.burnTime = tag.getInt("BurnTime");
@@ -358,7 +360,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     }
 
     @Override
-    public @Nullable AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player) {
+    public @Nullable AbstractContainerMenu createMenu(int id, @Nonnull Inventory inventory, @Nonnull Player player) {
         if (level != null) {
             return new StewStoveMenu(id, inventory, this.inventory, ContainerLevelAccess.create(level, worldPosition), this.data);
         }
@@ -366,7 +368,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     }
 
     @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state){
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state){
         return new StewStoveBlockEntity(pos, state);
     }
 }

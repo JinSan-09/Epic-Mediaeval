@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 public class PeasantScreen extends AbstractContainerScreen<PeasantMenu> {
 
     private static final ResourceLocation BACKGROUND_TEXTURE = ResourceLocation.fromNamespaceAndPath(EpicMediaeval.MODID, "textures/gui/entity/peasant_gui.png");
@@ -119,7 +121,7 @@ public class PeasantScreen extends AbstractContainerScreen<PeasantMenu> {
     }
 
     @Override
-    protected void renderBg(@NotNull GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
         graphics.blit(
                 RenderType::guiTextured,
                 BACKGROUND_TEXTURE,
@@ -130,7 +132,7 @@ public class PeasantScreen extends AbstractContainerScreen<PeasantMenu> {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
 
         this.renderBackground(graphics, mouseX, mouseY, partialTick);
         super.render(graphics, mouseX, mouseY, partialTick);
@@ -144,12 +146,12 @@ public class PeasantScreen extends AbstractContainerScreen<PeasantMenu> {
     }
 
     @Override
-    protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
+    protected void renderLabels(@Nonnull GuiGraphics graphics, int mouseX, int mouseY) {
         graphics.drawString(this.font, this.title, 8, 6, 0x404040, false);
     }
 
     @Override
-    protected void renderTooltip(@NotNull GuiGraphics graphics, int x, int y) {
+    protected void renderTooltip(@Nonnull GuiGraphics graphics, int x, int y) {
         super.renderTooltip(graphics, x, y);
 
         for (PeasantTabWidget tab : tabWidgets) {

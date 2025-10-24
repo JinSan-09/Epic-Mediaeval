@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
 public class PeasantModel extends HumanoidModel<PeasantRenderState> {
 
@@ -80,7 +82,7 @@ public class PeasantModel extends HumanoidModel<PeasantRenderState> {
     }
 
     @Override
-    public void translateToHand(@NotNull HumanoidArm side, @NotNull PoseStack poseStack) {
+    public void translateToHand(@Nonnull HumanoidArm side, @Nonnull PoseStack poseStack) {
         this.root().translateAndRotate(poseStack);
         ModelPart modelpart = this.getArm(side);
         if (this.slim) {
@@ -94,7 +96,7 @@ public class PeasantModel extends HumanoidModel<PeasantRenderState> {
     }
 
     @Override
-    protected @NotNull ArmPose getArmPose(@NotNull PeasantRenderState renderState, @NotNull HumanoidArm arm) {
+    protected @NotNull ArmPose getArmPose(@Nonnull PeasantRenderState renderState, @Nonnull HumanoidArm arm) {
         if (arm == HumanoidArm.RIGHT && !renderState.rightHandItem.isEmpty()) {
             return ArmPose.ITEM;
         }

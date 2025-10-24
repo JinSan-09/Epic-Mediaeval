@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/crop",
+    "textures": {
+      "crop": "epicmediaeval:block/green_pepper_crop_stage1"
+    }
+}

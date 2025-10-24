@@ -9,9 +9,10 @@ import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.crafting.display.SlotDisplayContext;
+
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NotNull;
 
 public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
@@ -55,7 +56,7 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
     }
 
     @Override
-    protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY){
+    protected void renderLabels(@Nonnull GuiGraphics graphics, int mouseX, int mouseY){
         graphics.drawString(
                 this.font,
                 this.title,
@@ -76,14 +77,14 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+    public void render(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(graphics,mouseX,mouseY,partialTicks);
         super.render(graphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(graphics, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         guiGraphics.blit(
                 RenderType::guiTextured,
                 MAIN_TEXTURE,

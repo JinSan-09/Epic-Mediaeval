@@ -12,6 +12,9 @@ import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NotNull;
 
 public class ThrowableItem extends Item {
@@ -24,7 +27,7 @@ public class ThrowableItem extends Item {
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResult use(@Nonnull Level level, @Nonnull Player player, @Nonnull InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
 
         // Play sound

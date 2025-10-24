@@ -8,6 +8,7 @@ import com.sanjin.item.ThrowableItem;
 import com.sanjin.item.fooditem.FrogWineItem;
 import com.sanjin.item.fooditem.StormWineItem;
 import com.sanjin.item.fooditem.WineItem;
+
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -18,8 +19,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -124,9 +127,19 @@ public class ModItems {
     public static final DeferredItem<Item> DOUGH = ITEMS.registerSimpleItem("dough", new Item.Properties());
     public static final DeferredItem<Item> FROG_LEG = ITEMS.registerSimpleItem("frog_leg", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> GREEN_PEPPER = ITEMS.registerSimpleItem("green_pepper", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> HORSERADISH = ITEMS.registerSimpleItem("horseradish", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> HORSERADISH = ITEMS.register("horseradish", registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
+    Item.Properties props = new Item.Properties()
+            .setId(key)
+            .food(ModComponents.LOW_GRADE_FOOD); 
+            return new BlockItem(ModBlocks.HORSERADISH_CROP_BLOCK.get(), props);
+        });
     public static final DeferredItem<Item> LEMON = ITEMS.registerSimpleItem("lemon", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> LEEK_LEAVES = ITEMS.registerSimpleItem("leek_leaves", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> LEEK_LEAVES = ITEMS.register("leek_leaves", registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
+        Item.Properties props = new Item.Properties()
+                .setId(key)
+                .food(ModComponents.LOW_GRADE_FOOD); 
+                return new BlockItem(ModBlocks.LEEK_CROP_BLOCK.get(), props);
+            });
     public static final DeferredItem<Item> NETTLE_LEAVES = ITEMS.registerSimpleItem("nettle_leaves", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> OATS = ITEMS.registerSimpleItem("oats", new Item.Properties());
     public static final DeferredItem<Item> ONION = throwableItemReg("onion", ModItemEntities.ONION_ENTITY::get);
@@ -137,11 +150,28 @@ public class ModItems {
     public static final DeferredItem<Item> RAW_VENISON = ITEMS.registerSimpleItem("raw_venison", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> WHITE_BEANS = ITEMS.registerSimpleItem("white_beans", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
 
+    // Seeds items
+    public static final DeferredHolder<Item, Item> SEEDS_BARLEY = seedsItemReg("seeds_barley", ModBlocks.BARLEY_CROP_BLOCK);
+    public static final DeferredHolder<Item, Item> SEEDS_CHICKPEA = seedsItemReg("seeds_chickpea", ModBlocks.CHICKPEA_CROP_BLOCK);
+    public static final DeferredHolder<Item, Item> SEEDS_GREEN_PEPPER = seedsItemReg("seeds_green_pepper", ModBlocks.GREEN_PEPPER_CROP_BLOCK);
+    public static final DeferredHolder<Item, Item> SEEDS_NETTLE = seedsItemReg("seeds_nettle", ModBlocks.NETTLE_CROP_BLOCK);
+    public static final DeferredHolder<Item, Item> SEEDS_OATS = seedsItemReg("seeds_oats", ModBlocks.OATS_CROP_BLOCK);
+    public static final DeferredHolder<Item, Item> SEEDS_WHITE_BEANS = seedsItemReg("seeds_white_beans", ModBlocks.WHITE_BEANS_CROP_BLOCK);
+    public static final DeferredHolder<Item, Item> ONION_TUBER = seedsItemReg("onion_tuber", ModBlocks.ONION_CROP_BLOCK);
+
     // Spawn egg item
     public static final DeferredHolder<Item, SpawnEggItem> FEMALE_PEASANT_SPAWN_EGG = spawnEggItemReg("female_peasant_spawn_egg", ModMobEntities.FEMALE_PEASANT_ENTITY::get, 0x8B4513, 0xDEB887);
     public static final DeferredHolder<Item, SpawnEggItem> MALE_PEASANT_SPAWN_EGG = spawnEggItemReg("male_peasant_spawn_egg",ModMobEntities.MALE_PEASANT_ENTITY::get, 0x654321, 0xF4A460);
 
     // Register function
+    public static @NotNull DeferredHolder<Item, Item> seedsItemReg(String name, Supplier<? extends Block> block){
+        return ITEMS.register(name,
+        registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
+        Item.Properties props = new Item.Properties().setId(key);
+        return new BlockItem(block.get(), props);
+        });
+    }
+
     public static @NotNull DeferredItem<Item> wineItemReg(String name, boolean hasEnchantmentEffect, String text1, String text2, EffectComponent wineEffects) {
         return ITEMS.register(name,
                 registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);

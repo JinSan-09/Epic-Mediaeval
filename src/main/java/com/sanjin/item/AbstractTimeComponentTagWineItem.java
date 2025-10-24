@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractTimeComponentTagWineItem extends WineItem {
 
     private final UseRemainderComponent remainder;
@@ -36,7 +38,7 @@ public abstract class AbstractTimeComponentTagWineItem extends WineItem {
     }
 
     @Override
-    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity user){
+    public @NotNull ItemStack finishUsingItem(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity user){
         for (var mobEffectInstance : effects.effects()) {
             if (rand.nextFloat() <= mobEffectInstance.getAmplifier()) {
                 user.addEffect(new MobEffectInstance(

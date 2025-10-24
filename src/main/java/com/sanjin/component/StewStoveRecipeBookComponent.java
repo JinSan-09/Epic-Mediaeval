@@ -15,10 +15,12 @@ import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
-import net.minecraft.world.item.crafting.display.SlotDisplayContext;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import static com.sanjin.EpicMediaeval.LOGGER;
 
@@ -51,13 +53,13 @@ public class StewStoveRecipeBookComponent extends RecipeBookComponent<StewStoveM
     }
 
     @Override
-    protected boolean isCraftingSlot(@NotNull Slot slot) {
+    protected boolean isCraftingSlot(@Nonnull Slot slot) {
         int idx = this.menu.slots.indexOf(slot);
         return idx >= 0 && idx < 4;
     }
 
     @Override
-    protected void selectMatchingRecipes(@NotNull RecipeCollection collection, @NotNull StackedItemContents sic) {
+    protected void selectMatchingRecipes(@Nonnull RecipeCollection collection, @Nonnull StackedItemContents sic) {
         LOGGER.debug("Recipe collection size before filter: {}", collection.getRecipes().size());
         collection.selectRecipes(sic, this::canDisplay);
         LOGGER.debug("Recipe collection size after filter: {}", collection.getRecipes().size());
@@ -70,7 +72,7 @@ public class StewStoveRecipeBookComponent extends RecipeBookComponent<StewStoveM
     }
 
     @Override
-    protected void fillGhostRecipe(@NotNull GhostSlots ghostSlots, @NotNull RecipeDisplay recipeDisplay, @NotNull ContextMap context) {
+    protected void fillGhostRecipe(@Nonnull GhostSlots ghostSlots, @Nonnull RecipeDisplay recipeDisplay, @Nonnull ContextMap context) {
         StewStoveMenu menu = this.menu;
         // Fill result
         ghostSlots.setResult(menu.getResultSlot(), context, recipeDisplay.result());

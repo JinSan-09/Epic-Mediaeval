@@ -31,6 +31,9 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,7 +57,7 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
 
     // ========= Get recipe output if the FULL is true =========
     @Override
-    protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack, BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
+    protected @NotNull InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hitResult) {
 
         ItemStack heldItem = player.getItemInHand(hand);
         if (state.getValue(FULL)) {
@@ -68,18 +71,18 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
 
     // ========= Update block state =========
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type){
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@Nonnull Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type){
         return level.isClientSide ? null : createTickerHelper(type, ModBlockEntities.FERMENTATION_BARREL_BLOCK_ENTITY.get(), FermentationBarrelBlockEntity::serverTick);
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(final @Nonnull StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(FACING, FULL);
     }
 
     @Override
-    public @NotNull BlockState getStateForPlacement(BlockPlaceContext context) {
+    public @NotNull BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
         Direction playerFacing = context.getHorizontalDirection();
         return this.defaultBlockState()
                 .setValue(FACING, playerFacing.getOpposite())
@@ -89,13 +92,13 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
 
     // ========= Open GUI when player clink the block =========
     @Override
-    public MenuProvider getMenuProvider(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
+    public MenuProvider getMenuProvider(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         return blockEntity instanceof MenuProvider menuProvider ? menuProvider : null;
     }
 
     @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
+    protected @NotNull InteractionResult useWithoutItem(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull BlockHitResult hitResult) {
         if (state.getValue(FULL)) {
             return InteractionResult.PASS;
         }
@@ -108,24 +111,24 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
 
     // ========= Set the Shape of Stew stove block same as its model =========
     @Override
-    public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    public @NotNull RenderShape getRenderShape(@NotNull BlockState pState) {
+    public @NotNull RenderShape getRenderShape(@Nonnull BlockState pState) {
         return RenderShape.MODEL;
     }
 
     @Override
-    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter worldIn, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return SHAPE;
     }
 
 
     // ========= Set the Stew stove block always faces to player when it put =========
     @Override
-    public @NotNull BlockState rotate(BlockState pState, Rotation pRot) {
+    public @NotNull BlockState rotate(@Nonnull BlockState pState, @Nonnull Rotation pRot) {
         return pState.setValue(FACING, pRot.rotate(pState.getValue(FACING)));
     }
 
@@ -137,7 +140,7 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+    public @Nullable BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return ModBlockEntities.FERMENTATION_BARREL_BLOCK_ENTITY.get().create(pos, state);
     }
 }

@@ -70,6 +70,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.RAW_TROUT.get());
                         output.accept(ModItems.RAW_ELK_MEAT.get());
                         output.accept(ModItems.RAW_VENISON.get());
+                        output.accept(ModItems.SEEDS_BARLEY.get());
                         // Tableware items
                         output.accept(ModItems.LARGE_WOODEN_BOWL.get());
                         output.accept(ModItems.WOODEN_BOWL.get());

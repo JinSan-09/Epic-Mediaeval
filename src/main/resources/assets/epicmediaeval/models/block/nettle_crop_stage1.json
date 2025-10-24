@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/crop",
+    "textures": {
+      "crop": "epicmediaeval:block/nettle_crop_stage1"
+    }
+}

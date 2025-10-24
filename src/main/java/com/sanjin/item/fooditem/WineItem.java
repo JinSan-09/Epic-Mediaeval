@@ -6,10 +6,10 @@ import com.sanjin.item.RemainderItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public class WineItem extends RemainderItem {
 
@@ -23,12 +23,12 @@ public class WineItem extends RemainderItem {
     }
 
     @Override
-    public boolean isFoil(@NotNull ItemStack stack) {
+    public boolean isFoil(@Nonnull ItemStack stack) {
         return hasEnchantmentEffect || super.isFoil(stack);
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable TooltipContext tooltipContext, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag isAdvanced) {
+    public void appendHoverText(@Nonnull ItemStack stack, @Nonnull TooltipContext tooltipContext, @Nonnull List<Component> tooltipComponents, @Nonnull TooltipFlag isAdvanced) {
         if (tooltipContext != null) {
             super.appendHoverText(stack, tooltipContext, tooltipComponents, isAdvanced);
         }
