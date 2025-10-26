@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
 public class PeasantTabWidget extends AbstractWidget {
 
@@ -27,11 +29,11 @@ public class PeasantTabWidget extends AbstractWidget {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderWidget(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
     }
 
     @Override
-    protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
+    protected void updateWidgetNarration(@Nonnull NarrationElementOutput narrationElementOutput) {
         narrationElementOutput.add(NarratedElementType.TITLE, tabType.getSerializedName());
     }
 

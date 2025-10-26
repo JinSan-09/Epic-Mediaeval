@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "epicmediaeval:item/steak_and_kidney_pie"
-  }
-}

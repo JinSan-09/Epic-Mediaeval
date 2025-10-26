@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipeInput> {
 
     public final NonNullList<Ingredient> inputs;
@@ -54,7 +56,7 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
 
     // ========= Check whether there is a matched recipe =========
     @Override
-    public boolean matches(@NotNull FermentationBarrelRecipeInput recipeInput, @NotNull Level level) {
+    public boolean matches(@Nonnull FermentationBarrelRecipeInput recipeInput, @Nonnull Level level) {
         if (level.isClientSide()) return false;
         if (recipeInput.getNonEmptyIngredientCount() != this.inputs.size()) return false;
 
@@ -84,7 +86,7 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull FermentationBarrelRecipeInput fermentationBarrelRecipeInput, HolderLookup.@NotNull Provider provider) {
+    public @NotNull ItemStack assemble(@Nonnull FermentationBarrelRecipeInput fermentationBarrelRecipeInput, @Nonnull HolderLookup.Provider provider) {
         return this.output.copy();
     }
 

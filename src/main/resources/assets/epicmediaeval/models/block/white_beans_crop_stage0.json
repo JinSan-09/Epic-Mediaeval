@@ -1,6 +1,0 @@
-{
-    "parent": "minecraft:block/crop",
-    "textures": {
-      "crop": "epicmediaeval:block/white_beans_crop_stage0"
-    }
-}

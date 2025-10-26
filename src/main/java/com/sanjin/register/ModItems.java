@@ -127,19 +127,9 @@ public class ModItems {
     public static final DeferredItem<Item> DOUGH = ITEMS.registerSimpleItem("dough", new Item.Properties());
     public static final DeferredItem<Item> FROG_LEG = ITEMS.registerSimpleItem("frog_leg", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> GREEN_PEPPER = ITEMS.registerSimpleItem("green_pepper", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> HORSERADISH = ITEMS.register("horseradish", registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
-    Item.Properties props = new Item.Properties()
-            .setId(key)
-            .food(ModComponents.LOW_GRADE_FOOD); 
-            return new BlockItem(ModBlocks.HORSERADISH_CROP_BLOCK.get(), props);
-        });
+    public static final DeferredItem<Item> HORSERADISH = ITEMS.register("horseradish", registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);Item.Properties props = new Item.Properties().setId(key).food(ModComponents.LOW_GRADE_FOOD); return new BlockItem(ModBlocks.HORSERADISH_CROP_BLOCK.get(), props);});
     public static final DeferredItem<Item> LEMON = ITEMS.registerSimpleItem("lemon", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> LEEK_LEAVES = ITEMS.register("leek_leaves", registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
-        Item.Properties props = new Item.Properties()
-                .setId(key)
-                .food(ModComponents.LOW_GRADE_FOOD); 
-                return new BlockItem(ModBlocks.LEEK_CROP_BLOCK.get(), props);
-            });
+    public static final DeferredItem<Item> LEEK_LEAVES = ITEMS.register("leek_leaves", registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);Item.Properties props = new Item.Properties().setId(key).food(ModComponents.LOW_GRADE_FOOD); return new BlockItem(ModBlocks.LEEK_CROP_BLOCK.get(), props);});
     public static final DeferredItem<Item> NETTLE_LEAVES = ITEMS.registerSimpleItem("nettle_leaves", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> OATS = ITEMS.registerSimpleItem("oats", new Item.Properties());
     public static final DeferredItem<Item> ONION = throwableItemReg("onion", ModItemEntities.ONION_ENTITY::get);

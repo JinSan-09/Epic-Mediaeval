@@ -18,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
 public class RelationshipDisplayWidget extends AbstractWidget {
 
@@ -31,7 +33,7 @@ public class RelationshipDisplayWidget extends AbstractWidget {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics graphics, int i, int i1, float v) {
+    protected void renderWidget(@Nonnull GuiGraphics graphics, int i, int i1, float v) {
         int favorability = menu.getFavorability();
         int yield = menu.getYield();
 
@@ -72,7 +74,7 @@ public class RelationshipDisplayWidget extends AbstractWidget {
     }
 
     @Override
-    protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
+    protected void updateWidgetNarration(@Nonnull NarrationElementOutput narrationElementOutput) {
         narrationElementOutput.add(NarratedElementType.TITLE, Component.literal("关系显示"));
     }
 

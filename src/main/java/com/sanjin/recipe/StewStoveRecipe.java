@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 
 public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
 
@@ -59,7 +61,7 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
     }
 
     @Override
-    public boolean matches(@NotNull StewStoveRecipeInput recipeInput, @NotNull Level level) {
+    public boolean matches(@Nonnull StewStoveRecipeInput recipeInput, @Nonnull Level level) {
         if (level.isClientSide()) return false;
         if (recipeInput.getNonEmptyIngredientCount() != this.inputs.size()) return false;
         if (!ItemStack.isSameItem(recipeInput.getContainer(), this.container)) return false;
@@ -93,7 +95,7 @@ public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
      }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull StewStoveRecipeInput recipeInput, HolderLookup.@NotNull Provider provider) {
+    public @NotNull ItemStack assemble(@Nonnull StewStoveRecipeInput recipeInput, @Nonnull HolderLookup.Provider provider) {
         return this.output.copy();
     }
 

@@ -78,6 +78,7 @@ public class StewStoveBlock extends BaseEntityBlock {
             case SOUTH -> offsetZ = 0.45;
             case WEST -> offsetX = -0.45;
             case EAST -> offsetX = 0.45;
+            default -> offsetX = -0.45;
         }
 
         // Random Generation fire particles

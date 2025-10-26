@@ -57,6 +57,7 @@ public class EpicMediaeval {
         ModMenus.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModRecipeSerializers.register(modEventBus);
+        ModLootModifiers.register(modEventBus);
 
         ModCreativeTabs.register(modEventBus);
 
