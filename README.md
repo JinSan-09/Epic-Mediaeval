@@ -1,4 +1,4 @@
-![epicmediaeval_title.png](https://img.picui.cn/free/2025/05/29/683736e8a5da1.png)
+![epicmediaeval_title.png](src/images/minecraft_title.png)
 # Epic Mediaeval
 
 **Epic Mediaeval** is a large-scale content and gameplay overhaul mod for Minecraft 1.21.3, built using the NeoForge modding platform. It transforms the vanilla experience into a deeply immersive medieval world, centered around survival, settlement building, social interaction, and kingdom management. From food and gear to dynamic NPC systems, Epic Mediaeval invites players to forge their own path in a living, breathing medieval realm.
