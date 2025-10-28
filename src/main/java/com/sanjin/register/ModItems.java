@@ -142,11 +142,9 @@ public class ModItems {
 
     // Seeds items
     public static final DeferredHolder<Item, Item> SEEDS_BARLEY = seedsItemReg("seeds_barley", ModBlocks.BARLEY_CROP_BLOCK);
-    public static final DeferredHolder<Item, Item> SEEDS_CHICKPEA = seedsItemReg("seeds_chickpea", ModBlocks.CHICKPEA_CROP_BLOCK);
     public static final DeferredHolder<Item, Item> SEEDS_GREEN_PEPPER = seedsItemReg("seeds_green_pepper", ModBlocks.GREEN_PEPPER_CROP_BLOCK);
     public static final DeferredHolder<Item, Item> SEEDS_NETTLE = seedsItemReg("seeds_nettle", ModBlocks.NETTLE_CROP_BLOCK);
     public static final DeferredHolder<Item, Item> SEEDS_OATS = seedsItemReg("seeds_oats", ModBlocks.OATS_CROP_BLOCK);
-    public static final DeferredHolder<Item, Item> SEEDS_WHITE_BEANS = seedsItemReg("seeds_white_beans", ModBlocks.WHITE_BEANS_CROP_BLOCK);
     public static final DeferredHolder<Item, Item> ONION_TUBER = seedsItemReg("onion_tuber", ModBlocks.ONION_CROP_BLOCK);
 
     // Spawn egg item

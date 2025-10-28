@@ -5,6 +5,7 @@ import com.sanjin.data.PeasantInteractionHistory;
 import com.sanjin.entity.mobentity.FemalePeasantEntity;
 import com.sanjin.enums.PeasantInteractionType;
 import com.sanjin.gui.provider.PeasantMenuProvider;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -34,6 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,6 +43,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import javax.annotation.Nonnull;
 
 public abstract class AbstractPeasantEntity extends PathfinderMob {
 
@@ -71,7 +75,7 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     @Override
-    public void actuallyHurt(@NotNull ServerLevel level, @NotNull DamageSource damageSource, float damage) {
+    public void actuallyHurt(@Nonnull ServerLevel level, @Nonnull DamageSource damageSource, float damage) {
         if (damageSource.getEntity() instanceof Player player && !this.level().isClientSide) {
             handlePlayerDamage(player, damage);
         }
@@ -79,7 +83,7 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.@NotNull Builder var1){
+    protected void defineSynchedData(@Nonnull SynchedEntityData.Builder var1){
         super.defineSynchedData(var1);
         var1.define(DATA_NAME, "Unknown");
         var1.define(DATA_TEXTURE, "textures/entity/steve.png");
@@ -101,7 +105,7 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     @Override
-    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
+    public void addAdditionalSaveData(@Nonnull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         HolderLookup.Provider provider = this.level().registryAccess();
         tag.putString("PeasantName", getPeasantName());
@@ -149,7 +153,7 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
+    public void readAdditionalSaveData(@Nonnull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         HolderLookup.Provider provider = this.level().registryAccess();
 
@@ -205,7 +209,7 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     @Override
-    protected void playStepSound(@NotNull BlockPos pos, @NotNull BlockState blockState) {
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState blockState) {
         SoundType soundType = blockState.getSoundType(level(),pos,this);
         this.playSound(soundType.getStepSound(), 0.15F, 1.0F);
     }
@@ -213,7 +217,7 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     protected abstract SoundEvent getHurtSoundEvent();
 
     @Override
-    protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return getHurtSoundEvent();
     }
 
@@ -225,7 +229,7 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     @Override
-    public void setItemSlot(@NotNull EquipmentSlot slot, @NotNull ItemStack stack) {
+    public void setItemSlot(@Nonnull EquipmentSlot slot, @Nonnull ItemStack stack) {
         switch (slot) {
             case HEAD -> this.headItem = stack;
             case CHEST -> this.chestItem = stack;
@@ -243,7 +247,7 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     @Override
-    public @NotNull ItemStack getItemBySlot(@NotNull EquipmentSlot slot) {
+    public @NotNull ItemStack getItemBySlot(@Nonnull EquipmentSlot slot) {
         return switch (slot) {
             case HEAD -> this.headItem;
             case CHEST -> this.chestItem;
@@ -256,12 +260,12 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     @Override
-    public float getEquipmentDropChance(@NotNull EquipmentSlot slot) {
+    public float getEquipmentDropChance(@Nonnull EquipmentSlot slot) {
         return 0.1F;
     }
 
     @Override
-    public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResult mobInteract(@Nonnull Player player, @Nonnull InteractionHand hand) {
         PeasantMenuProvider menuProvider = new PeasantMenuProvider(this);
         if (!this.level().isClientSide) {
             if (player instanceof ServerPlayer serverPlayer) {

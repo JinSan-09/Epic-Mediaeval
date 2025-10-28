@@ -32,7 +32,7 @@ public class ChickpeaCropBlock extends CropBlock  {
 
     @Override
     protected ItemLike getBaseSeedId(){
-        return ModItems.SEEDS_CHICKPEA.get();
+        return ModItems.CHICKPEA.get();
     }
 
     @Override

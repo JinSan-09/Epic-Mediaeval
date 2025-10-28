@@ -41,11 +41,6 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider{
         this.add(ModBlocks.BARLEY_CROP_BLOCK.get(), this.createCropDrops(
             ModBlocks.BARLEY_CROP_BLOCK.get(), ModItems.BARLEY.get(), ModItems.SEEDS_BARLEY.get(), barleyCondition));
 
-        LootItemCondition.Builder chickpeaCondition = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.CHICKPEA_CROP_BLOCK.get())
-                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ChickpeaCropBlock.AGE, 3));
-        this.add(ModBlocks.CHICKPEA_CROP_BLOCK.get(), this.createCropDrops(
-            ModBlocks.CHICKPEA_CROP_BLOCK.get(), ModItems.CHICKPEA.get(), ModItems.SEEDS_CHICKPEA.get(), chickpeaCondition));
-
         LootItemCondition.Builder greenPepperCondition = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.GREEN_PEPPER_CROP_BLOCK.get())
                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GreenPepperCropBlock.AGE, 3));
         this.add(ModBlocks.GREEN_PEPPER_CROP_BLOCK.get(), this.createCropDrops(
@@ -69,7 +64,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider{
         LootItemCondition.Builder whiteBeansCondition = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.WHITE_BEANS_CROP_BLOCK.get())
                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(WhiteBeansCropBlock.AGE, 3));
         this.add(ModBlocks.WHITE_BEANS_CROP_BLOCK.get(), this.createCropDrops(
-            ModBlocks.WHITE_BEANS_CROP_BLOCK.get(), ModItems.WHITE_BEANS.get(), ModItems.SEEDS_WHITE_BEANS.get(), whiteBeansCondition));
+            ModBlocks.WHITE_BEANS_CROP_BLOCK.get(), ModItems.WHITE_BEANS.get(), ModItems.WHITE_BEANS.get(), whiteBeansCondition));
 
         LootItemCondition.Builder horseradishCondition = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.HORSERADISH_CROP_BLOCK.get())
                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(HorseradishCropBlock.AGE, 3));
@@ -80,6 +75,12 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider{
                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(LeekCropBlock.AGE, 3));
         this.add(ModBlocks.LEEK_CROP_BLOCK.get(), this.createCropDrops(
             ModBlocks.LEEK_CROP_BLOCK.get(), ModItems.LEEK_LEAVES.get(), ModItems.LEEK_LEAVES.get(), leekCondition));
+
+        LootItemCondition.Builder chickpeaCondition = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.CHICKPEA_CROP_BLOCK.get())
+                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ChickpeaCropBlock.AGE, 3));
+        this.add(ModBlocks.CHICKPEA_CROP_BLOCK.get(), this.createCropDrops(
+            ModBlocks.CHICKPEA_CROP_BLOCK.get(), ModItems.CHICKPEA.get(), ModItems.CHICKPEA.get(), chickpeaCondition));
+
         
     }
 

@@ -56,7 +56,7 @@ public class ModItemModelProvider extends ItemModelProvider  {
         basicItem(ModItems.VEGETABLE_SALAD.get());
         basicItem(ModItems.VENISON_PIE.get());
 
-        // basicItem(ModItems.BARLEY_WINE.get());
+         basicItem(ModItems.BARLEY_WINE.get());
         // basicItem(ModItems.BARLEY_OATS_ONION_WINE.get());
         // basicItem(ModItems.BARLEY_PEPPER_HORSERADISH_WINE.get());
         // basicItem(ModItems.BARLEY_OATS_PEPPER_WINE.get());
@@ -75,8 +75,8 @@ public class ModItemModelProvider extends ItemModelProvider  {
         // basicItem(ModItems.CHICKPEA_ONION_LEEK_WINE.get());
         // basicItem(ModItems.CHICKPEA_OATS_LEEK_WINE.get());
         // basicItem(ModItems.DREAM_WINE.get());
-        // basicItem(ModItems.FROG_WINE.get());
-        // basicItem(ModItems.LEMON_JUICE_WINE.get());
+         basicItem(ModItems.FROG_WINE.get());
+         basicItem(ModItems.LEMON_JUICE_WINE.get());
         // basicItem(ModItems.OATS_WINE.get());
         // basicItem(ModItems.OATS_ONION_HORSERADISH_WINE.get());
         // basicItem(ModItems.OATS_CHICKPEA_NETTLE_WINE.get());
@@ -114,12 +114,10 @@ public class ModItemModelProvider extends ItemModelProvider  {
         basicItem(ModItems.RAW_VENISON.get());
         basicItem(ModItems.WHITE_BEANS.get());
 
-        // basicItem(ModItems.SEEDS_BARLEY.get());
-        // basicItem(ModItems.SEEDS_CHICKPEA.get());
-        // basicItem(ModItems.SEEDS_GREEN_PEPPER.get());
+         basicItem(ModItems.SEEDS_BARLEY.get());
+         basicItem(ModItems.SEEDS_GREEN_PEPPER.get());
         // basicItem(ModItems.SEEDS_NETTLE.get());
         // basicItem(ModItems.SEEDS_OATS.get());
-        // basicItem(ModItems.SEEDS_WHITE_BEANS.get());
         // basicItem(ModItems.ONION_TUBER.get());
 
         basicItem(ModItems.FEMALE_PEASANT_SPAWN_EGG.get());

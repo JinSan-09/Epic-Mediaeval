@@ -32,7 +32,7 @@ public class WhiteBeansCropBlock extends CropBlock {
 
     @Override
     public ItemLike getBaseSeedId() {
-        return ModItems.SEEDS_WHITE_BEANS.get();
+        return ModItems.WHITE_BEANS.get();
     }
 
     @Override

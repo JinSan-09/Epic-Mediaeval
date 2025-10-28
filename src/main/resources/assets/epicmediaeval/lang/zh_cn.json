@@ -57,7 +57,12 @@
   "item.epicmediaeval.dough": "面团",
   "item.epicmediaeval.cheese": "芝士",
   "item.epicmediaeval.onion": "洋葱",
+
   "item.epicmediaeval.seeds_barley":"大麦种子",
+  "item.epicmediaeval.seeds_oats":"燕麦种子",
+  "item.epicmediaeval.seeds_green_pepper":"青椒籽",
+  "item.epicmediaeval.seeds_nettle":"荨麻种子",
+  "item.epicmediaeval.onion_tuber": "洋葱瓣",
 
   "item.epicmediaeval.barley_wine": "§9精酿黑啤",
   "item.epicmediaeval.lemon_juice_wine": "§9柠檬果酒",

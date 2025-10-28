@@ -41,13 +41,27 @@ public class ModGlobalLootModifierProdivider extends GlobalLootModifierProvider{
                 LootItemRandomChanceCondition.randomChance(0.25f).build()}, ModItems.SEEDS_BARLEY.get())
         );
 
-        // Add oxtail to cows
+        // Add kindey and oxtail to cows
         this.add(
             "add_oxtail_to_ox",
             new AddSingleItemModifier(new LootItemCondition[]{
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/cow")).build(),
-                LootItemRandomChanceCondition.randomChance(0.18f).build()
-            }, ModItems.OXTAIL.get())
+                LootItemRandomChanceCondition.randomChance(0.28f).build()}, ModItems.OXTAIL.get())
+        );
+
+        this.add(
+            "add_kindey_to_ox",
+            new AddSingleItemModifier(new LootItemCondition[]{
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/cow")).build(),
+                LootItemRandomChanceCondition.randomChance(0.28f).build()}, ModItems.BEEF_KIDNEY.get())
+        );
+
+        // Add forg leg to forgs
+        this.add(
+            "add_forg_leg_to_forg",
+            new AddSingleItemModifier(new LootItemCondition[]{
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/forg")).build(),
+                LootItemRandomChanceCondition.randomChance(0.28f).build()}, ModItems.FROG_LEG.get())
         );
     }
 }

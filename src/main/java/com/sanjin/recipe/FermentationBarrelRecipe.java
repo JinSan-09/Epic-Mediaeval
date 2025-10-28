@@ -28,13 +28,14 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
     private final String group;
     private final float experience;
     private final int fermentationTime;
-    public FermentationBarrelRecipe(NonNullList<Ingredient> inputs, ItemStack output, ItemStack container,String group, float experience, int cookingTime) {
+
+    public FermentationBarrelRecipe(NonNullList<Ingredient> inputs, ItemStack output, ItemStack container,String group, float experience, int fermentationTime) {
         this.inputs = inputs;
         this.output = output;
         this.container = container;
         this.group = group;
         this.experience = experience;
-        this.fermentationTime = cookingTime;
+        this.fermentationTime = fermentationTime;
     }
 
     public NonNullList<Ingredient> getInputs(){
@@ -154,7 +155,7 @@ public class FermentationBarrelRecipe implements Recipe<FermentationBarrelRecipe
 
     @Override
     public String toString() {
-        return "StewStoveRecipe{" +
+        return "FermentationBarrelRecipe{" +
                 "output=" + output +
                 ", inputs=" + inputs +
                 ", container=" + container +

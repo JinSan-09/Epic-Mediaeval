@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 
 public class StewStoveRecipe implements Recipe<StewStoveRecipeInput> {
 
-    private final NonNullList<Ingredient> inputs ;
+    private final NonNullList<Ingredient> inputs;
     private final ItemStack output;
     private final ItemStack container;
     private final String group;

@@ -57,7 +57,12 @@
   "item.epicmediaeval.cooked_frog_leg": "Cooked frog leg",
   "item.epicmediaeval.cheese": "Cheese",
   "item.epicmediaeval.onion": "Onion",
+
   "item.epicmediaeval.seeds_barley":"Barley seeds",
+  "item.epicmediaeval.seeds_oats":"Oats seeds",
+  "item.epicmediaeval.seeds_green_pepper":"Green pepper seeds",
+  "item.epicmediaeval.seeds_nettle":"Nettle seeds",
+  "item.epicmediaeval.onion_tuber": "Onion tuber",
 
   "item.epicmediaeval.barley_wine": "§9Bière Brune",
   "item.epicmediaeval.barley_oats_pepper_wine": "§9Garde Verdoyante",

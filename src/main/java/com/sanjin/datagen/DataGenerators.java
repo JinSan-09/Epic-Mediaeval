@@ -35,6 +35,9 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), blockTagsProvider);
 
         generator.addProvider(event.includeServer(), new ModGlobalLootModifierProdivider(output, lookupProvider));
+
         // generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, existingFileHelper));
+
+        event.createProvider(true, ModRecipeProvider.Runner::new);
     }
 }
