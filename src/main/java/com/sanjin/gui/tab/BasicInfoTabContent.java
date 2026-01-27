@@ -54,10 +54,11 @@ public class BasicInfoTabContent extends AbstractTabContent {
         }
         currentY += lineHeight;
 
+        // canTrade()==true 表示允许交易
         if (menu.canTrade()) {
-            graphics.drawString(font, "交易态度：§c拒绝交易", x + 8, currentY, 0xffe187, false);
-        } else {
             graphics.drawString(font, "交易态度：§a可以交易", x + 8, currentY, 0xffe187, false);
+        } else {
+            graphics.drawString(font, "交易态度：§c拒绝交易", x + 8, currentY, 0xffe187, false);
         }
     }
 
