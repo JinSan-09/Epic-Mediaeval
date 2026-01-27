@@ -16,9 +16,9 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 
-public class ModGlobalLootModifierProdivider extends GlobalLootModifierProvider{
+public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider{
 
-    public ModGlobalLootModifierProdivider(PackOutput output, CompletableFuture<Provider> registries) {
+    public ModGlobalLootModifierProvider(PackOutput output, CompletableFuture<Provider> registries) {
         super(output, registries, EpicMediaeval.MODID);
         
     }
