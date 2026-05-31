@@ -10,15 +10,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
-
 import javax.annotation.Nonnull;
 
 public class RemainderItem extends Item {
 
     private final UseRemainderComponent remainder;
     private final EffectComponent effects;
-    private final Random rand = new Random();
 
     public RemainderItem(Properties properties, UseRemainderComponent remainder, EffectComponent effects) {
         super(properties);
@@ -29,15 +26,13 @@ public class RemainderItem extends Item {
     @Override
     public @NotNull ItemStack finishUsingItem(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity user) {
         for (var mobEffectInstance : effects.effects()) {
-            if (rand.nextFloat() <= mobEffectInstance.getAmplifier()) {
-                user.addEffect(new MobEffectInstance(
-                        mobEffectInstance.getEffect(),
-                        mobEffectInstance.getDuration(),
-                        mobEffectInstance.getAmplifier(),
-                        mobEffectInstance.isVisible(),
-                        mobEffectInstance.showIcon()
-                ));
-            }
+            user.addEffect(new MobEffectInstance(
+                    mobEffectInstance.getEffect(),
+                    mobEffectInstance.getDuration(),
+                    mobEffectInstance.getAmplifier(),
+                    mobEffectInstance.isVisible(),
+                    mobEffectInstance.showIcon()
+            ));
         }
         ItemStack result = super.finishUsingItem(stack, level, user);
         if (user instanceof Player player) {

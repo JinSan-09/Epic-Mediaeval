@@ -123,8 +123,6 @@ public class ModItemModelProvider extends ItemModelProvider  {
         basicItem(ModItems.FEMALE_PEASANT_SPAWN_EGG.get());
         basicItem(ModItems.MALE_PEASANT_SPAWN_EGG.get());
 
-        
-        
     }
     
 }

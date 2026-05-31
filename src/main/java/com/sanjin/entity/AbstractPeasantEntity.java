@@ -5,6 +5,7 @@ import com.sanjin.data.PeasantInteractionHistory;
 import com.sanjin.entity.mobentity.FemalePeasantEntity;
 import com.sanjin.enums.PeasantInteractionType;
 import com.sanjin.gui.provider.PeasantMenuProvider;
+import com.sanjin.helper.PeasantGiftHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -147,6 +148,8 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
             equipmentTag.put("OffHandItem", offHandTag);
         }
 
+        tag.put("Equipment", equipmentTag);
+
         if (ownerUUID != null) {
             tag.putUUID("Owner", ownerUUID);
         }
@@ -266,6 +269,13 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
 
     @Override
     public @NotNull InteractionResult mobInteract(@Nonnull Player player, @Nonnull InteractionHand hand) {
+        if (!this.level().isClientSide && player.isShiftKeyDown()) {
+            if (hand != InteractionHand.MAIN_HAND) {
+                return InteractionResult.PASS;
+            }
+            return handleGiftInteraction(player);
+        }
+
         PeasantMenuProvider menuProvider = new PeasantMenuProvider(this);
         if (!this.level().isClientSide) {
             if (player instanceof ServerPlayer serverPlayer) {
@@ -278,6 +288,58 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
             }
         }
         return InteractionResult.SUCCESS;
+    }
+
+    private InteractionResult handleGiftInteraction(@NotNull Player player) {
+        ItemStack giftStack = player.getMainHandItem();
+        UUID playerId = player.getUUID();
+
+        if (giftStack.isEmpty()) {
+            player.displayClientMessage(Component.translatable("message.peasant.gift.empty"), true);
+            return InteractionResult.FAIL;
+        }
+
+        if (this.hasOwner() && !this.isOwner(player)) {
+            player.displayClientMessage(Component.translatable("message.peasant.gift.other_owner", this.getName()), true);
+            return InteractionResult.FAIL;
+        }
+
+        if (relationshipComponent.isHostileTowards(playerId)) {
+            player.displayClientMessage(Component.translatable("message.peasant.gift.hostile", this.getName()), true);
+            return InteractionResult.FAIL;
+        }
+
+        PeasantGiftHelper.GiftValue giftValue = PeasantGiftHelper.getGiftValue(giftStack);
+        if (giftValue == null) {
+            player.displayClientMessage(Component.translatable("message.peasant.gift.unwanted", this.getName()), true);
+            return InteractionResult.FAIL;
+        }
+
+        ItemStack recordedGift = giftStack.copy();
+        recordedGift.setCount(1);
+
+        relationshipComponent.addFavorability(playerId, giftValue.favorability());
+        relationshipComponent.addYield(playerId, giftValue.yield());
+        relationshipComponent.addInteractionHistory(playerId, new PeasantInteractionHistory(
+                PeasantInteractionType.GIFT_GIVING,
+                giftValue.favorability(),
+                giftValue.yield(),
+                recordedGift,
+                "玩家赠送了 " + recordedGift.getHoverName().getString()
+        ));
+
+        if (!player.getAbilities().instabuild) {
+            giftStack.shrink(1);
+        }
+
+        player.displayClientMessage(Component.translatable(
+                "message.peasant.gift.accepted",
+                this.getName(),
+                recordedGift.getHoverName(),
+                giftValue.favorability(),
+                giftValue.yield()
+        ), true);
+        return InteractionResult.CONSUME;
     }
 
     private void initializeRandomData() {
