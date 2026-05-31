@@ -130,11 +130,14 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
         fermentationTime = 0;
         isFermentation = false;
 
-        if (!state.getValue(FermentationBarrelBlock.FULL)) {
+        if (!state.getValue(FermentationBarrelBlock.FULL) && level != null) {
             level.setBlock(pos, state.setValue(FermentationBarrelBlock.FULL, true), 3);
         }
-        level.playSound(null, worldPosition, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1.0f, 1.0f);
 
+        if(level != null){
+            level.playSound(null, worldPosition, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1.0f, 1.0f);
+        }
+        
         tryStartFermentation();
         setChanged();
     }

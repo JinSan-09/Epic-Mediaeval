@@ -19,10 +19,6 @@ import javax.annotation.Nonnull;
 @OnlyIn(Dist.CLIENT)
 public class PeasantModel extends HumanoidModel<PeasantRenderState> {
 
-    private static final String LEFT_SLEEVE = "left_sleeve";
-    private static final String RIGHT_SLEEVE = "right_sleeve";
-    private static final String LEFT_PANTS = "left_pants";
-    private static final String RIGHT_PANTS = "right_pants";
     private final List<ModelPart> bodyParts;
     public final ModelPart leftSleeve;
     public final ModelPart rightSleeve;
@@ -44,7 +40,7 @@ public class PeasantModel extends HumanoidModel<PeasantRenderState> {
     }
 
     @Override
-    public void setupAnim(@NotNull PeasantRenderState renderState) {
+    public void setupAnim(@Nonnull PeasantRenderState renderState) {
         boolean flag = true;
 
         this.body.visible = flag;
@@ -118,7 +114,6 @@ public class PeasantModel extends HumanoidModel<PeasantRenderState> {
         if (parent.hasChild(childName)) {
             return parent.getChild(childName);
         } else {
-            // 创建一个空的、不可见的ModelPart作为替代
             ModelPart emptyPart = new ModelPart(List.of(), Map.of());
             emptyPart.visible = false;
             return emptyPart;

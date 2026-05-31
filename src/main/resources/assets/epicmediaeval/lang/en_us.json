@@ -200,5 +200,30 @@
   "itemGroup.epic_mediaeval_dishes_and_materials":"Advanced Dishes & Raw Materials",
   "itemGroup.epic_mediaeval_wine_and_sauce": "Alcoholic Beverages & Sauces",
 
-  "message.fermentation_barrel.wrong_container": "§cNeed correct container!"
+  "message.fermentation_barrel.wrong_container": "§cNeed correct container!",
+
+  "message.peasant.gift.empty": "§cHold a gift first",
+  "message.peasant.gift.other_owner": "§c%1$s already serves another master",
+  "message.peasant.gift.hostile": "§c%1$s refuses your gift for now",
+  "message.peasant.gift.unwanted": "§7%1$s is not interested in that item",
+  "message.peasant.gift.accepted": "§a%1$s accepted %2$s §7(+%3$s favor, +%4$s loyalty)",
+
+  "message.peasant.recruit.success": "§a%1$s has sworn allegiance to you",
+  "message.peasant.recruit.already_owner": "§7%1$s already serves you",
+  "message.peasant.recruit.other_owner": "§c%1$s already serves another master",
+  "message.peasant.recruit.insufficient": "§cRecruitment requires %1$s favor and %2$s loyalty",
+
+  "message.wine_risk.common": "§6The wine stirs and leaves a faint aftereffect",
+  "message.wine_risk.rare": "§dThe rare vintage triggers a stronger change",
+  "message.wine_risk.legendary": "§4The legendary wine tears through your senses",
+
+  "gui.peasant.recruit": "Recruit",
+  "gui.peasant.recruit.locked": "Locked",
+  "gui.peasant.recruit.already_owner": "Recruited",
+  "gui.peasant.recruit.other_owner": "Sworn",
+  "gui.peasant.recruit.requirement": "Need %1$s favor / %2$s loyalty",
+
+  "tooltip.wine_risk.common": "§7Wine risk: common",
+  "tooltip.wine_risk.rare": "§dWine risk: rare",
+  "tooltip.wine_risk.legendary": "§4Wine risk: legendary"
 }

@@ -24,9 +24,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.neoforge.common.conditions.IConditionBuilder;
+import org.jetbrains.annotations.NotNull;
 
-public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder{
+public class ModRecipeProvider extends RecipeProvider{
 
     private final HolderLookup.Provider provider;
 
@@ -914,12 +914,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         }
 
         @Override
-        protected RecipeProvider createRecipeProvider(@Nonnull HolderLookup.Provider provider, @Nonnull RecipeOutput output) {
+        protected @NotNull RecipeProvider createRecipeProvider(@Nonnull HolderLookup.Provider provider, @Nonnull RecipeOutput output) {
             return new ModRecipeProvider(provider, output);
         }
 
         @Override
-        public String getName() {
+        public @NotNull String getName() {
             return EpicMediaeval.MODID + " Recipes";
         }
     }

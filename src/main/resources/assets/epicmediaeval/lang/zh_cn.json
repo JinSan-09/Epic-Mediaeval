@@ -200,5 +200,30 @@
   "itemGroup.epic_mediaeval_dishes_and_materials": "史诗中世纪高级菜品与原料",
   "itemGroup.epic_mediaeval_wine_and_sauce": "史诗中世纪名酒与酱料",
 
-  "message.fermentation_barrel.wrong_container": "§c需要正确的容器!"
+  "message.fermentation_barrel.wrong_container": "§c需要正确的容器!",
+
+  "message.peasant.gift.empty": "§c你需要手持礼物",
+  "message.peasant.gift.other_owner": "§c%1$s 已效忠他人",
+  "message.peasant.gift.hostile": "§c%1$s 现在不愿接受你的礼物",
+  "message.peasant.gift.unwanted": "§7%1$s 对这件东西不感兴趣",
+  "message.peasant.gift.accepted": "§a%1$s 接受了 %2$s §7(+%3$s 好感, +%4$s 忠诚)",
+
+  "message.peasant.recruit.success": "§a%1$s 已宣誓效忠于你",
+  "message.peasant.recruit.already_owner": "§7%1$s 已经效忠于你",
+  "message.peasant.recruit.other_owner": "§c%1$s 已效忠他人",
+  "message.peasant.recruit.insufficient": "§c招募需要好感度 %1$s、忠诚度 %2$s",
+
+  "message.wine_risk.common": "§6酒意涌动，身体产生了轻微反应",
+  "message.wine_risk.rare": "§d稀有佳酿带来了更强烈的变化",
+  "message.wine_risk.legendary": "§4传奇烈酒正在撕扯你的感官",
+
+  "gui.peasant.recruit": "招募",
+  "gui.peasant.recruit.locked": "条件不足",
+  "gui.peasant.recruit.already_owner": "已招募",
+  "gui.peasant.recruit.other_owner": "已效忠",
+  "gui.peasant.recruit.requirement": "需好感%1$s / 忠诚%2$s",
+
+  "tooltip.wine_risk.common": "§7酒类风险：普通",
+  "tooltip.wine_risk.rare": "§d酒类风险：稀有",
+  "tooltip.wine_risk.legendary": "§4酒类风险：传奇"
 }

@@ -21,14 +21,15 @@ public record SwitchPeasantTabPacket(int entityId, String tabName) implements Cu
 
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
-        return null;
+        return TYPE;
     }
 
     public PeasantGuiTabType getTabType() {
-        try {
-            return PeasantGuiTabType.valueOf(tabName.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return PeasantGuiTabType.BASIC_INFO; // 默认选项卡
+        for (PeasantGuiTabType tabType : PeasantGuiTabType.values()) {
+            if (tabType.getSerializedName().equals(tabName)) {
+                return tabType;
+            }
         }
+        return PeasantGuiTabType.BASIC_INFO;
     }
 }

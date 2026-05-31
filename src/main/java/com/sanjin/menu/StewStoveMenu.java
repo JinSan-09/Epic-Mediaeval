@@ -12,14 +12,16 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.IntStream;
+
+import javax.annotation.Nonnull;
 
 public class StewStoveMenu extends RecipeBookMenu {
 
@@ -46,18 +48,18 @@ public class StewStoveMenu extends RecipeBookMenu {
             this.addSlot(new SlotItemHandler(dataInv, i, xPos, yPos));
         }
         this.addSlot(new SlotItemHandler(dataInv, 4, 136, 19) {
-            @Override public boolean mayPlace(@NotNull ItemStack stack) {
+            @Override public boolean mayPlace(@Nonnull ItemStack stack) {
                 return stack.getItem() == Items.WATER_BUCKET || stack.getItem() == net.minecraft.world.item.Items.BUCKET;
             }
         });
         this.addSlot(new SlotItemHandler(dataInv, 5, 23, 123));
         this.addSlot(new SlotItemHandler(dataInv, 6, 197, 80) {
-            @Override public boolean mayPlace(@NotNull ItemStack stack) {
+            @Override public boolean mayPlace(@Nonnull ItemStack stack) {
                 return stack.is(ModItems.LARGE_WOODEN_BOWL.get()) || stack.is(ModItems.WOODEN_BOWL.get());
             }
         });
         this.addSlot(new SlotItemHandler(dataInv, 7, 197, 55) {
-            @Override public boolean mayPlace(@NotNull ItemStack stack) {
+            @Override public boolean mayPlace(@Nonnull ItemStack stack) {
                 return false;
             }
         });
@@ -107,7 +109,7 @@ public class StewStoveMenu extends RecipeBookMenu {
     }
 
     @Override
-    public @NotNull PostPlaceAction handlePlacement(boolean b, boolean b1, @NotNull RecipeHolder<?> recipeHolder, @NotNull ServerLevel level, @NotNull Inventory inventory) {
+    public @NotNull PostPlaceAction handlePlacement(boolean b, boolean b1, @Nonnull RecipeHolder<?> recipeHolder, @Nonnull ServerLevel level, @Nonnull Inventory inventory) {
         RecipeHolder<StewStoveRecipe> holder = (RecipeHolder<StewStoveRecipe>) recipeHolder;
         this.beginPlacingRecipe();
         RecipeBookMenu.PostPlaceAction action;
@@ -116,7 +118,7 @@ public class StewStoveMenu extends RecipeBookMenu {
             action = ServerPlaceRecipe.placeRecipe(
                     new ServerPlaceRecipe.CraftingMenuAccess<>(){
                         @Override
-                        public void fillCraftSlotsStackedContents(@NotNull StackedItemContents contents) {
+                        public void fillCraftSlotsStackedContents(@Nonnull StackedItemContents contents) {
                             StewStoveMenu.this.fillCraftSlotsStackedContents(contents);
                         }
 
@@ -128,7 +130,7 @@ public class StewStoveMenu extends RecipeBookMenu {
                         }
 
                         @Override
-                        public boolean recipeMatches(@NotNull RecipeHolder<StewStoveRecipe> holder) {
+                        public boolean recipeMatches(@Nonnull RecipeHolder<StewStoveRecipe> holder) {
                             StewStoveRecipe recipe = holder.value();
                             List<ItemStack> inputs = IntStream.range(0, 4).mapToObj(idx -> StewStoveMenu.this.slots.get(idx).getItem()).toList();
                             ItemStack container = StewStoveMenu.this.slots.get(4).getItem();
@@ -147,7 +149,7 @@ public class StewStoveMenu extends RecipeBookMenu {
     }
 
     @Override
-    public void fillCraftSlotsStackedContents(@NotNull StackedItemContents contents) {
+    public void fillCraftSlotsStackedContents(@Nonnull StackedItemContents contents) {
         for (int i = 0; i < 4; i++) {
             ItemStack stack = this.slots.get(i).getItem();
             if (!stack.isEmpty()) {
@@ -162,7 +164,7 @@ public class StewStoveMenu extends RecipeBookMenu {
     }
 
     @Override
-    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int quickMovedSlotIndex) {
+    public @NotNull ItemStack quickMoveStack(@Nonnull Player player, int quickMovedSlotIndex) {
         ItemStack quickMovedStack = ItemStack.EMPTY;
         Slot quickMovedSlot = this.slots.get(quickMovedSlotIndex);
 
@@ -202,7 +204,7 @@ public class StewStoveMenu extends RecipeBookMenu {
     }
 
     @Override
-    public boolean stillValid(@NotNull Player player) {
+    public boolean stillValid(@Nonnull Player player) {
         return AbstractContainerMenu.stillValid(this.access, player, ModBlocks.STEW_STOVE_BLOCK.get());
     }
 
