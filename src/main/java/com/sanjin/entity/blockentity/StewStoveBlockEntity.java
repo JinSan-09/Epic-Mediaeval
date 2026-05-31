@@ -85,17 +85,11 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     }
     public void tick( BlockPos pos, BlockState state) {
         addWater(level);
-        // Check if the Stew stove should be lit
         if (burnTime > 0) {
             burnTime--;
-            if (level != null) {
-                level.setBlock(pos, state.setValue(StewStoveBlock.LIT, true), 3);
-            }
-        }else {
-            if (level != null) {
-                level.setBlock(pos, state.setValue(StewStoveBlock.LIT, false), 3);
-            }
         }
+        updateLitState(pos, burnTime > 0);
+
         if (isCooking) {
             Optional<StewStoveRecipe> recipe = getValidRecipe();
             if (recipe.isEmpty()) {
@@ -103,7 +97,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
                 cookTime = 0;
                 return;
             }
-            if (level != null) {
+            if (level != null && level.getGameTime() % 20 == 0) {
                 level.playSound(null, worldPosition, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0f, 1.0f);
             }
             // Add fuel if it can, else stop cooking
@@ -125,6 +119,16 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             setChanged();
         } else {
             tryStartCooking();
+        }
+    }
+    private void updateLitState(BlockPos pos, boolean lit) {
+        if (level == null) {
+            return;
+        }
+
+        BlockState currentState = level.getBlockState(pos);
+        if (currentState.getValue(StewStoveBlock.LIT) != lit) {
+            level.setBlock(pos, currentState.setValue(StewStoveBlock.LIT, lit), 3);
         }
     }
     public void updateHasSoupState() {

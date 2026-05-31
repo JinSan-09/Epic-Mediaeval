@@ -137,7 +137,6 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
                         public boolean recipeMatches(@Nonnull RecipeHolder<FermentationBarrelRecipe> holder) {
                             FermentationBarrelRecipe recipe = holder.value();
                             List<ItemStack> inputs = IntStream.range(0, 4).mapToObj(idx -> FermentationBarrelMenu.this.slots.get(idx).getItem()).toList();
-                            ItemStack container = FermentationBarrelMenu.this.slots.get(4).getItem();
                             FermentationBarrelRecipeInput recipeInput = FermentationBarrelRecipeInput.of(inputs);
 
                             return recipe.matches(recipeInput, level);
