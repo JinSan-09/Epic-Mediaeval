@@ -127,6 +127,7 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
 
         consumeIngredients();
         fermentedProductCount++;
+        hasOutput = fermentedProductCount > 0;
         fermentationTime = 0;
         isFermentation = false;
 
@@ -202,8 +203,11 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
             }
             fermentedProductCount--;
             if (fermentedProductCount <= 0) {
+                hasOutput = false;
                 level.setBlock(getBlockPos(), getBlockState().setValue(FermentationBarrelBlock.FULL, false), 3);
                 tryStartFermentation();
+            } else {
+                hasOutput = true;
             }
 
             // Place sound
@@ -231,8 +235,12 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
         super.saveAdditional(tag, provider);
         tag.putInt("FermentationTime", this.fermentationTime);
         tag.putInt("FermentationTimeTotal", this.fermentationTimeTotal);
+        tag.putInt("FermentedProductCount", this.fermentedProductCount);
         tag.putBoolean("IsFermentation", this.isFermentation);
-        tag.putBoolean("HasOutput", this.hasOutput);
+        tag.putBoolean("HasOutput", this.hasOutput || this.fermentedProductCount > 0);
+        if (this.group != null) {
+            tag.putString("Group", this.group);
+        }
 
         CompoundTag inventoryTag = this.inventory.serializeNBT(provider);
         tag.put("Inventory", inventoryTag);
@@ -259,13 +267,19 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
         super.loadAdditional(tag, provider);
         this.fermentationTime = tag.getInt("FermentationTime");
         this.fermentationTimeTotal = tag.getInt("FermentationTimeTotal");
+        this.fermentedProductCount = tag.getInt("FermentedProductCount");
         this.isFermentation = tag.getBoolean("IsFermentation");
-        this.hasOutput = tag.getBoolean("HasOutput");
+        this.hasOutput = tag.getBoolean("HasOutput") || this.fermentedProductCount > 0;
+        if (tag.contains("Group")) {
+            this.group = tag.getString("Group");
+        }
 
         CompoundTag inventoryTag = tag.getCompound("Inventory");
         this.inventory.deserializeNBT(provider, inventoryTag);
 
-        if (tag.contains("FermentedResult", Tag.TAG_COMPOUND)) {
+        if (tag.contains("FermentationResult", Tag.TAG_COMPOUND)) {
+            this.currentFermentationResult = ItemStack.parseOptional(provider, tag.getCompound("FermentationResult"));
+        } else if (tag.contains("FermentedResult", Tag.TAG_COMPOUND)) {
             this.currentFermentationResult = ItemStack.parseOptional(provider, tag.getCompound("FermentedResult"));
         } else {
             this.currentFermentationResult = ItemStack.EMPTY;
@@ -274,6 +288,9 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
             this.currentRequiredContainer = ItemStack.parseOptional(provider, tag.getCompound("RequiredContainer"));
         } else {
             this.currentRequiredContainer= ItemStack.EMPTY;
+        }
+        if (this.fermentedProductCount <= 0 && this.hasOutput && !this.currentFermentationResult.isEmpty()) {
+            this.fermentedProductCount = 1;
         }
 
         if (level != null) {
