@@ -22,8 +22,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import static com.sanjin.EpicMediaeval.LOGGER;
-
 public class StewStoveRecipeBookComponent extends RecipeBookComponent<StewStoveMenu> {
 
     private static final List<RecipeBookComponent.TabInfo> TAB_INFOS = List.of(
@@ -60,10 +58,7 @@ public class StewStoveRecipeBookComponent extends RecipeBookComponent<StewStoveM
 
     @Override
     protected void selectMatchingRecipes(@Nonnull RecipeCollection collection, @Nonnull StackedItemContents sic) {
-        LOGGER.debug("Recipe collection size before filter: {}", collection.getRecipes().size());
         collection.selectRecipes(sic, this::canDisplay);
-        LOGGER.debug("Recipe collection size after filter: {}", collection.getRecipes().size());
-        collection.selectRecipes(sic,this::canDisplay);
     }
 
     @Override
@@ -80,24 +75,13 @@ public class StewStoveRecipeBookComponent extends RecipeBookComponent<StewStoveM
         if (recipeDisplay instanceof StewStoveRecipeDisplay stewStoveRecipeDisplay) {
             List<SlotDisplay> inputs = stewStoveRecipeDisplay.getInputsDisplay();
 
-            // Count
-            int processedInputs = 0;
-            LOGGER.info("Setting ghost recipe with {} inputs", inputs.size());
-            // Fill inputs
             for (int i = 0; i < inputs.size() && i < 4; i++) {
                 Slot targetSlot = menu.slots.get(i);
                 SlotDisplay inputDisplay = inputs.get(i);
-                LOGGER.info("Setting input slot {}: {}", i, inputDisplay);
                 ghostSlots.setInput(targetSlot, context, inputDisplay);
-                processedInputs++;
             }
-            // Fill container
             SlotDisplay containerDisplay = stewStoveRecipeDisplay.container();
-            LOGGER.info("Setting container slot: {}", containerDisplay);
             ghostSlots.setInput(menu.slots.get(6), context, containerDisplay);
-            LOGGER.info("Ghost recipe set with {} inputs and container", processedInputs);
-        }else {
-            LOGGER.warn("RecipeDisplay is not a StewStoveRecipeDisplay: {}", recipeDisplay.getClass().getName());
         }
     }
 }

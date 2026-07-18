@@ -45,9 +45,7 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
     private static final int COOKING_TWO_WIDTH = 18;
     private static final int COOKING_TWO_HEIGHT = 11;
 
-    private static int SOUP_V = 327;
-    private static int FIRE_V = 241;
-    private static int burnTimeTotal = 0;
+    private int burnTimeTotal;
 
     public StewStoveScreen(StewStoveMenu menu, Inventory playerInventory, Component title) {
         super(menu, new StewStoveRecipeBookComponent(menu), playerInventory, title);
@@ -64,11 +62,6 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
                 this.titleLabelY,
                 0x404040
         );
-    }
-
-    @Override
-    protected void init() {
-        super.init();
     }
 
     @Override
@@ -96,32 +89,33 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
 
         // Print soup level
         int waterLevel = this.menu.getWaterLevel();
+        int soupV = 327;
         if (waterLevel > 0 && waterLevel <= 3) {
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
                     this.leftPos + SOUP_X,this.topPos + SOUP_Y,
-                    SOUP_U,SOUP_V,
+                    SOUP_U,soupV,
                     SOUP_WIDTH,SOUP_HEIGHT,
                     512,512
             );
         }else if (waterLevel > 3 && waterLevel <= 7) {
-            SOUP_V = 284;
+            soupV = 284;
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
                     this.leftPos + SOUP_X,this.topPos + SOUP_Y,
-                    SOUP_U,SOUP_V,
+                    SOUP_U,soupV,
                     SOUP_WIDTH,SOUP_HEIGHT,
                     512,512
             );
         } else if (waterLevel > 7 && waterLevel <= 10) {
-            SOUP_V = 241;
+            soupV = 241;
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
                     this.leftPos + SOUP_X,this.topPos + SOUP_Y,
-                    SOUP_U,SOUP_V,
+                    SOUP_U,soupV,
                     SOUP_WIDTH,SOUP_HEIGHT,
                     512,512
             );
@@ -129,34 +123,35 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
 
         // Print fire level
         int burnTime = this.menu.getBurnTime();
-        burnTimeTotal = Math.max(burnTimeTotal,burnTime);
-        double OrRatio = (double) burnTime/burnTimeTotal;
+        burnTimeTotal = Math.max(burnTimeTotal, burnTime);
+        double OrRatio = burnTimeTotal == 0 ? 0 : (double) burnTime / burnTimeTotal;
+        int fireV = 241;
         if (OrRatio <= 1 && OrRatio > 0.7) {
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
                     this.leftPos + FIRE_X,this.topPos + FIRE_Y,
-                    FIRE_U,FIRE_V,
+                    FIRE_U,fireV,
                     FIRE_WIDTH,FIRE_HEIGHT,
                     512,512
             );
         }else if (OrRatio <= 0.7 && OrRatio > 0.3) {
-            FIRE_V = 268;
+            fireV = 268;
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
                     this.leftPos + FIRE_X,this.topPos + FIRE_Y,
-                    FIRE_U,FIRE_V,
+                    FIRE_U,fireV,
                     FIRE_WIDTH,FIRE_HEIGHT,
                     512,512
             );
         }else if (OrRatio > 0 && OrRatio <= 0.3) {
-            FIRE_V = 295;
+            fireV = 295;
             guiGraphics.blit(
                     RenderType::guiTextured,
                     MAIN_TEXTURE,
                     this.leftPos + FIRE_X,this.topPos + FIRE_Y,
-                    FIRE_U,FIRE_V,
+                    FIRE_U,fireV,
                     FIRE_WIDTH,FIRE_HEIGHT,
                     512,512
             );
@@ -165,7 +160,7 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
         // Print cooking progress
         int cookTimeTotal = this.menu.getCookTimeTotal();
         int cookTime = this.menu.getCookTime();
-        double cookRatio = (double)cookTime / cookTimeTotal;
+        double cookRatio = cookTimeTotal <= 0 ? 0 : (double) cookTime / cookTimeTotal;
         if (cookRatio <= 0.5) {
             int cookingHeight = 2 * (int) (COOKING_ONE_HEIGHT * cookRatio);
             guiGraphics.blit(
@@ -198,16 +193,6 @@ public class StewStoveScreen extends AbstractRecipeBookScreen<StewStoveMenu> {
                     512,512
             );
         }
-    }
-
-    @Override
-    public void onClose(){
-        super.onClose();
-    }
-
-    @Override
-    public void removed(){
-        super.removed();
     }
 
 }

@@ -21,8 +21,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import static com.sanjin.EpicMediaeval.LOGGER;
-
 public class FermentationBarrelRecipeBookComponent extends RecipeBookComponent<FermentationBarrelMenu> {
 
     private static final List<RecipeBookComponent.TabInfo> TAB_INFOS = List.of(
@@ -59,11 +57,7 @@ public class FermentationBarrelRecipeBookComponent extends RecipeBookComponent<F
 
     @Override
     protected void selectMatchingRecipes(@Nonnull RecipeCollection collection, @Nonnull StackedItemContents sic) {
-        LOGGER.debug("Recipe collection size before filter: {}", collection.getRecipes().size());
         collection.selectRecipes(sic, this::canDisplay);
-        LOGGER.debug("Recipe collection size after filter: {}", collection.getRecipes().size());
-        collection.selectRecipes(sic,this::canDisplay);
-
     }
 
     @Override

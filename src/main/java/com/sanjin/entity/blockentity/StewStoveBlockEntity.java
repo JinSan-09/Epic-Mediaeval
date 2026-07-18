@@ -3,7 +3,7 @@ package com.sanjin.entity.blockentity;
 import com.sanjin.block.StewStoveBlock;
 import com.sanjin.menu.StewStoveMenu;
 import com.sanjin.recipe.StewStoveRecipe;
-import com.sanjin.recipe.recipeinput.StewStoveRecipeInput;
+import com.sanjin.recipe.recipeinput.ProcessingRecipeInput;
 import com.sanjin.register.ModBlockEntities;
 import com.sanjin.register.ModRecipes;
 import net.minecraft.core.BlockPos;
@@ -26,7 +26,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -37,7 +36,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
-public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, EntityBlock {
+public class StewStoveBlockEntity extends BlockEntity implements MenuProvider {
 
     // ========= The number of all slots =========
     private static final int WATER_SLOT = 4;
@@ -81,41 +80,39 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
     public static void serverTick(Level level, BlockPos pos, BlockState state, StewStoveBlockEntity blockEntity) {
         blockEntity.tick(pos,state);
         blockEntity.updateData();
-        blockEntity.setChanged();
     }
     public void tick( BlockPos pos, BlockState state) {
         addWater(level);
-        // Check if the Stew stove should be lit
-        if (burnTime > 0) {
+        boolean burning = burnTime > 0;
+        if (burning) {
             burnTime--;
-            if (level != null) {
-                level.setBlock(pos, state.setValue(StewStoveBlock.LIT, true), 3);
-            }
-        }else {
-            if (level != null) {
-                level.setBlock(pos, state.setValue(StewStoveBlock.LIT, false), 3);
-            }
+            setChanged();
+        }
+        if (level != null && state.getValue(StewStoveBlock.LIT) != burning) {
+            level.setBlock(pos, state.setValue(StewStoveBlock.LIT, burning), 3);
         }
         if (isCooking) {
             Optional<StewStoveRecipe> recipe = getValidRecipe();
             if (recipe.isEmpty()) {
                 isCooking = false;
                 cookTime = 0;
+                currentRecipe = null;
                 return;
             }
-            if (level != null) {
+            currentRecipe = recipe.get();
+            if (level != null && level.getGameTime() % 20 == 0) {
                 level.playSound(null, worldPosition, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0f, 1.0f);
             }
             // Add fuel if it can, else stop cooking
             if (burnTime <= 0 && canAddFuel()) {
                 addFuel();
             } else if (burnTime <= 0 && !canAddFuel()) {
-                stopCooking(pos,state);
+                stopCooking();
                 return;
             }
             // Check if there is enough water
             if (waterLevel <= 0) {
-                stopCooking(pos,state);
+                stopCooking();
                 return;
             }
             cookTime++;
@@ -137,7 +134,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             }
         }
     }
-    private void stopCooking(BlockPos pos, BlockState state) {
+    private void stopCooking() {
         isCooking = false;
         cookTime = 0;
         setChanged();
@@ -276,7 +273,7 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
             inputs.set(i, inventory.getStackInSlot(i));
         }
 
-        StewStoveRecipeInput recipeInput = new StewStoveRecipeInput(inputs,inventory.getStackInSlot(CONTAINER_SLOT));
+        ProcessingRecipeInput recipeInput = new ProcessingRecipeInput(inputs, inventory.getStackInSlot(CONTAINER_SLOT));
 
         if (level instanceof ServerLevel) {
             RecipeManager recipeManager = level.getServer().getRecipeManager();
@@ -367,8 +364,4 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider, E
         return null;
     }
 
-    @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state){
-        return new StewStoveBlockEntity(pos, state);
-    }
 }

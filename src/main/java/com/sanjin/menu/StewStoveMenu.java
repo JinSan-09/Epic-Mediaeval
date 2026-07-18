@@ -1,7 +1,7 @@
 package com.sanjin.menu;
 
 import com.sanjin.recipe.StewStoveRecipe;
-import com.sanjin.recipe.recipeinput.StewStoveRecipeInput;
+import com.sanjin.recipe.recipeinput.ProcessingRecipeInput;
 import com.sanjin.register.*;
 import net.minecraft.recipebook.ServerPlaceRecipe;
 import net.minecraft.server.level.ServerLevel;
@@ -12,7 +12,6 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
@@ -25,7 +24,6 @@ public class StewStoveMenu extends RecipeBookMenu {
 
     private final ContainerLevelAccess access;
     private final ContainerData data;
-    private boolean placingRecipe;
 
     public StewStoveMenu(int id, Inventory playerInventory) {
         this(id, playerInventory, new ItemStackHandler(8),ContainerLevelAccess.NULL, new SimpleContainerData(4));
@@ -86,32 +84,15 @@ public class StewStoveMenu extends RecipeBookMenu {
     }
     public int getCookTimeTotal(){return this.data.get(3);}
 
-    public Player getPlayer() {
-        return this.access.evaluate((level, pos) -> {
-            for (Player player : level.players()) {
-                if (player.containerMenu == this) {
-                    return player;
-                }
-            }
-            return null;
-        }).orElse(null);
-    }
     public Slot getResultSlot(){
         return this.getSlot(7);
-    }
-    private void beginPlacingRecipe() {
-        this.placingRecipe = true;
-    }
-    private void finishPlacingRecipe(ServerLevel level, RecipeHolder<StewStoveRecipe> holder) {
-        this.placingRecipe = false;
     }
 
     @Override
     public @NotNull PostPlaceAction handlePlacement(boolean b, boolean b1, @NotNull RecipeHolder<?> recipeHolder, @NotNull ServerLevel level, @NotNull Inventory inventory) {
         RecipeHolder<StewStoveRecipe> holder = (RecipeHolder<StewStoveRecipe>) recipeHolder;
-        this.beginPlacingRecipe();
         RecipeBookMenu.PostPlaceAction action;
-        try{
+        {
             List<Slot> inputSlots = IntStream.range(0, 4).mapToObj(this.slots::get).toList();
             action = ServerPlaceRecipe.placeRecipe(
                     new ServerPlaceRecipe.CraftingMenuAccess<>(){
@@ -131,16 +112,14 @@ public class StewStoveMenu extends RecipeBookMenu {
                         public boolean recipeMatches(@NotNull RecipeHolder<StewStoveRecipe> holder) {
                             StewStoveRecipe recipe = holder.value();
                             List<ItemStack> inputs = IntStream.range(0, 4).mapToObj(idx -> StewStoveMenu.this.slots.get(idx).getItem()).toList();
-                            ItemStack container = StewStoveMenu.this.slots.get(4).getItem();
-                            StewStoveRecipeInput recipeInput = StewStoveRecipeInput.of(inputs, container);
+                            ItemStack container = StewStoveMenu.this.slots.get(6).getItem();
+                            ProcessingRecipeInput recipeInput = ProcessingRecipeInput.of(inputs, container);
 
                             return recipe.matches(recipeInput, level);
                         }
                     },
                     2, 2, inputSlots, inputSlots, inventory, holder, b, b1
             );
-        }finally{
-            this.finishPlacingRecipe(level, holder);
         }
 
         return action;
@@ -170,23 +149,27 @@ public class StewStoveMenu extends RecipeBookMenu {
             ItemStack rawStack = quickMovedSlot.getItem();
             quickMovedStack = rawStack.copy();
 
-            if (quickMovedSlotIndex == 0) {
-                if (!this.moveItemStackTo(rawStack, 5, 41, true)) {
+            int machineSlots = 8;
+            int playerInventoryEnd = machineSlots + 27;
+            int hotbarEnd = playerInventoryEnd + 9;
+
+            if (quickMovedSlotIndex < machineSlots) {
+                if (!this.moveItemStackTo(rawStack, machineSlots, hotbarEnd, true)) {
                     return ItemStack.EMPTY;
                 }
-            }else if (quickMovedSlotIndex >= 5 && quickMovedSlotIndex < 41) {
-                if (!this.moveItemStackTo(rawStack, 1, 5, false)) {
-                    if (quickMovedSlotIndex < 32) {
-                        if (!this.moveItemStackTo(rawStack, 32, 41, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    }
-                    else if (!this.moveItemStackTo(rawStack, 5, 32, false)) {
-                        return ItemStack.EMPTY;
-                    }
+            } else if ((rawStack.is(Items.WATER_BUCKET) || rawStack.is(Items.BUCKET))
+                    && this.moveItemStackTo(rawStack, 4, 5, false)) {
+                // Water slot accepted the stack.
+            } else if ((rawStack.is(ModItems.LARGE_WOODEN_BOWL.get()) || rawStack.is(ModItems.WOODEN_BOWL.get()))
+                    && this.moveItemStackTo(rawStack, 6, 7, false)) {
+                // Container slot accepted the stack.
+            } else if (!this.moveItemStackTo(rawStack, 0, 4, false)
+                    && !this.moveItemStackTo(rawStack, 5, 6, false)) {
+                if (quickMovedSlotIndex < playerInventoryEnd) {
+                    if (!this.moveItemStackTo(rawStack, playerInventoryEnd, hotbarEnd, false)) return ItemStack.EMPTY;
+                } else if (!this.moveItemStackTo(rawStack, machineSlots, playerInventoryEnd, false)) {
+                    return ItemStack.EMPTY;
                 }
-            }else if (!this.moveItemStackTo(rawStack, 5, 41, false)) {
-                return ItemStack.EMPTY;
             }
             if (rawStack.isEmpty()) {
                 quickMovedSlot.set(ItemStack.EMPTY);

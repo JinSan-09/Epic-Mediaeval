@@ -1,7 +1,7 @@
 package com.sanjin.menu;
 
 import com.sanjin.recipe.FermentationBarrelRecipe;
-import com.sanjin.recipe.recipeinput.FermentationBarrelRecipeInput;
+import com.sanjin.recipe.recipeinput.ProcessingRecipeInput;
 import com.sanjin.register.ModBlocks;
 import com.sanjin.register.ModMenus;
 import net.minecraft.recipebook.ServerPlaceRecipe;
@@ -26,7 +26,6 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
 
     private final ContainerLevelAccess access;
     private final ContainerData data;
-    private boolean placingRecipe = false;
 
     public FermentationBarrelMenu(int id, Inventory playerInventory) {
         this(id, playerInventory, new ItemStackHandler(4),ContainerLevelAccess.NULL, new SimpleContainerData(1));
@@ -58,14 +57,6 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
             this.addSlot(new net.minecraft.world.inventory.Slot(
                     playerInv, col, 36 + col * 18, hotbarY));
         }
-    }
-
-    private void beginPlacingRecipe() {
-        this.placingRecipe = true;
-    }
-
-    private void finishPlacingRecipe(ServerLevel level, RecipeHolder<FermentationBarrelRecipe> holder) {
-        this.placingRecipe = false;
     }
 
     public int getFermentationState(){
@@ -115,9 +106,8 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
     @Override
     public @NotNull PostPlaceAction handlePlacement(boolean b, boolean b1, @Nonnull RecipeHolder<?> recipeHolder, @Nonnull ServerLevel level, @Nonnull Inventory inventory) {
         RecipeHolder<FermentationBarrelRecipe> holder = (RecipeHolder<FermentationBarrelRecipe>) recipeHolder;
-        this.beginPlacingRecipe();
         RecipeBookMenu.PostPlaceAction action;
-        try{
+        {
             List<Slot> inputSlots = IntStream.range(0, 4).mapToObj(this.slots::get).toList();
             action = ServerPlaceRecipe.placeRecipe(
                     new ServerPlaceRecipe.CraftingMenuAccess<>(){
@@ -137,16 +127,13 @@ public class FermentationBarrelMenu extends RecipeBookMenu {
                         public boolean recipeMatches(@Nonnull RecipeHolder<FermentationBarrelRecipe> holder) {
                             FermentationBarrelRecipe recipe = holder.value();
                             List<ItemStack> inputs = IntStream.range(0, 4).mapToObj(idx -> FermentationBarrelMenu.this.slots.get(idx).getItem()).toList();
-                            ItemStack container = FermentationBarrelMenu.this.slots.get(4).getItem();
-                            FermentationBarrelRecipeInput recipeInput = FermentationBarrelRecipeInput.of(inputs);
+                            ProcessingRecipeInput recipeInput = ProcessingRecipeInput.of(inputs);
 
                             return recipe.matches(recipeInput, level);
                         }
                     },
                     2, 2, inputSlots, inputSlots, inventory, holder, b, b1
             );
-        }finally{
-            this.finishPlacingRecipe(level, holder);
         }
 
         return action;
