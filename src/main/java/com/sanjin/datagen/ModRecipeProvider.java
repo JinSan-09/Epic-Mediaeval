@@ -26,6 +26,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
+import org.jetbrains.annotations.NotNull;
+
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder{
     private final HolderLookup.Provider provider;
     protected ModRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
@@ -573,11 +575,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             super(output, lookupProvider);
         }
         @Override
-        protected RecipeProvider createRecipeProvider(@Nonnull HolderLookup.Provider provider, @Nonnull RecipeOutput output) {
+        protected @NotNull RecipeProvider createRecipeProvider(@Nonnull HolderLookup.Provider provider, @Nonnull RecipeOutput output) {
             return new ModRecipeProvider(provider, output);
         }
         @Override
-        public String getName() {
+        public @NotNull String getName() {
             return EpicMediaeval.MODID + " Recipes";
         }
     }

@@ -228,8 +228,9 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
         super.saveAdditional(tag, provider);
         tag.putInt("FermentationTime", this.fermentationTime);
         tag.putInt("FermentationTimeTotal", this.fermentationTimeTotal);
-        tag.putBoolean("IsFermentation", this.isFermentation);
         tag.putInt("FermentedProductCount", this.fermentedProductCount);
+        tag.putBoolean("IsFermentation", this.isFermentation);
+        tag.putBoolean("HasOutput", this.fermentedProductCount > 0);
         if (this.group != null) {
             tag.putString("Group", this.group);
         }
@@ -273,10 +274,10 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
         } else {
             this.currentRequiredContainer= ItemStack.EMPTY;
         }
-
-        this.fermentedProductCount = tag.contains("FermentedProductCount")
-                ? tag.getInt("FermentedProductCount")
-                : (getBlockState().getValue(FermentationBarrelBlock.FULL) ? 1 : 0);
+        int savedProductCount = tag.getInt("FermentedProductCount");
+        boolean legacyFull = tag.getBoolean("HasOutput")
+                || getBlockState().getValue(FermentationBarrelBlock.FULL);
+        this.fermentedProductCount = savedProductCount > 0 ? savedProductCount : (legacyFull ? 1 : 0);
 
     }
 

@@ -4,6 +4,7 @@ import com.sanjin.entity.mobentity.FemalePeasantEntity;
 import com.sanjin.entity.mobentity.MalePeasantEntity;
 import com.sanjin.event.FrogWineEventHandler;
 import com.sanjin.event.StormWineEventHandler;
+import com.sanjin.network.NetworkHandler;
 import com.sanjin.register.*;
 import com.sanjin.renderer.entityrender.PeasantEntityRenderer;
 import com.sanjin.renderer.itemrender.OnionProjectileRenderer;
@@ -17,6 +18,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterRecipeBookSearchCategoriesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import org.jetbrains.annotations.NotNull;
 
 @Mod(EpicMediaeval.MODID)
@@ -24,6 +26,7 @@ public class EpicMediaeval {
 
     public static final String MODID = "epicmediaeval";
     public EpicMediaeval(@NotNull IEventBus modEventBus) {
+        modEventBus.addListener(this::registerNetworkHandlers);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
 
@@ -45,6 +48,11 @@ public class EpicMediaeval {
         NeoForge.EVENT_BUS.register(StormWineEventHandler.class);
 
     }
+
+    private void registerNetworkHandlers(RegisterPayloadHandlersEvent event) {
+        NetworkHandler.register(event);
+    }
+
     @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent

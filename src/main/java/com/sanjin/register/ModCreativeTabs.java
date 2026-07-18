@@ -18,6 +18,9 @@ public class ModCreativeTabs {
                     .title(Component.translatable("itemGroup.epic_mediaeval_dishes_and_materials"))
                     .icon(() -> new ItemStack(ModItems.HONEY_CHICKEN.get()))
                     .displayItems((parameters, output) -> {
+                        // Blocks
+                        output.accept(ModBlocks.STEW_STOVE_BLOCK.asItem());
+                        output.accept(ModBlocks.FERMENTATION_BARREL_BLOCK.asItem());
                         // Food items
                         output.accept(ModItems.BARLEY_BEEF_STEW.get());
                         output.accept(ModItems.STEWED_VENISON.get());

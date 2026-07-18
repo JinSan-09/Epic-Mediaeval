@@ -18,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+
 public class PeasantMenu extends AbstractContainerMenu {
 
     private final AbstractPeasantEntity peasant;
@@ -79,12 +81,12 @@ public class PeasantMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int i) {
+    public @NotNull ItemStack quickMoveStack(@Nonnull Player player, int i) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean stillValid(@NotNull Player player) {
+    public boolean stillValid(@Nonnull Player player) {
         return peasant.isAlive() && player.distanceToSqr(peasant) < 64.0D && this.player.equals(player);
     }
 

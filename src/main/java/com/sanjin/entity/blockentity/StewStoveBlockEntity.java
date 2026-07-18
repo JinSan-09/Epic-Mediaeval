@@ -83,14 +83,12 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider {
     }
     public void tick( BlockPos pos, BlockState state) {
         addWater(level);
-        boolean burning = burnTime > 0;
-        if (burning) {
+        if (burnTime > 0) {
             burnTime--;
             setChanged();
         }
-        if (level != null && state.getValue(StewStoveBlock.LIT) != burning) {
-            level.setBlock(pos, state.setValue(StewStoveBlock.LIT, burning), 3);
-        }
+        updateLitState(pos, burnTime > 0);
+
         if (isCooking) {
             Optional<StewStoveRecipe> recipe = getValidRecipe();
             if (recipe.isEmpty()) {
@@ -122,6 +120,16 @@ public class StewStoveBlockEntity extends BlockEntity implements MenuProvider {
             setChanged();
         } else {
             tryStartCooking();
+        }
+    }
+    private void updateLitState(BlockPos pos, boolean lit) {
+        if (level == null) {
+            return;
+        }
+
+        BlockState currentState = level.getBlockState(pos);
+        if (currentState.getValue(StewStoveBlock.LIT) != lit) {
+            level.setBlock(pos, currentState.setValue(StewStoveBlock.LIT, lit), 3);
         }
     }
     public void updateHasSoupState() {
