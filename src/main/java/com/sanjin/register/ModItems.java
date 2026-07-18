@@ -123,7 +123,7 @@ public class ModItems {
     public static final DeferredItem<Item> BARLEY = ITEMS.registerSimpleItem("barley", new Item.Properties());
     public static final DeferredItem<Item> BEEF_KIDNEY = ITEMS.registerSimpleItem("beef_kidney", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> CHEESE = ITEMS.registerSimpleItem("cheese", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> CHICKPEA = ITEMS.registerSimpleItem("chickpea", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> CHICKPEA = cropFoodItemReg("chickpea", ModBlocks.CHICKPEA_CROP_BLOCK);
     public static final DeferredItem<Item> DOUGH = ITEMS.registerSimpleItem("dough", new Item.Properties());
     public static final DeferredItem<Item> FROG_LEG = ITEMS.registerSimpleItem("frog_leg", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> GREEN_PEPPER = ITEMS.registerSimpleItem("green_pepper", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
@@ -138,7 +138,7 @@ public class ModItems {
     public static final DeferredItem<Item> RAW_TROUT = ITEMS.registerSimpleItem("raw_trout", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> RAW_ELK_MEAT = ITEMS.registerSimpleItem("raw_elk_meat", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
     public static final DeferredItem<Item> RAW_VENISON = ITEMS.registerSimpleItem("raw_venison", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
-    public static final DeferredItem<Item> WHITE_BEANS = ITEMS.registerSimpleItem("white_beans", new Item.Properties().food(ModComponents.LOW_GRADE_FOOD));
+    public static final DeferredItem<Item> WHITE_BEANS = cropFoodItemReg("white_beans", ModBlocks.WHITE_BEANS_CROP_BLOCK);
 
     // Seeds items
     public static final DeferredHolder<Item, Item> SEEDS_BARLEY = seedsItemReg("seeds_barley", ModBlocks.BARLEY_CROP_BLOCK);
@@ -157,6 +157,13 @@ public class ModItems {
         registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
         Item.Properties props = new Item.Properties().setId(key);
         return new BlockItem(block.get(), props);
+        });
+    }
+
+    public static @NotNull DeferredItem<Item> cropFoodItemReg(String name, Supplier<? extends Block> block) {
+        return ITEMS.register(name, registryName -> {
+            ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
+            return new BlockItem(block.get(), new Item.Properties().setId(key).food(ModComponents.LOW_GRADE_FOOD));
         });
     }
 
@@ -186,23 +193,13 @@ public class ModItems {
         });
     }
     public static @NotNull DeferredItem<Item> advancedDishesReg(String name, boolean canDrink, Supplier<Item> remainder, FoodProperties foodLevel, EffectComponent effects){
-        if(canDrink){
-            return ITEMS.register(name,
-                    registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
-                        return new RemainderItem(new Item.Properties()
-                                .setId(key)
-                                .food(foodLevel)
-                                .component(DataComponents.CONSUMABLE, ModComponents.COMMON_DRINK),
-                                new UseRemainderComponent(remainder.get().getDefaultInstance(),1),
-                                effects
-                        );
-                    });
-        }
         return ITEMS.register(name,
                 registryName -> {ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, registryName);
-                    return new RemainderItem(new Item.Properties()
-                            .setId(key)
-                            .food(foodLevel),
+                    Item.Properties properties = new Item.Properties().setId(key).food(foodLevel);
+                    if (canDrink) {
+                        properties.component(DataComponents.CONSUMABLE, ModComponents.COMMON_DRINK);
+                    }
+                    return new RemainderItem(properties,
                             new UseRemainderComponent(remainder.get().getDefaultInstance(),1),
                             effects
                     );
