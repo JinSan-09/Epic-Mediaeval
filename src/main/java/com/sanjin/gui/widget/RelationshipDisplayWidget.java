@@ -88,7 +88,7 @@ public class RelationshipDisplayWidget extends AbstractWidget {
         tooltip.add(Component.literal("好感度: " + menu.getFavorability() + " (" + favLevel.getDisplayName().getString() + ")"));
         tooltip.add(Component.literal("忠诚度: " + menu.getYield() + " (" + yieldLevel.getDisplayName().getString() + ")"));
 
-        if (menu.canTrade()) {
+        if (!menu.canTrade()) {
             tooltip.add(Component.literal("§c此农民拒绝与你交易"));
         }
 

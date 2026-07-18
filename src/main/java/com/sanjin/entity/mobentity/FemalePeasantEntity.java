@@ -1,18 +1,20 @@
 package com.sanjin.entity.mobentity;
 
 import com.sanjin.entity.AbstractPeasantEntity;
-import com.sanjin.helper.PeasantEntityTexturesHelper;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-import java.util.UUID;
+import java.util.stream.IntStream;
 
 public class FemalePeasantEntity extends AbstractPeasantEntity {
+
+    private static final String[] TEXTURES = IntStream.rangeClosed(1, 19)
+            .mapToObj(index -> "textures/entity/female_peasant_" + index + ".png")
+            .toArray(String[]::new);
 
     private static final String[] FEMALE_FIRST_NAMES = {
             "Adelaide","Agnes","Aldith","Alice","Alianor","Amice","Anabel","Annis","Arabella","Aveline",
@@ -64,24 +66,14 @@ public class FemalePeasantEntity extends AbstractPeasantEntity {
     }
 
     @Override
-    protected void onPlayerAttack(Player player, float damage) {
-        super.onPlayerAttack(player, damage);
-
-        UUID playerId = player.getUUID();
-        int favorability = getRelationshipComponent().getFavorability(playerId);
-
-        if (favorability < 0) {
-            this.goalSelector.addGoal(0, new PanicGoal(this, 1.5D));
-
-            // 播放恐惧音效
-            // this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
-            //     SoundEvents.VILLAGER_HURT, SoundSource.NEUTRAL, 1.0F, 1.2F);
-        }
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D));
     }
 
     @Override
     public String[] getDefaultTexturePaths() {
-        return PeasantEntityTexturesHelper.getFemaleTextures();
+        return TEXTURES;
     }
 
     @Override

@@ -2,16 +2,10 @@ package com.sanjin.entity.mobentity;
 
 import com.sanjin.entity.AbstractPeasantEntity;
 import com.sanjin.entity.ai.*;
-import com.sanjin.helper.PeasantEntityTexturesHelper;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
@@ -19,8 +13,13 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 public class MalePeasantEntity extends AbstractPeasantEntity {
+
+    private static final String[] TEXTURES = IntStream.rangeClosed(1, 15)
+            .mapToObj(index -> "textures/entity/male_peasant_" + index + ".png")
+            .toArray(String[]::new);
 
     private static final String[] MALE_FIRST_NAMES = {
             "Alaric","Aldwin","Ansel","Archibald","Armand","Arnold","Athelstan","Auberon","Augustin","Baldric",
@@ -75,26 +74,19 @@ public class MalePeasantEntity extends AbstractPeasantEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.removeAllGoals(goal -> true);
-        this.targetSelector.removeAllGoals(goal -> true);
-
-        this.goalSelector.addGoal(0, new FloatGoal(this));
+        super.registerGoals();
         this.goalSelector.addGoal(1, new PeasantFleeWhenLowHealthGoal(this, 1.5D));
         this.goalSelector.addGoal(2, new PeasantAttackGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new ConditionalPanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new ProtectFemalesGoal(this, 1.5D));
+        this.targetSelector.addGoal(2, new ProtectFemalesGoal(this));
         this.targetSelector.addGoal(3, new PeasantAttackUndeadGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 5, true, false, this.createPlayerTargetSelector()));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 5, true, false, this.createPlayerTargetSelector()));
     }
 
     @Override
     public String[] getDefaultTexturePaths() {
-        return PeasantEntityTexturesHelper.getMaleTextures();
+        return TEXTURES;
     }
 
     @Override

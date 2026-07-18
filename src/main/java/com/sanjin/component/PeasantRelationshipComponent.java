@@ -12,14 +12,12 @@ import net.minecraft.nbt.Tag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class PeasantRelationshipComponent {
 
-    private final Map<UUID, Integer> playerFavorability = new ConcurrentHashMap<>();
-    private final Map<UUID, Integer> playerYield = new ConcurrentHashMap<>();
-    private final Map<UUID, List<PeasantInteractionHistory>> interactionHistories = new ConcurrentHashMap<>();
-    private final Map<UUID, Set<PeasantGuiTabType>> unlockedTabsCache = new ConcurrentHashMap<>();
+    private final Map<UUID, Integer> playerFavorability = new HashMap<>();
+    private final Map<UUID, Integer> playerYield = new HashMap<>();
+    private final Map<UUID, List<PeasantInteractionHistory>> interactionHistories = new HashMap<>();
     private static final int MAX_HISTORY_SIZE = 50;
 
     private PeasantProfession profession = PeasantProfession.UNEMPLOYED;
@@ -36,13 +34,11 @@ public class PeasantRelationshipComponent {
     public void setFavorability(UUID playerId, int points) {
         int clampedPoints = Math.max(-100, Math.min(200, points));
         playerFavorability.put(playerId, clampedPoints);
-        unlockedTabsCache.remove(playerId);
     }
 
     public void setYield(UUID playerId, int points) {
         int clampedPoints = Math.max(-100, Math.min(200, points));
         playerYield.put(playerId, clampedPoints);
-        unlockedTabsCache.remove(playerId);
     }
 
     /**
@@ -85,20 +81,15 @@ public class PeasantRelationshipComponent {
      * Get tabs unlocked by players
      */
     public Set<PeasantGuiTabType> getUnlockedTabs(UUID playerId) {
-        return unlockedTabsCache.computeIfAbsent(playerId, id -> {
-            PeasantFavorabilityLevel FavLevel = getFavorabilityLevel(id);
-            PeasantYieldLevel YieldLevel = getYieldLevel(id);
-            Set<PeasantGuiTabType> unlocked = EnumSet.noneOf(PeasantGuiTabType.class);
-            for (PeasantGuiTabType tab : PeasantGuiTabType.values()) {
-                if (tab.isUnlockedByFav(FavLevel)) {
-                    unlocked.add(tab);
-                }
-                if (tab.isUnlockedByYie(YieldLevel)) {
-                    unlocked.add(tab);
-                }
+        PeasantFavorabilityLevel favorabilityLevel = getFavorabilityLevel(playerId);
+        PeasantYieldLevel yieldLevel = getYieldLevel(playerId);
+        Set<PeasantGuiTabType> unlocked = EnumSet.noneOf(PeasantGuiTabType.class);
+        for (PeasantGuiTabType tab : PeasantGuiTabType.values()) {
+            if (tab.isUnlockedByFav(favorabilityLevel) && tab.isUnlockedByYie(yieldLevel)) {
+                unlocked.add(tab);
             }
-            return unlocked;
-        });
+        }
+        return unlocked;
     }
 
     public boolean hasTabUnlocked(UUID playerId, PeasantGuiTabType tab) {
@@ -146,14 +137,12 @@ public class PeasantRelationshipComponent {
             setYield(newMasterId, PeasantYieldLevel.SERVANT.getRequiredPoints());
         }
 
-        unlockedTabsCache.clear();
     }
 
     public void dismissServant() {
         UUID master = getMaster();
         if (master != null) {
             playerYield.put(master, 0);
-            unlockedTabsCache.remove(master);
         }
     }
 
@@ -204,15 +193,6 @@ public class PeasantRelationshipComponent {
         playerFavorability.remove(playerId);
         playerYield.remove(playerId);
         interactionHistories.remove(playerId);
-        unlockedTabsCache.remove(playerId);
-    }
-
-    public Set<UUID> getAllPlayerIds() {
-        Set<UUID> allIds = new HashSet<>();
-        allIds.addAll(playerFavorability.keySet());
-        allIds.addAll(playerYield.keySet());
-        allIds.addAll(interactionHistories.keySet());
-        return allIds;
     }
 
     /**
@@ -253,7 +233,6 @@ public class PeasantRelationshipComponent {
         playerFavorability.clear();
         playerYield.clear();
         interactionHistories.clear();
-        unlockedTabsCache.clear();
 
         if (tag.contains("profession")) {
             try {
@@ -313,22 +292,6 @@ public class PeasantRelationshipComponent {
                 }
             }
         }
-    }
-
-    public String getDebugInfo() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("PeasantRelationshipComponent Debug Info:\n");
-        sb.append("Total Players: ").append(getAllPlayerIds().size()).append("\n");
-
-        for (UUID playerId : getAllPlayerIds()) {
-            sb.append("Player ").append(playerId.toString(), 0, 8).append("...: ");
-            sb.append("Favorability=").append(getFavorability(playerId));
-            sb.append(", Level=").append(getFavorabilityLevel(playerId));
-            sb.append(", Interactions=").append(getInteractionHistory(playerId).size());
-            sb.append("\n");
-        }
-
-        return sb.toString();
     }
 
 }

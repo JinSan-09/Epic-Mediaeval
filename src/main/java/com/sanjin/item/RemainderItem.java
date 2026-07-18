@@ -10,15 +10,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
-
 import javax.annotation.Nonnull;
 
 public class RemainderItem extends Item {
 
     private final UseRemainderComponent remainder;
     private final EffectComponent effects;
-    private final Random rand = new Random();
 
     public RemainderItem(Properties properties, UseRemainderComponent remainder, EffectComponent effects) {
         super(properties);
@@ -28,8 +25,8 @@ public class RemainderItem extends Item {
 
     @Override
     public @NotNull ItemStack finishUsingItem(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity user) {
-        for (var mobEffectInstance : effects.effects()) {
-            if (rand.nextFloat() <= mobEffectInstance.getAmplifier()) {
+        if (!level.isClientSide) {
+            for (var mobEffectInstance : effects.effects()) {
                 user.addEffect(new MobEffectInstance(
                         mobEffectInstance.getEffect(),
                         mobEffectInstance.getDuration(),
@@ -40,8 +37,9 @@ public class RemainderItem extends Item {
             }
         }
         ItemStack result = super.finishUsingItem(stack, level, user);
-        if (user instanceof Player player) {
-            ItemStack containerStack = new ItemStack(remainder.itemStack().getItem(), remainder.count());
+        if (!level.isClientSide && user instanceof Player player && !player.getAbilities().instabuild) {
+            ItemStack containerStack = remainder.itemStack().copy();
+            containerStack.setCount(remainder.count());
             if (!player.getInventory().add(containerStack)) {
                 player.drop(containerStack, false);
             }

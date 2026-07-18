@@ -9,7 +9,6 @@ import com.sanjin.gui.tab.TradeHistoryTabContent;
 import com.sanjin.gui.widget.PeasantTabWidget;
 import com.sanjin.gui.widget.RelationshipDisplayWidget;
 import com.sanjin.menu.PeasantMenu;
-import com.sanjin.network.packet.SwitchPeasantTabPacket;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderType;
@@ -17,7 +16,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -98,9 +96,6 @@ public class PeasantScreen extends AbstractContainerScreen<PeasantMenu> {
 
     private void onTabClicked(PeasantGuiTabType tabType) {
         if (menu.canAccessTab(tabType) && tabType != menu.getCurrentTab()) {
-            PacketDistributor.sendToServer(new SwitchPeasantTabPacket(
-                    menu.getPeasant().getId(), tabType.getSerializedName()));
-
             menu.setCurrentTab(tabType);
             updateCurrentTab();
             updateTabStates();

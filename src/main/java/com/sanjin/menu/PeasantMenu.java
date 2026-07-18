@@ -73,6 +73,12 @@ public class PeasantMenu extends AbstractContainerMenu {
     }
 
     @Override
+    public void broadcastChanges() {
+        updateContainerData();
+        super.broadcastChanges();
+    }
+
+    @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int i) {
         return ItemStack.EMPTY;
     }
@@ -113,7 +119,7 @@ public class PeasantMenu extends AbstractContainerMenu {
         if (unlockedTabs.contains(PeasantGuiTabType.BASIC_INFO)) {
             return PeasantGuiTabType.BASIC_INFO;
         }
-        return unlockedTabs.iterator().next();
+        return unlockedTabs.stream().findFirst().orElse(PeasantGuiTabType.BASIC_INFO);
     }
 
     public int getFavorability() {
@@ -125,7 +131,7 @@ public class PeasantMenu extends AbstractContainerMenu {
     }
 
     public boolean canTrade() {
-        return this.data.get(2) != 1;
+        return this.data.get(2) == 1;
     }
 
     public boolean peasantHasOwner() {

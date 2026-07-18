@@ -30,7 +30,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -39,7 +38,6 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -54,17 +52,6 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     private static final EntityDataAccessor<Optional<UUID>> DATA_OWNER = SynchedEntityData.defineId(AbstractPeasantEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
     private final PeasantRelationshipComponent relationshipComponent = new PeasantRelationshipComponent();
-
-    protected String peasantName = "Unknown";
-    protected String textureLocation = "textures/entity/steve.png";
-    protected boolean slimModel = false;
-
-    private ItemStack headItem = ItemStack.EMPTY;
-    private ItemStack chestItem = ItemStack.EMPTY;
-    private ItemStack legsItem = ItemStack.EMPTY;
-    private ItemStack feetItem = ItemStack.EMPTY;
-    private ItemStack mainHandItem = ItemStack.EMPTY;
-    private ItemStack offHandItem = ItemStack.EMPTY;
 
     public AbstractPeasantEntity(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
@@ -96,10 +83,9 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
         super.registerGoals();
 
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
@@ -107,45 +93,11 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     @Override
     public void addAdditionalSaveData(@Nonnull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        HolderLookup.Provider provider = this.level().registryAccess();
         tag.putString("PeasantName", getPeasantName());
         tag.putString("Texture", getTextureLocation());
         tag.putBoolean("Slim", isSlimModel());
-        tag.put("relationships", relationshipComponent.toNBT(provider));
-
-        CompoundTag equipmentTag = new CompoundTag();
+        tag.put("relationships", relationshipComponent.toNBT(this.level().registryAccess()));
         UUID ownerUUID = this.getOwnerUUID();
-
-        if (!headItem.isEmpty()) {
-            CompoundTag headTag = new CompoundTag();
-            headItem.save(this.level().registryAccess(), headTag);
-            equipmentTag.put("HeadItem", headTag);
-        }
-        if (!chestItem.isEmpty()) {
-            CompoundTag chestTag = new CompoundTag();
-            chestItem.save(this.level().registryAccess(), chestTag);
-            equipmentTag.put("ChestItem", chestTag);
-        }
-        if (!legsItem.isEmpty()) {
-            CompoundTag legsTag = new CompoundTag();
-            legsItem.save(this.level().registryAccess(), legsTag);
-            equipmentTag.put("LegsItem", legsTag);
-        }
-        if (!feetItem.isEmpty()) {
-            CompoundTag feetTag = new CompoundTag();
-            feetItem.save(this.level().registryAccess(), feetTag);
-            equipmentTag.put("FeetItem", feetTag);
-        }
-        if (!mainHandItem.isEmpty()) {
-            CompoundTag mainHandTag = new CompoundTag();
-            mainHandItem.save(this.level().registryAccess(), mainHandTag);
-            equipmentTag.put("MainHandItem", mainHandTag);
-        }
-        if (!offHandItem.isEmpty()) {
-            CompoundTag offHandTag = new CompoundTag();
-            offHandItem.save(this.level().registryAccess(), offHandTag);
-            equipmentTag.put("OffHandItem", offHandTag);
-        }
 
         if (ownerUUID != null) {
             tag.putUUID("Owner", ownerUUID);
@@ -165,35 +117,6 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
         }
         if (tag.contains("Slim")) {
             setSlimModel(tag.getBoolean("Slim"));
-        }
-        if (tag.contains("Equipment")) {
-            CompoundTag equipmentTag = tag.getCompound("Equipment");
-
-            if (equipmentTag.contains("HeadItem")) {
-                headItem = ItemStack.parseOptional(this.level().registryAccess(), equipmentTag.getCompound("HeadItem"));
-            }
-
-            if (equipmentTag.contains("ChestItem")) {
-                chestItem = ItemStack.parseOptional(this.level().registryAccess(), equipmentTag.getCompound("ChestItem"));
-            }
-
-            if (equipmentTag.contains("LegsItem")) {
-                legsItem = ItemStack.parseOptional(this.level().registryAccess(), equipmentTag.getCompound("LegsItem"));
-            }
-
-            if (equipmentTag.contains("FeetItem")) {
-                feetItem = ItemStack.parseOptional(this.level().registryAccess(), equipmentTag.getCompound("FeetItem"));
-            }
-
-            if (equipmentTag.contains("MainHandItem")) {
-                mainHandItem = ItemStack.parseOptional(this.level().registryAccess(), equipmentTag.getCompound("MainHandItem"));
-                this.setItemInHand(InteractionHand.MAIN_HAND, mainHandItem.copy());
-            }
-
-            if (equipmentTag.contains("OffHandItem")) {
-                offHandItem = ItemStack.parseOptional(this.level().registryAccess(), equipmentTag.getCompound("OffHandItem"));
-                this.setItemInHand(InteractionHand.OFF_HAND, offHandItem.copy());
-            }
         }
         if (tag.contains("relationships")) {
             relationshipComponent.fromNBT(tag.getCompound("relationships"), provider);
@@ -229,37 +152,6 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     @Override
-    public void setItemSlot(@Nonnull EquipmentSlot slot, @Nonnull ItemStack stack) {
-        switch (slot) {
-            case HEAD -> this.headItem = stack;
-            case CHEST -> this.chestItem = stack;
-            case LEGS -> this.legsItem = stack;
-            case FEET -> this.feetItem = stack;
-            case MAINHAND -> {
-                this.mainHandItem = stack;
-                super.setItemSlot(slot, stack);
-            }
-            case OFFHAND -> {
-                this.offHandItem = stack;
-                super.setItemSlot(slot, stack);
-            }
-        }
-    }
-
-    @Override
-    public @NotNull ItemStack getItemBySlot(@Nonnull EquipmentSlot slot) {
-        return switch (slot) {
-            case HEAD -> this.headItem;
-            case CHEST -> this.chestItem;
-            case LEGS -> this.legsItem;
-            case FEET -> this.feetItem;
-            case MAINHAND -> this.mainHandItem;
-            case OFFHAND -> this.offHandItem;
-            case BODY -> ItemStack.EMPTY;
-        };
-    }
-
-    @Override
     public float getEquipmentDropChance(@Nonnull EquipmentSlot slot) {
         return 0.1F;
     }
@@ -284,7 +176,6 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
         RandomSource random = this.getRandom();
 
         String[] textures = getDefaultTexturePaths();
-        System.out.println(Arrays.toString(textures));
         if (textures.length > 0) {
             String texture = textures[random.nextInt(textures.length)];
             setTextureLocation(texture);
@@ -313,7 +204,6 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     public void setPeasantName(String name) {
-        this.peasantName = name;
         this.entityData.set(DATA_NAME, name);
     }
 
@@ -322,7 +212,6 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     public void setTextureLocation(String location) {
-        this.textureLocation = location;
         this.entityData.set(DATA_TEXTURE, location);
     }
 
@@ -331,7 +220,6 @@ public abstract class AbstractPeasantEntity extends PathfinderMob {
     }
 
     public void setSlimModel(boolean slim) {
-        this.slimModel = slim;
         this.entityData.set(DATA_SLIM, slim);
     }
 
