@@ -85,7 +85,3 @@ While the mod is still expanding in scope, its foundation includes several advan
   - Future support for village structures via JSON templates or data-driven schema
   - Configurable peasant behavior via datapacks or mod API
   - External mod compatibility for additional jobs, quest systems, or faction mechanics
-
----
-
-Epic Mediaeval is intended as a platform for medieval fantasy experiences in Minecraft. Whether you're building a peaceful countryside village or leading an army into battle, the mod provides the tools, systems, and atmosphere to craft your own emergent story.
